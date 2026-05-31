@@ -16,3 +16,11 @@ brand:
   tagline: ""
   logo_url: null
   website: ""
+
+# Jimeng CLI settings (for Workflow D: 快文配图)
+# cli_path: leave empty to auto-detect, or set to jimeng-cli-free repo path
+jimeng:
+  enabled: false
+  cli_path: ""
+  model: high_aes_general_v50
+  aspect: "9:16"
