@@ -242,6 +242,51 @@ The skill activates when you say any of:
 
 ---
 
+## 👤 About the Author
+
+**Luoboa (萝卜啊)** — AI practitioner, only writes about what's been personally verified.
+
+🌐 **Blog**: [www.luoboa.com](https://www.luoboa.com)
+
+Latest AI tech articles, tool recommendations, curated Skills & MCPs — updated daily.
+
+📱 **WeChat Public Account**: Follow for exclusive resources
+
+![QR Code](assets/qrcode.jpg)
+
+What you'll find:
+
+- ✅ **AI workflows** that are personally tested — not just reshared
+- ✅ **Agent interview insights** from real interview scenarios
+- ✅ **Practical AI adoption** experience for companies — no vaporware
+
+📌 Reply with keywords to get resources instantly (no forwarding gimmicks):
+
+| Keyword | Resource |
+|---------|----------|
+| **技巧** (Tips) | Practical AI efficiency tips |
+| **Agent** | Agent interview prep guide |
+| **转型** (Transform) | Company AI adoption playbook |
+
+📅 **Content Schedule**:
+
+| Day | Content |
+|-----|---------|
+| Mon–Fri | One Claude Code best practice + one best open-source AI Agent/Skill |
+| Saturday | Weekly AI news roundup + GitHub top list |
+| Sunday | Best practices in the AI Agent space |
+
+### 🔗 Social Links
+
+| Platform | Link |
+|----------|------|
+| 🐙 GitHub | [github.com/opapa](https://github.com/opapa) |
+| 📘 Zhihu | [zhihu.com/people/opapar](https://www.zhihu.com/people/opapar) |
+| 📺 Bilibili | [space.bilibili.com/316828422](https://space.bilibili.com/316828422) |
+| ▶️ YouTube | [youtube.com/@ailuoboa](https://www.youtube.com/@ailuoboa) |
+
+---
+
 ## License
 
 MIT

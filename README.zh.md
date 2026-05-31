@@ -242,6 +242,51 @@ article/0531/MyArticle/
 
 ---
 
+## 👤 关于作者
+
+**萝卜啊** — AI 实践派，只写亲身验证过的内容。
+
+🌐 **个人博客**：[www.luoboa.com](https://www.luoboa.com)
+
+最新的 AI 技术文章、工具推荐、Skill 和 MCP 精选，每日更新。
+
+📱 **微信公众号**：关注获取独家资料
+
+![公众号二维码](assets/qrcode.jpg)
+
+公众号内容：
+
+- ✅ 亲身验证过的 **AI 用法**，不是搬运
+- ✅ **Agent 面试题思路**，来自真实面试场景
+- ✅ **公司 AI 落地**的实在经验，不画饼
+
+📌 回复关键词直接领取资料（无转发套路）：
+
+| 关键词 | 资料内容 |
+|--------|---------|
+| **技巧** | AI 提升效率实战技巧 |
+| **Agent** | Agent 面试备战指南 |
+| **转型** | 公司 AI 落地转型方案 |
+
+📅 **更新节奏**：
+
+| 日期 | 内容 |
+|------|------|
+| 周一至周五 | Claude Code 最佳实践一篇 + AI 最佳开源 Agent/Skill 一篇 |
+| 周六 | 本周 AI 快讯 + GitHub 最佳榜单 |
+| 周日 | AI Agent 领域最佳实践 |
+
+### 🔗 社交平台
+
+| 平台 | 链接 |
+|------|------|
+| 🐙 GitHub | [github.com/opapa](https://github.com/opapa) |
+| 📘 知乎 | [zhihu.com/people/opapar](https://www.zhihu.com/people/opapar) |
+| 📺 B站 | [space.bilibili.com/316828422](https://space.bilibili.com/316828422) |
+| ▶️ YouTube | [youtube.com/@ailuoboa](https://www.youtube.com/@ailuoboa) |
+
+---
+
 ## 许可证
 
 MIT
