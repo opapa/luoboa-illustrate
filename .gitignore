@@ -1,2 +1,10 @@
-node_modules/
-logs/
+# Your personal config (contains API key and brand identity)
+config.yaml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Generated images
+*.png
+!assets/*.png

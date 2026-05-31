@@ -1,0 +1,18 @@
+# Brand configuration for WeChat Article Illustrator
+# Copy this file to config.yaml and customize for your own public account.
+
+backend: api
+
+api:
+  # Supported providers: grsai / openai / openai-compatible / local
+  provider: openai
+  base_url: https://api.openai.com
+  api_key: ""  # Your API key
+  model: gpt-image-2
+
+brand:
+  enabled: false
+  name: ""
+  tagline: ""
+  logo_url: null
+  website: ""
