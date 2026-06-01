@@ -1,6 +1,42 @@
 # 扩展风格详细 Prompt 模板
 
-## 📐 3: 学术蓝图风 (blueprint)
+## 📷 3: 怀旧照片风 (nostalgic-photo)
+
+**封面（暖调）：**
+```
+Nostalgic 1990s photograph. <核心场景英文描述>. Faded yellowish film grain texture, vignette, warm golden tones, like a photograph kept in a drawer for thirty years. <画面氛围>
+```
+
+**封面（冷调）：**
+```
+Nostalgic 1990s photograph. <核心场景英文描述>. Faded film grain texture, cool gray-blue tones, muted, vignette, desaturated, like a photograph kept in a drawer for thirty years.
+```
+
+**插图（暖调）：**
+```
+Nostalgic 1990s photograph. <场景英文描述>. Faded yellowish film grain texture, vignette, warm golden tones, like a photograph kept in a drawer for thirty years.
+```
+
+**插图（冷调）：**
+```
+Nostalgic 1990s photograph. <场景英文描述>. Faded film grain texture, cool gray-blue tones, muted, vignette, desaturated, like a photograph kept in a drawer for thirty years. The scene feels lonely and empty.
+```
+
+**插图（克制/隐忍）：**
+```
+Nostalgic 1990s photograph. <场景英文描述>. Soft muted light, faded film grain texture, vignette, muted warm tones, quiet atmosphere, like a photograph kept in a drawer for thirty years.
+```
+
+**设计要点：**
+- 封面无人物或背影/侧影，留想象空间
+- 统一使用英文 prompt（国内 API 中文易触发审核）
+- 不需要 ref-url（场景独立，非人物连续性）
+- 不含品牌标识
+- 至少一张暖调+一张冷调，对比出情绪弧线
+
+---
+
+## 📐 4: 学术蓝图风 (blueprint)
 
 **封面：**
 ```
@@ -14,7 +50,7 @@
 
 ---
 
-## ✏️ 4: 手绘笔记风 (sketch-notes)
+## ✏️ 5: 手绘笔记风 (sketch-notes)
 
 **封面：**
 ```
@@ -28,7 +64,7 @@
 
 ---
 
-## 📜 5: 复古文艺风 (vintage)
+## 📜 6: 复古文艺风 (vintage)
 
 **封面：**
 ```
@@ -42,7 +78,7 @@
 
 ---
 
-## 🌸 6: 可爱萌系风 (kawaii)
+## 🌸 7: 可爱萌系风 (kawaii)
 
 **封面：**
 ```
@@ -56,7 +92,7 @@
 
 ---
 
-## 🌆 7: 赛博霓虹风 (cyberpunk-neon)
+## 🌆 8: 赛博霓虹风 (cyberpunk-neon)
 
 **封面：**
 ```
@@ -70,7 +106,7 @@
 
 ---
 
-## 💼 8: 极简商务风 (corporate)
+## 💼 9: 极简商务风 (corporate)
 
 **封面：**
 ```
@@ -84,7 +120,7 @@
 
 ---
 
-## 🍃 9: 自然水彩风 (watercolor)
+## 🍃 10: 自然水彩风 (watercolor)
 
 **封面：**
 ```
@@ -98,7 +134,7 @@
 
 ---
 
-## 🕹️ 10: 像素游戏风 (pixel-art)
+## 🕹️ 11: 像素游戏风 (pixel-art)
 
 **封面：**
 ```
@@ -112,7 +148,7 @@
 
 ---
 
-## 🎭 11: 海报丝印风 (screen-print)
+## 🎭 12: 海报丝印风 (screen-print)
 
 **封面：**
 ```
@@ -126,7 +162,7 @@
 
 ---
 
-## 🧘 12: 禅意留白风 (zen-minimal)
+## 🧘 13: 禅意留白风 (zen-minimal)
 
 **封面：**
 ```
