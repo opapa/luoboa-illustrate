@@ -76,102 +76,196 @@
 
 ## 封面 Prompt 模板
 
-```
-Nostalgic 1990s photograph. <核心场景英文描述>. Faded yellowish film grain texture, vignette, warm golden tones, like a photograph kept in a drawer for thirty years. <画面氛围：quiet and solitary / warm and peaceful / lonely and empty>
-```
+怀旧照片风的封面采用**5维艺术大字排版**设计（基于 baoyu-cover-image 设计体系）。照片作为底图，文章标题是画面的视觉主角，占据中心40-70%区域，通过艺术手法与照片交融。**不是宋体小字，是Banner级大字**。
 
-**封面设计要点：**
-- 无人物或背影/侧影为主，留想象空间
-- 抓文章最有画面感的一个物件/场景做封面
-- 比如灶台+腊肉、院子里修东西的背影、桌上打开的包裹
+用户选择文字排版风格（见下方12种 A-L），每种风格有独立的英文 Prompt 模板。默认推荐 G（王家卫式字幕）。
 
-## 场景插图 Prompt 模板
+### 封面设计核心原则
 
-场景插图不需要 `##` 小标题，AI 阅读全文后选择 2-3 个关键场景。
+- **5维设计体系** — 每种风格由 Type/Palette/Rendering/Font/Mood 五个维度精确定义，prompt中必须体现全部5个维度的特征
+- **色值精确** — 使用hex色值而非模糊描述（"暖黄色"→"#F2CC8F mustard yellow"）
+- **渲染可感** — 每种rendering有明确的线条/纹理/深度/元素特征，prompt必须描述
+- **字体可辨** — font不写"宋体"，写具体视觉特征（"refined serif letterforms, structured strokes, editorial authority"）
+- **文字即画面** — 标题不是配角，是视觉主体，占据画面中心40-70%区域
+- **手机可读** — 在手机缩略图上也能清楚辨认标题内容
+- **无品牌标识** — 保持画面纯净
+- **无人物或背影/侧影为主** — 留想象空间
+- **抓文章最有画面感的物件/场景做底图** — 比如灶台+腊肉、院子里修东西的背影、桌上打开的包裹
 
-**温暖场景（暖调）：**
-```
-Nostalgic 1990s photograph. <场景英文描述>. Faded yellowish film grain texture, vignette, warm golden tones, like a photograph kept in a drawer for thirty years.
-```
+### 12种封面文字排版风格
 
-**冷清/失去场景（冷调）：**
-```
-Nostalgic 1990s photograph. <场景英文描述>. Faded film grain texture, cool gray-blue tones, muted, vignette, desaturated, like a photograph kept in a drawer for thirty years. The scene feels lonely and empty.
-```
+每种风格标注5维映射（Type / Palette / Rendering / Font / Mood），prompt严格按5维构建。
 
-**克制/隐忍场景（柔暖）：**
-```
-Nostalgic 1990s photograph. <场景英文描述>. Soft muted light, faded film grain texture, vignette, muted warm tones, quiet atmosphere, like a photograph kept in a drawer for thirty years.
-```
+| # | 风格 | 适合情绪 | 5维映射 | 与怀旧照片契合度 |
+|---|------|---------|---------|----------------|
+| A | 🎬 日系电影感 | 温柔、回忆、和解 | typography/warm/painterly/serif/subtle | ⭐⭐⭐⭐⭐ |
+| B | 📖 复古杂志风 | 文艺、深度、美学 | typography/retro/painterly/serif/subtle | ⭐⭐⭐⭐ |
+| C | 🌿 自然呼吸感 | 安抚、冥想、静谧 | minimal/earth/painterly/clean/subtle | ⭐⭐⭐⭐ |
+| D | ✉️ 信笺与手写 | 私密、倾诉、深夜 | metaphor/warm/hand-drawn/handwritten/subtle | ⭐⭐⭐⭐⭐ |
+| E | 🌈 光影重叠 | 释怀、梦境、疗愈 | metaphor/duotone/digital/serif/balanced | ⭐⭐⭐⭐ |
+| F | 🏮 极简新中式 | 禅意、松弛、断舍离 | minimal/mono/painterly/serif/subtle | ⭐⭐⭐⭐⭐ |
+| G | 🎬 王家卫式 | 暧昧、孤独、浓烈 | typography/duotone/digital/serif/bold | ⭐⭐⭐⭐ |
+| H | 📷 拍立得底栏 | 日常、亲情、手作 | scene/warm/hand-drawn/handwritten/subtle | ⭐⭐⭐⭐⭐ |
+| I | 🎵 唱片封面风 | 反叛、独立、态度 | hero/vivid/screen-print/display/bold | ⭐⭐⭐ |
+| J | 📰 旧报纸头条 | 时代、变迁、历史 | typography/retro/digital/display/balanced | ⭐⭐⭐⭐⭐ |
+| K | 🌫️ 诗歌散排 | 释怀、独白、空灵 | minimal/mono/painterly/clean/subtle | ⭐⭐⭐⭐ |
+| L | 📜 古书扉页 | 传承、故土、宗族 | typography/elegant/painterly/serif/subtle | ⭐⭐⭐⭐⭐ |
 
-## 选场景规则
+### 各风格 Prompt 模板
 
-| 规则 | 说明 |
-|------|------|
-| 画面感优先 | 选有具体物件/动作/空间的段落，不选心理描写 |
-| 情绪递进 | 场景之间有情绪变化：温暖→失去→余韵 |
-| 一张一冷一热 | 至少有一张暖调+一张冷调，对比出情绪弧线 |
-| 插图位置 | 紧接场景描写之后、情绪转折之前 |
-
-## 色调对照表
-
-| 情绪 | 英文关键词 | 示例 |
-|------|-----------|------|
-| 温暖回忆 | warm golden tones, faded yellowish | 阿婆添柴、母亲寄包裹 |
-| 失去空荡 | cool gray-blue tones, muted, desaturated | 空灶台、没人的院子 |
-| 克制隐忍 | soft muted light, muted warm tones | 父亲修门锁、木箱子 |
-| 安静日常 | warm golden tones, quiet | 腊肉挂梁、翻盖手机亮屏 |
-
-## 常见场景 Prompt 示例
-
-**灶台/厨房类：**
-- `A traditional Chinese rural kitchen interior with a large brick stove at center, warm firelight glowing from the stove opening, strips of cured meat hanging from a smoke-blackened wooden beam above`
-- `A small elderly woman bending over to add pine branches to a traditional brick stove, one hand resting on the stove edge for support, firelight reflecting on her weathered face`
-- `A cold brick stove with no fire, only gray ashes in the stove opening, the wooden beam above is empty`（冷调）
-
-**父亲/修理类：**
-- `Back view of a middle-aged man sitting on a small stool in a Chinese courtyard, hunched over fixing something with a wrench, a flip phone on a low table nearby with screen faintly glowing`
-- `An old unpainted pine wood box sitting beside a bed, rough wood grain visible, mortise and tenon joints at the corners fitting tightly`
-
-**包裹/寄送类：**
-- `A cardboard package opened on a small apartment table, three layers of tape cut open, inside: two glass jars, a bag, a pair of thick socks, and at the bottom a small handwritten note`
-
-- 封面不含品牌标识
-- 不需要 ref-url（场景独立）
+> **模板中的占位符**：`<SCENE>` = 核心场景英文描述，`<MOOD>` = 画面氛围关键词，`<TITLE>` = 文章标题中文原文
 
 ---
 
-# 扩展风格目录
+**A：日系电影感（情绪叙事）**
 
-| # | 风格 | 英文ID | 适合场景 | 视觉关键词 |
-|---|------|--------|---------|-----------|
-| 3 | 怀旧照片风 | nostalgic-photo | 情感治愈、回忆、亲情、乡愁 | 90年代胶片、泛黄暗角、颗粒感、写实照片 |
-| 4 | 学术蓝图风 | blueprint | 系统架构、工程设计、深度技术文 | 蓝色网格、技术蓝图、工程制图 |
-| 4 | 手绘笔记风 | sketch-notes | 知识教程、读书笔记、概念解析 | 马卡龙色、手绘线条、奶白底、温暖涂鸦 |
-| 5 | 复古文艺风 | vintage | 历史人文、怀旧散文、品牌故事 | 做旧羊皮纸、褐色调、古典装饰 |
-| 6 | 可爱萌系风 | kawaii | 生活分享、萌宠、轻松日常 | 粉嫩色、圆滚滚、粗描边、贴纸感 |
-| 7 | 赛博霓虹风 | cyberpunk-neon | 未来科技、游戏、AI科幻 | 深紫黑底、霓虹发光、故障艺术 |
-| 8 | 极简商务风 | corporate | 行业分析、商业策略、投资人视角 | 克制配色、几何图形、高级质感 |
-| 9 | 自然水彩风 | watercolor | 旅行、养生、自然、慢生活 | 水彩晕染、大地色系、有机笔触 |
-| 10 | 像素游戏风 | pixel-art | 游戏文化、复古科技、极客趣味 | 8-bit像素、复古游戏机、色块马赛克 |
-| 11 | 海报丝印风 | screen-print | 观点评论、文化分析、深度社论 | 大色块、半调网点、丝网印刷、强视觉冲击 |
-| 12 | 禅意留白风 | zen-minimal | 哲学思辨、极简生活、禅意随笔 | 大面积留白、单色线描、呼吸感 |
+5维：typography / warm / painterly / serif / subtle
 
-各风格的详细 Prompt 模板见同目录下的 `style-templates.md`。
+适用场景：情感随笔、回忆、自我和解、温柔的小故事。
 
-## 品牌标识规则
+```
+Typography-dominant cover art (21:9 landscape). <SCENE>. Soft focus vintage photography background, faded film grain, <MOOD>. PALETTE: warm — cream #FFFAF0 base, golden yellow #F6AD55 and warm orange #ED8936 soft glow, terracotta #C05621 accents, deep brown #744210 for text grounding. RENDERING: painterly — soft watercolor wash textures, visible brush strokes, organic flowing edges, paper texture showing through transparent washes. FONT: serif — elegant refined letterforms with structured proportional spacing, editorial authority, warm cream #F6AD55 text color with subtle warm glow. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous artistic characters occupying the central 50-60% of the frame, positioned in the lower-right area with generous negative space above (40%+ whitespace), like closing credits of an Ozu film. MOOD: subtle — low contrast, muted desaturated colors, light visual weight, calm refined aesthetic. Airy breathing room, poetic emotional healing vibe, subtle drop shadow on text, asymmetric layout, high design sense, 4k cinematic quality
+```
 
-| 风格 | 品牌标识 |
-|------|---------|
-| 科技风 | 封面必须含品牌标识 |
-| 柔情风 | 不含，保持画面纯净 |
-| 怀旧照片风 | 不含，保持画面纯净 |
-| 学术蓝图风 | 封面含，蓝色调 |
-| 赛博霓虹风 | 封面含，霓虹风格 |
-| 极简商务风 | 封面含，灰色调 |
-| 像素游戏风 | 封面含，像素风格 |
-| 其余风格 | 不含品牌标识 |
+---
 
-含品牌标识的封面提示词中须包含：
-- 左上角：{brand.name} | {brand.website} | {brand.tagline}
-- 左下角：{brand.website}
+**B：复古杂志风（文艺高级）**
+
+5维：typography / retro / painterly / serif / subtle
+
+适用场景：心理科普、深度好文、生活美学、治愈系书单推荐。
+
+```
+Typography-dominant cover art (21:9 landscape). <SCENE>. PALETTE: retro — cream off-white #F5F0E6 background, coral red #E07A5F and mustard yellow #F2CC8F accents, dark maroon #5D3A3A for text depth, faded teal #2F7373 subtle highlights. RENDERING: painterly — soft watercolor wash textures, visible brush strokes, color bleeds, organic flowing edges, aged paper texture showing through. FONT: serif — elegant refined letterforms with structured proportional spacing, editorial authority, dark maroon #5D3A3A text with coral red #E07A5F emphasis. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous artistic characters occupying the central 50-60% of the frame, some characters overlapping with translucent painted paper panels in retro colors, mixing elegant Chinese serif and retro modern sans-serif for visual rhythm. MOOD: subtle — low contrast, muted desaturated palette, light visual weight, calm refined aesthetic. Warm neutral tones, poetic and healing editorial style, highly artistic magazine cover, 4k
+```
+
+---
+
+**C：自然呼吸感（静谧安抚）**
+
+5维：minimal / earth / painterly / clean / subtle
+
+适用场景：晚安心语、压力释放、冥想、亲近自然。
+
+```
+Minimal composition cover art (21:9 landscape). <SCENE>. Faint old photograph base with overlapping plant leaf shadows, <MOOD>. PALETTE: earth — sage green #6B8F71, warm brown #8B6F47, sky blue #87CEEB accents, cream #F5F0E6 base, moss #4A6741 for depth. RENDERING: painterly — soft watercolor wash textures, diluted color washes, organic flowing edges, paper texture visible through transparent areas. FONT: clean — geometric sans-serif letterforms, sharp uniform line weight, ultra-thin whisper-light weight, sage green #6B8F71 text color with slight transparency. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous ultra-thin elegant lettering occupying the central 50-60% of the frame, rendered with ultra-wide line spacing as if text is breathing on the image, text slightly transparent blending with plant shadows. MOOD: subtle — low contrast, muted desaturated earth tones, light visual weight, calm aesthetic, 60%+ whitespace. Healing calm vibes, ample negative space, modern fine-art aesthetic, 4k
+```
+
+---
+
+**D：信笺与手写（情绪的私密倾诉）**
+
+5维：metaphor / warm / hand-drawn / handwritten / subtle
+
+适用场景：个人成长、树洞倾听、写给过去的自己、深夜疗愈。
+
+```
+Metaphor-driven cover art (21:9 landscape). <SCENE>. Old vintage photo background, <MOOD>. PALETTE: warm — cream #FFFAF0 base, warm orange #ED8936 soft glow, terracotta #C05621 ink tones, deep brown #744210 for ink depth. RENDERING: hand-drawn — sketchy organic strokes with visible imperfections, variable line weight, pencil/pen/marker texture, paper grain surface, natural hand tremor visible. FONT: handwritten — warm hand-lettered typography with organic brush strokes, friendly personal feel, natural variation in stroke weight, approachable human character, warm brown-black ink color #744210. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous warm fountain pen handwritten calligraphy occupying the central 50-60% of the frame, ink flow variations with slight tremor in strokes, torn kraft paper note fragments behind some characters, tactile scrapbook style, the photograph shows through translucent paper. MOOD: subtle — low contrast, muted warm tones, light visual weight, calm refined aesthetic. Nostalgic emotional healing, raw and authentic design, 4k
+```
+
+---
+
+**E：光影重叠（虚实交织的梦境感）**
+
+5维：metaphor / duotone / digital / serif / balanced
+
+适用场景：走出阴霾、释怀、梦境解析、心理疗愈。
+
+```
+Metaphor-driven cover art (21:9 landscape). <SCENE>. <MOOD>. PALETTE: duotone — burnt orange #E8751A and deep teal #0A6E6E as the dominant pair (cinematic action feel), off-black #121212 background, warm cream #F5E6D0 for text highlights, amber #F4A623 accent. RENDERING: digital — clean precise edges, smooth surfaces with subtle gradients, frosted glass and blur effects, controlled soft shadows. FONT: serif — elegant refined letterforms with structured proportional spacing, warm cream #F5E6D0 text color with amber #F4A623 glow edges. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous semi-transparent characters occupying the central 60% of the frame, blending with the photograph through double exposure effect: some strokes dissolving into light, others catching rainbow prism flare, venetian blind shadows falling across the text, blurry ethereal text effect, text and image are one. MOOD: balanced — medium contrast, normal saturation, clear foreground/background separation. Stark two-color separation across composition, silhouettes in one color against the other, nostalgic yet modern, poetic healing atmosphere, fine art aesthetic, 4k
+```
+
+---
+
+**F：极简新中式（中式美学的旷野感）**
+
+5维：minimal / mono / painterly / serif / subtle
+
+适用场景：中式生活美学、禅意、松弛感、断舍离。
+
+```
+Minimal composition cover art (21:9 landscape). <SCENE>. Wabi-sabi aged photo background, <MOOD>. PALETTE: mono — off-white #F5F0E6 background, charcoal #2D2D2D for primary text, warm gray #8C8C8C subtle elements, pure black #1A1A1A for emphasis, tiny vermilion red #C41E3A for seal stamp accent ONLY. RENDERING: painterly — soft diluted ink wash textures, organic flowing edges, rice paper texture visible through transparent areas, brush stroke patterns. FONT: serif — elegant refined letterforms with structured proportional spacing, editorial authority, charcoal #2D2D2D text color, thin weight. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous elegant thin serif characters occupying the central 50-60% of the frame, VERTICAL text alignment right-to-left, tiny vermilion red #C41E3A seal stamp accent in bottom corner ONLY. MOOD: subtle — low contrast, muted desaturated tones, light visual weight, calm aesthetic, 60%+ whitespace. Spacious zen healing vibe, high-end tranquility, characters floating in vast empty space, classical yet modern, 4k
+```
+
+---
+
+**G：王家卫式字幕（情绪叙事）— 默认推荐**
+
+5维：typography / duotone / digital / serif / bold
+
+适用场景：暧昧、城市孤独、深夜、无法说出口的感情、一切情感类。
+
+```
+Typography-dominant cover art (21:9 landscape). <SCENE>. PALETTE: duotone — crimson #DC143C and navy #0D1B2A as the dominant pair (dramatic noir feel), off-black #121212 background, warm cream #F5E6D0 for text, amber #F4A623 inner glow. RENDERING: digital — clean precise edges, smooth surfaces, subtle controlled gradients, frosted glass effects, sharp shadows. FONT: serif — elegant refined letterforms with structured proportional spacing, warm cream #F5E6D0 text color with amber #F4A623 warm glow as if lit from within. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous artistic characters occupying the central 50-60% of the frame, centered lower area, the photograph bleeds through the semi-transparent text, like a line of dialogue frozen on screen in a Wong Kar-wai film. MOOD: bold — high contrast, vivid saturated colors (rich teal and warm amber grading), heavy visual weight, dynamic energy. One line of text carries the entire emotional weight, cinematic 4k quality
+```
+
+---
+
+**H：拍立得底栏（日常手作感）**
+
+5维：scene / warm / hand-drawn / handwritten / subtle
+
+适用场景：亲情、日常、手作感、随拍记录、生活碎片。
+
+```
+Scene-driven cover art (21:9 landscape). <SCENE>. Nostalgic vintage photograph with warm tones, <MOOD>. PALETTE: warm — cream #FFFAF0 base, golden yellow #F6AD55 soft glow, warm orange #ED8936 for marker ink, terracotta #C05621 accents, deep brown #744210 for marker depth. RENDERING: hand-drawn — sketchy organic strokes with visible imperfections, variable marker line weight, casual fills with visible brush direction, paper grain surface. FONT: handwritten — warm hand-lettered typography with organic marker strokes, friendly personal feel, natural variation in stroke weight, warm orange #ED8936 marker ink color on white polaroid strip. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous handwritten marker-style characters occupying the central 50-60% of the frame, written on a white polaroid bottom strip that extends across the image, casual marker pen texture, slight tilt, authentic tactile feeling. MOOD: subtle — low contrast, muted warm tones, light visual weight, calm aesthetic. Personal memory keepsake, slight film grain, the text looks like someone grabbed a marker and wrote directly on the photo, 4k
+```
+
+---
+
+**I：唱片封面风（独立精神）**
+
+5维：hero / vivid / screen-print / display / bold
+
+适用场景：青春、反叛、独立精神、城市漂泊、自我认同。
+
+```
+Hero composition cover art (21:9 landscape). <SCENE>. Vintage photograph background, <MOOD>. PALETTE: vivid — electric blue #3B82F6 and hot pink #EC4899 as dominant colors, deep purple #581C87 background, bright yellow #EAB308 accent, white #FFFFFF for text. RENDERING: screen-print — bold flat color blocks, visible halftone dot texture, limited color palette (3-4 colors), slight misregistration between color layers, strong graphic shapes. FONT: display — bold decorative display typography, heavy expressive letterforms, strong visual impact, attention-grabbing character, white #FFFFFF with hot pink #EC4899 offset shadow. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous bold display characters occupying the central 60% of the frame, centered or intentionally offset, geometric color blocks behind text. MOOD: bold — high contrast, vivid saturated colors, heavy visual weight, dynamic energy. Edgy and authentic, graphic overlay style, statement design, the text IS the cover art, 4k
+```
+
+---
+
+**J：旧报纸头条（时代印记）**
+
+5维：typography / retro / digital / display / balanced
+
+适用场景：历史、社会变迁、回忆、时代感、家族往事。
+
+```
+Typography-dominant cover art (21:9 landscape). <SCENE>. PALETTE: retro — aged paper #F5E6D3 background, dark maroon #5D3A3A for headline text, coral red #E07A5F for emphasis, mustard yellow #F2CC8F for date line, rock blue #577590 for border lines. RENDERING: digital — clean precise edges, smooth surfaces, sharp corners, anti-aliased smooth rendering, consistent stroke weights. FONT: display — bold decorative display typography, heavy expressive letterforms, strong visual impact, dark maroon #5D3A3A text. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous bold display headline occupying the central 60% of the frame, vertical or horizontal text layout, thin border frame lines in rock blue #577590, date line in small mustard yellow #F2CC8F text, historical archive feeling. MOOD: balanced — medium contrast, normal saturation, clear hierarchy. Clipped newspaper cutting aesthetic, the headline dominates the page like a real newspaper front page, nostalgic and documentary, 4k
+```
+
+---
+
+**K：诗歌散排（空灵释怀）**
+
+5维：minimal / mono / painterly / clean / subtle
+
+适用场景：释怀、告别、深夜独白、空灵、放下。
+
+```
+Minimal composition cover art (21:9 landscape). <SCENE>. <MOOD>. PALETTE: mono — off-white #F5F0E6 base, charcoal #2D2D2D for primary text, warm gray #8C8C8C for fading edges, pure black #1A1A1A for emphasis points. RENDERING: painterly — soft diluted ink wash textures, organic flowing edges, rice paper texture visible, brush stroke patterns, splatter and drip effects as accents. FONT: clean — geometric sans-serif letterforms, sharp uniform line weight, charcoal #2D2D2D text with warm gray #8C8C8C fading at edges. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous semi-transparent characters occupying the central 50-60% of the frame, but scattered asymmetrically across the image like poetry lines falling on a photograph, ultra-wide line spacing, ghost-like fading words, text dissolves at edges into ink wash. MOOD: subtle — low contrast, muted desaturated tones, light visual weight, calm aesthetic, 60%+ whitespace. Ethereal and airy composition, quiet contemplative mood, negative space as emotion, minimalist poetic design, 4k
+```
+
+---
+
+**L：古书扉页（传承故土）**
+
+5维：typography / elegant / painterly / serif / subtle
+
+适用场景：家族、传承、故土、宗族、老宅、仪式。
+
+```
+Typography-dominant cover art (21:9 landscape). <SCENE>. Wabi-sabi aged paper texture background, <MOOD>. PALETTE: elegant — champagne gold #D4A843 for text, deep burgundy #4A1A2E background tones, warm ivory #F5E6D0 paper base, antique bronze #8B7355 subtle borders, tiny vermilion red #C41E3A for seal stamp accent ONLY. RENDERING: painterly — soft ink wash textures, organic flowing edges, aged rice paper texture visible through transparent areas, brush stroke patterns, classical calligraphic quality. FONT: serif — elegant refined letterforms with structured proportional spacing, editorial authority, champagne gold #D4A843 text color, thin weight. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous elegant serif characters occupying the central 50-60% of the frame, VERTICAL text right-to-left alignment, thread-bound book layout style with antique bronze #8B7355 subtle border lines, small vermilion red #C41E3A seal stamp accent in bottom corner ONLY. MOOD: subtle — low contrast, muted desaturated tones, light visual weight, calm aesthetic. Ancestral record feeling, classical refined aesthetic, the text reads like an ancient book title page, 4k
+```
+
+---
+
+### 封面 Prompt 快速构建公式
+
+```
+[选定风格的Prompt模板]
+替换: <SCENE> → 核心场景英文描述
+替换: <MOOD>  → 氛围关键词（从色调对照表选）
+替换: <TITLE> → 文章标题中文原文
+```

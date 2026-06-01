@@ -2,15 +2,36 @@
 
 ## 📷 3: 怀旧照片风 (nostalgic-photo)
 
-**封面（暖调）：**
+### 封面 — 5维艺术大字排版（12种风格 A-L）
+
+怀旧照片风封面采用**5维艺术大字排版**设计（基于 baoyu-cover-image 设计体系）。完整 Prompt 模板见 `style-guide.md` 中"12种封面文字排版风格"章节。
+
+**快速构建公式：**
 ```
-Nostalgic 1990s photograph. <核心场景英文描述>. Faded yellowish film grain texture, vignette, warm golden tones, like a photograph kept in a drawer for thirty years. <画面氛围>
+[选定风格的Prompt模板]
+替换: <SCENE> → 核心场景英文描述
+替换: <MOOD>  → 氛围关键词（从 style-guide.md 色调对照表选）
+替换: <TITLE> → 文章标题中文原文
 ```
 
-**封面（冷调）：**
-```
-Nostalgic 1990s photograph. <核心场景英文描述>. Faded film grain texture, cool gray-blue tones, muted, vignette, desaturated, like a photograph kept in a drawer for thirty years.
-```
+**12种封面文字排版风格速查：**
+
+| # | 风格 | 5维映射 |
+|---|------|---------|
+| A | 🎬 日系电影感 | typography/warm/painterly/serif/subtle |
+| B | 📖 复古杂志风 | typography/retro/painterly/serif/subtle |
+| C | 🌿 自然呼吸感 | minimal/earth/painterly/clean/subtle |
+| D | ✉️ 信笺与手写 | metaphor/warm/hand-drawn/handwritten/subtle |
+| E | 🌈 光影重叠 | metaphor/duotone/digital/serif/balanced |
+| F | 🏮 极简新中式 | minimal/mono/painterly/serif/subtle |
+| G | 🎬 王家卫式 | typography/duotone/digital/serif/bold |
+| H | 📷 拍立得底栏 | scene/warm/hand-drawn/handwritten/subtle |
+| I | 🎵 唱片封面风 | hero/vivid/screen-print/display/bold |
+| J | 📰 旧报纸头条 | typography/retro/digital/display/balanced |
+| K | 🌫️ 诗歌散排 | minimal/mono/painterly/clean/subtle |
+| L | 📜 古书扉页 | typography/elegant/painterly/serif/subtle |
+
+### 插图
 
 **插图（暖调）：**
 ```
@@ -28,19 +49,22 @@ Nostalgic 1990s photograph. <场景英文描述>. Soft muted light, faded film g
 ```
 
 **设计要点：**
+- 封面文字是视觉主角，占中心40-70%，Banner级大字，5维艺术化处理
 - 封面无人物或背影/侧影，留想象空间
 - 统一使用英文 prompt（国内 API 中文易触发审核）
 - 不需要 ref-url（场景独立，非人物连续性）
 - 不含品牌标识
-- 至少一张暖调+一张冷调，对比出情绪弧线
+- 插图至少一张暖调+一张冷调，对比出情绪弧线
 
 ---
 
 ## 📐 4: 学术蓝图风 (blueprint)
 
+5维：conceptual / cool / digital / clean / balanced
+
 **封面：**
 ```
-学术蓝图风格的公众号封面，深蓝色网格背景，白色技术线条和标注，工程制图质感。画面中央是抽象的系统架构示意，带有标注线和尺寸标记。整体氛围专业、精密、有深度。标题文字使用等宽字体或技术字体，白色或亮蓝色，放在画面上方。背景为深蓝色带细微网格纹理。内容文字：<标题短句>
+Conceptual cover art (21:9 landscape). PALETTE: cool — deep blue #1E3A5F background, steel blue #4A90D9 primary, ice white #E8F4FD highlights, slate gray #6B7B8D accents, electric cyan #00D4FF for data flow lines. RENDERING: digital — clean precise edges, smooth surfaces with subtle gradients, frosted glass panels, consistent stroke weights, anti-aliased rendering. FONT: clean — geometric monospace letterforms, sharp uniform line weight, ice white #E8F4FD text with electric cyan #00D4FF glow on key strokes, technical precision feel. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous clean technical characters occupying the central 40-50% of the frame, abstract system architecture diagram with grid lines, dimension markers, and annotation arrows surrounding the text, the text reads like a blueprint specification label. MOOD: balanced — medium contrast, precise and professional, clear hierarchy. Background has subtle fine grid texture #1E3A5F to #2A4A6F, brand watermark at top-left if enabled. 4k technical quality
 ```
 
 **插图：**
@@ -52,9 +76,11 @@ Nostalgic 1990s photograph. <场景英文描述>. Soft muted light, faded film g
 
 ## ✏️ 5: 手绘笔记风 (sketch-notes)
 
+5维：conceptual / macaron / hand-drawn / handwritten / balanced
+
 **封面：**
 ```
-手绘笔记风格的公众号封面，温暖奶白色背景（#F5F0E8），马卡龙色系点缀（淡蓝、薄荷绿、薰衣草紫、蜜桃粉）。画面中有手绘风格的关键词气泡、箭头连接、涂鸦装饰元素。整体氛围轻松、友好、有学习感。标题文字使用手写体，珊瑚色（#E8655A）强调。背景有轻微的手绘纸张质感。内容文字：<标题短句>
+Conceptual cover art (21:9 landscape). PALETTE: macaron — warm cream #F5F0E8 background, soft lavender #B8A9C9, mint green #A8D8B9, peach pink #F4B8C1, butter yellow #F9E5A0, warm coral #E8655A for emphasis. RENDERING: hand-drawn — sketchy organic strokes with visible imperfections, variable line weight, pencil/marker texture, paper grain surface, natural hand tremor visible, wavy connectors and arrows. FONT: handwritten — warm hand-lettered typography with organic brush strokes, bouncy baselines, natural variation in stroke weight, warm coral #E8655A text color on cream background. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous hand-lettered characters occupying the central 50-60% of the frame, surrounded by hand-drawn keyword bubbles, doodle arrows, and sketchy decorative elements in macaron colors, the text reads like a giant handwritten note on a notebook page. MOOD: balanced — medium contrast, warm and friendly, approachable and inviting. Playful learning vibe, casual sketchbook feel, 4k
 ```
 
 **插图：**
@@ -66,9 +92,11 @@ Nostalgic 1990s photograph. <场景英文描述>. Soft muted light, faded film g
 
 ## 📜 6: 复古文艺风 (vintage)
 
+5维：metaphor / retro / hand-drawn / serif / subtle
+
 **封面：**
 ```
-复古文艺风格的公众号封面，做旧羊皮纸质感背景，泛黄褐色调，带有岁月痕迹的斑驳纹理。画面中有古典装饰元素如花纹边框、火漆印章、羽毛笔。整体氛围怀旧、优雅、有文化底蕴。标题文字使用宋体或仿宋体，深褐色或暗金色，放在画面中央。内容文字：<标题短句>
+Metaphor-driven cover art (21:9 landscape). PALETTE: retro — aged paper #F5E6D3 background, coral red #E07A5F, mint green #81B29A, mustard yellow #F2CC8F, dark maroon #5D3A3A, vintage gold #C9A227. RENDERING: hand-drawn — sketchy organic strokes with visible imperfections, variable line weight, pencil/pen texture, aged paper grain surface with speckled foxing marks, natural hand tremor. FONT: serif — elegant refined letterforms with structured proportional spacing, editorial authority, dark maroon #5D3A3A text with vintage gold #C9A227 ornamental flourishes, classical decorative quality. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous elegant serif characters occupying the central 50-60% of the frame, classical decorative borders with filigree patterns, wax seal stamp element, quill pen motif, the text reads like a vintage book title page or old manuscript heading. MOOD: subtle — low contrast, muted desaturated palette, warm aged tones, light visual weight, nostalgic refined aesthetic. Timeless cultural depth, 4k
 ```
 
 **插图：**
@@ -80,9 +108,11 @@ Nostalgic 1990s photograph. <场景英文描述>. Soft muted light, faded film g
 
 ## 🌸 7: 可爱萌系风 (kawaii)
 
+5维：hero / pastel / flat-vector / display / balanced
+
 **封面：**
 ```
-可爱萌系风格的公众号封面，粉嫩柔和的配色（蜜桃粉、奶黄、薄荷绿、淡紫），粗描边，圆滚滚的造型。画面中有可爱的卡通元素如星星、爱心、云朵。整体氛围甜美、活泼、让人会心一笑。标题文字使用圆体，白色带粗描边，放在画面中央偏上。背景为柔和的粉色到奶白渐变。内容文字：<标题短句>
+Hero composition cover art (21:9 landscape). PALETTE: pastel — soft pink #FFB6C1, cream yellow #FFFACD, mint green #B8F0C8, lavender #E6E6FA, warm white #FFFAF0 background, bubblegum pink #FF69B4 for text emphasis. RENDERING: flat-vector — bold flat color fills, no gradients, thick consistent outlines #4A4A4A, rounded corners on all shapes, clean sharp edges, cartoon simplification. FONT: display — bold rounded decorative display typography, heavy expressive letterforms, thick bubbly strokes, warm white #FFFAF0 text with thick #4A4A4A outline, playful and cute. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous bold bubbly display characters occupying the central 50-60% of the frame, surrounded by cute kawaii elements: stars ★, hearts ♥, clouds ☁, sparkles ✦ in pastel colors, the text looks like it's made of soft marshmallow. MOOD: balanced — medium contrast, soft and sweet, lively and joyful. Kawaii aesthetic, adorable and playful, 4k
 ```
 
 **插图：**
@@ -94,9 +124,11 @@ Nostalgic 1990s photograph. <场景英文描述>. Soft muted light, faded film g
 
 ## 🌆 8: 赛博霓虹风 (cyberpunk-neon)
 
+5维：hero / dark / digital / display / bold
+
 **封面：**
 ```
-赛博朋克霓虹风格的公众号封面，深紫黑底色，强烈的霓虹发光效果（电光蓝、霓虹粉、荧光绿）。画面中有故障艺术（glitch）效果、数字雨、全息投影元素。整体氛围前卫、未来感、视觉冲击力极强。标题文字使用未来感科技字体，霓虹发光效果，放在画面中央。内容文字：<标题短句>
+Hero composition cover art (21:9 landscape). PALETTE: dark — deep purple-black #0D0221 background, electric blue #00F0FF, neon magenta #FF00FF, toxic green #39FF14, hot pink #FF1493, bright yellow #FFE600. RENDERING: digital — clean precise edges, smooth surfaces, strong neon glow effects, chromatic aberration on edges, scan-line interference, frosted glass panels with holographic reflection. FONT: display — bold futuristic display typography, heavy geometric letterforms with angular cuts, neon glow effect electric blue #00F0FF with magenta #FF00FF offset shadow, glitch distortion on select characters. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous bold futuristic display characters occupying the central 55-65% of the frame, digital rain and holographic projection elements behind text, glitch art artifacts, circuit board traces as decorative lines. MOOD: bold — maximum contrast, vivid saturated neon colors, heavy visual weight, intense dynamic energy. Cyberpunk dystopian atmosphere, 4k
 ```
 
 **插图：**
@@ -108,9 +140,11 @@ Nostalgic 1990s photograph. <场景英文描述>. Soft muted light, faded film g
 
 ## 💼 9: 极简商务风 (corporate)
 
+5维：conceptual / elegant / digital / clean / subtle
+
 **封面：**
 ```
-极简商务风格的公众号封面，克制的配色（深灰、白、金色点缀），干净的几何构图。画面中有简洁的图形元素如柱状图、上升箭头、抽象人物剪影。整体氛围专业、高端、有权威感。标题文字使用无衬线字体，深灰色或金色，放在画面左侧留白区域。背景为纯白或浅灰。内容文字：<标题短句>
+Conceptual cover art (21:9 landscape). PALETTE: elegant — pure white #FFFFFF background, charcoal gray #333333 primary, champagne gold #D4A843 accent, slate gray #6B7B8D secondary, warm gray #E8E8E8 subtle geometric shapes. RENDERING: digital — clean precise edges, smooth surfaces, minimal shadows with consistent direction, frosted glass card elements, anti-aliased rendering, material design elevation. FONT: clean — geometric sans-serif letterforms, sharp uniform line weight, charcoal gray #333333 text with champagne gold #D4A843 accent line underneath, modern professional clarity. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous clean geometric characters occupying the central 40-50% of the frame, positioned with generous whitespace (50%+), subtle geometric shapes (ascending bars, growth arrows, abstract silhouettes) in warm gray #E8E8E8 behind the text, minimal supporting elements. MOOD: subtle — low contrast, muted professional tones, light visual weight, calm authoritative aesthetic. Corporate premium quality, brand watermark if enabled, 4k
 ```
 
 **插图：**
@@ -122,9 +156,11 @@ Nostalgic 1990s photograph. <场景英文描述>. Soft muted light, faded film g
 
 ## 🍃 10: 自然水彩风 (watercolor)
 
+5维：scene / earth / painterly / handwritten / subtle
+
 **封面：**
 ```
-自然水彩风格的公众号封面，柔和的大地色系（苔绿、赭石、暖棕、天蓝），水彩晕染边缘，有机的笔触感。画面中有自然元素如植物、远山、水面倒影。整体氛围宁静、治愈、有自然气息。标题文字使用手写体或宋体，深绿或深棕，放在画面留白处。背景为淡雅的水彩渐变。内容文字：<标题短句>
+Scene-driven cover art (21:9 landscape). PALETTE: earth — sage green #6B8F71, warm brown #8B6F47, sky blue #87CEEB, cream #F5F0E6, moss #4A6741, terracotta #C05621. RENDERING: painterly — soft watercolor wash textures, visible brush strokes, color bleeds and wet-on-wet effects, organic flowing edges, paper texture showing through transparent washes, splatter and drip accents. FONT: handwritten — warm hand-lettered typography with organic brush strokes, natural variation in stroke weight, friendly personal feel, deep moss green #4A6741 ink color, calligraphic brush quality. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous watercolor brush calligraphy characters occupying the central 50-60% of the frame, painted directly on the watercolor background with visible brush stroke texture, color bleeds at character edges, natural elements (leaves, distant mountains, water reflections) flowing around the text. MOOD: subtle — low contrast, muted desaturated earth tones, light visual weight, calm serene aesthetic. Healing natural atmosphere, 4k
 ```
 
 **插图：**
@@ -136,9 +172,11 @@ Nostalgic 1990s photograph. <场景英文描述>. Soft muted light, faded film g
 
 ## 🕹️ 11: 像素游戏风 (pixel-art)
 
+5维：hero / vivid / pixel / display / bold
+
 **封面：**
 ```
-像素游戏风格的公众号封面，8-bit复古像素画，鲜明的色块，马赛克质感。画面中有复古游戏机、像素角色、游戏界面元素（血条、金币、对话框）。整体氛围怀旧、有趣、极客味十足。标题文字使用像素字体，白色或亮黄色，放在画面上方。背景为深色像素渐变。内容文字：<标题短句>
+Hero composition cover art (21:9 landscape). PALETTE: vivid — deep navy #1A1A2E background, bright yellow #FFE600 primary, pixel green #00FF41, hot pink #FF1493, electric blue #3B82F6, white #FFFFFF. RENDERING: pixel — 8-bit pixel art style, visible square pixels, hard edges with no anti-aliasing, limited color palette (6-8 colors), dithering patterns for gradients, retro game console aesthetic. FONT: display — bold pixel font typography, blocky square letterforms made of visible pixels, bright yellow #FFE600 text with white #FFFFFF pixel outline, 8-bit arcade game title screen feel. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous bold pixel characters occupying the central 55-65% of the frame, retro game UI elements around text: health bar, coin counter ★, dialog box border, pixel art characters, 8-bit star field background. MOOD: bold — high contrast, vivid saturated colors, heavy visual weight, nostalgic playful energy. Retro gaming culture, brand watermark in pixel style if enabled, 4k
 ```
 
 **插图：**
@@ -150,9 +188,11 @@ Nostalgic 1990s photograph. <场景英文描述>. Soft muted light, faded film g
 
 ## 🎭 12: 海报丝印风 (screen-print)
 
+5维：typography / duotone / screen-print / display / bold
+
 **封面：**
 ```
-丝网印刷海报风格的公众号封面，大色块对比，半调网点纹理，有限的套色（3-4色）。画面中有强烈的视觉隐喻符号，粗犷有力的构图。整体氛围大胆、有态度、视觉冲击力强。标题文字使用粗体无衬线或特粗宋体，白色或亮色，占据画面核心位置。背景为深色块面。内容文字：<标题短句>
+Typography-dominant cover art (21:9 landscape). PALETTE: duotone — choose ONE pair: orange #E8751A + teal #0A6E6E (cinematic), red #C0392B + cream #F5E6D0 (classic), blue #1A3A5C + gold #D4A843 (premium), crimson #DC143C + navy #0D1B2A (noir). Off-black #121212 background. RENDERING: screen-print — bold flat color blocks, visible halftone dot texture, limited color palette (2-3 colors only), slight misregistration between color layers for authentic print feel, strong graphic shapes with sharp edges, no gradients. FONT: display — bold decorative display typography, heavy expressive letterforms with maximum visual impact, cream #F5E6D0 or white text with slight offset shadow in second duotone color, mondo poster style. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous bold screen-printed display characters occupying the central 55-65% of the frame, strong visual metaphor symbol behind text, stark two-color separation across entire composition. MOOD: bold — maximum contrast, vivid saturated colors, heavy visual weight, bold provocative energy. Limited-edition poster art, brand watermark if enabled, 4k
 ```
 
 **插图：**
@@ -164,9 +204,11 @@ Nostalgic 1990s photograph. <场景英文描述>. Soft muted light, faded film g
 
 ## 🧘 13: 禅意留白风 (zen-minimal)
 
+5维：minimal / mono / painterly / serif / subtle
+
 **封面：**
 ```
-禅意留白风格的公众号封面，大面积纯净留白（超过60%），单色极简线描，呼吸感十足。画面中只有一个核心元素，用最少的笔墨表达。整体氛围宁静、深邃、有禅意。标题文字使用极细的宋体或手写体，浅灰色，放在画面大片留白区域。背景为纯白或极淡的暖灰。内容文字：<标题短句>
+Minimal composition cover art (21:9 landscape). PALETTE: mono — pure white #FFFFFF or warm ivory #F8F6F0 background, charcoal #2D2D2D for text, warm gray #C0C0C0 for the single element, pure black #1A1A1A for emphasis point, no other colors. RENDERING: painterly — single brush stroke in sumi-e ink wash style, diluted ink texture, organic flowing edges, rice paper texture visible, minimal brush strokes (3-5 strokes maximum). FONT: serif — elegant refined thin serif letterforms, structured proportional spacing, editorial authority, charcoal #2D2D2D text color, ultra-thin weight, ample breathing room between characters. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous elegant thin serif characters occupying the central 40-50% of the frame, floating in vast empty space (60%+ whitespace), a single sumi-e brush stroke element as the only visual companion, the text breathes in the emptiness. MOOD: subtle — lowest contrast, muted desaturated tones, lightest visual weight, calm meditative aesthetic, maximum breathing room. Zen contemplation, wabi-sabi beauty, 4k
 ```
 
 **插图：**
