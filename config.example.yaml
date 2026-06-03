@@ -24,3 +24,24 @@ jimeng:
   cli_path: ""
   model: high_aes_general_v50
   aspect: "9:16"
+
+# Dreamina CLI settings (for cover/section workflows and Workflow N: 头条配图)
+# cli_path: leave empty to auto-detect from PATH (uses `dreamina` command)
+dreamina:
+  enabled: true
+  cli_path: ""              # auto-detected from PATH
+  ratio_cover: "21:9"
+  ratio_section: "1:1"
+  resolution: "2k"
+  poll_timeout: 60
+
+# News headline illustrator (Workflow N)
+# Generates 9:16 colored pencil sketch illustrations for each news item.
+# Note: dreamina text2image does NOT support --ref-url, so cross-image style
+# consistency is enforced via heavy prompt keywords (see references/news-styles.md).
+news:
+  ratio: "9:16"             # 9:16 vertical poster
+  resolution: "2k"          # 1k/2k/4k (model-dependent)
+  poll_timeout: 120         # seconds to wait for first poll
+  model: "high_aes_general_v50"  # default model if --model_version omitted
+  ref_url_from_previous: false  # NOT supported by dreamina text2image; kept for future use

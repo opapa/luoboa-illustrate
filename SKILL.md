@@ -93,6 +93,7 @@ Ask the user to pick a style. Show primary choices first:
 | 11 | 🏃 运动健身风 | 动态/汗水/球场跑道 |
 | 12 | 🎨 更多风格... | 查看额外扩展风格（Blueprint/Cyberpunk/Pixel Art/Sketch Notes/Vintage/Kawaii/Watercolor/Screen Print/Zen Minimal） |
 | 13 | ⚡ 快文配图 | 按句生成9:16竖图，即梦渲染文字，视频素材 |
+| 14 | 📰 头条配图 | 每条新闻生成9:16钢笔速写图，纪实风新闻合集 |
 
 If user picks 1 → Workflow A (科技类)
 If user picks 2 → Workflow B (情感治愈类)
@@ -107,9 +108,12 @@ If user picks 10 → Workflow L (测评信息图类)
 If user picks 11 → Workflow M (运动健身类)
 If user picks 12 → show extended catalog from `references/style-guide.md`
 If user picks 13 → Workflow D (快文配图)
+If user picks 14 → Workflow N (头条配图)
 
 Also trigger Workflow D directly when user says "快文配图"/"快文"/"视频素材"/"按句配图".
+Also trigger Workflow D when user mentions "横屏"/"竖屏"/"16:9"/"9:16"/"封面"/"banner" etc. — these are common video/post requirements that aren't always vertical.
 Also trigger Workflow E directly when user says "怀旧照片"/"怀旧风"/"老照片"/"90年代照片"/"胶片风".
+Also trigger Workflow N directly when user says "头条配图"/"新闻配图"/"资讯配图"/"AI快讯配图".
 
 ### Step 3: Generate Images
 
@@ -418,7 +422,7 @@ When user picks from extended catalog, use corresponding prompt templates from `
 封面图不是"插图加大字"，是**用文字设计主导画面的视觉作品**：
 
 1. **文字占画面 50-70% 视觉权重**。不是角落小字，是 Banner 级大字
-2. **字体 × 风格匹配表**（参考 baoyu font.md）：
+2. **字体 × 风格匹配表**（参考 baoyu font.md）——**每张 banner 的 prompt 必须显式写 `Font Application` 段**，否则模型会渲染成默认宋体：
 
 | Font | 视觉特征 | 适配场景 |
 |------|---------|---------|
@@ -828,39 +832,74 @@ warm wood grain background, [accent color: #C05621] props
 
 ---
 
-## Workflow D: 快文配图（按句生成视频素材）
+## Workflow D: 快文配图（按句生成人物+场景草图）
 
-适合短平快的AI前沿资讯文章。按句子拆分，每句生成一张9:16竖版图片（即梦渲染文字），用于视频素材。
+适合短平快的文章、**每句一图**的批量配图需求（公众号内文、视频脚本、PPT 配图、新闻合集、卡片卡片集等）。**不是 PPT/文字海报——重点是"人物+场景"的手绘草图，每张图是一个有画面感的瞬间**。
+
+**核心特点**：
+- **每句一图，不限制数量**（100+ 句也要全跑）
+- **必须有"人物 + 场景表现"**（不是文字大字海报，不是抽象装饰）
+- 风格：彩色手绘草图（colored pencil / hand-drawn sketch）—— 可见笔触、有墨水轮廓、人物表情和动作清晰
+- 走 dreamina CLI（文字不需要渲染成图，文字只作 prompt 输入参考，**图里可以加少量文字标签但不是主元素**）
 
 ### Step 1: 读取文章并拆分句子
 
 Read the target `.md` file. Then:
 
 1. 去掉图片行 `![](...)`
-2. 去掉空行和markdown格式标记
+2. 去掉空行和 markdown 格式标记（**、#、- 等等）
 3. 按句号/问号/感叹号/换行拆分：`re.split(r'[。！？\n]+', text)`
-4. 过滤短于3字的片段
-5. 超过50字的句子智能截断（到上一个逗号，否则直接截断加省略号）
-6. 展示拆分结果，让用户确认（可增删改句子）
+4. 过滤短于 3 字的片段
+5. 超过 50 字的句子**智能截断**（到上一个逗号，否则直接截断加省略号）—— **不截断优先**：长句可分两图，第一句完结，第二句接续
+6. **不合并句子**——每句独立配图，**不要合并"一句话生成 1 张"以外的逻辑**
+7. 展示拆分结果 + 每张图的具体画面构思，让用户确认（可增删改句子）
 
-### Step 2: 选择快文风格
+### Step 2: 选择画面比例（**必做！**）
 
-Show 6 quick-styles (from `references/quick-styles.md`):
+快文配图**不是必须竖屏**——用户可能想出横屏给视频号横屏/小红书横屏/公众号封面/朋友圈/微博头图。**必须问用户比例**，不要默认 9:16。
+
+| 选项 | 比例 | 描述 |
+|------|------|------|
+| 📱 **9:16 竖屏** | `9:16` | 竖版——抖音、快手、视频号、朋友圈、小红书、微博头条 |
+| 🖥️ **16:9 横屏** | `16:9` | 横版——B站、YouTube、横屏视频号、电脑端展示 |
+| ⬜ **1:1 方形** | `1:1` | 正方形——公众号次条、小红书贴纸、微信图片消息 |
+| 🎬 **21:9 宽幅 banner** | `21:9` | 超宽 banner——公众号头条封面、网页 banner |
+| 📷 **4:3 经典** | `4:3` | 经典 4:3——演示文稿、传统相机比例 |
+| 📖 **3:4 杂志竖版** | `3:4` | 杂志风竖版——小红书贴纸长图、杂志内文 |
+
+**判断用户已暗示的比例**：
+- 用户说"竖屏"/"抖音/快手/视频号/朋友圈" → 默认 9:16
+- 用户说"横屏"/"B 站/YouTube" → 默认 16:9
+- 用户说"封面/banner" → 默认 21:9
+- 其他情况一律询问，让用户选
+
+**所有 6 个比例都支持 dreamina CLI**（dreamina 支持 `21:9 16:9 1:1 9:16 4:3 3:4` 等）。
+
+### Step 3: 选择手绘草图风格（**核心：人物+场景**）
+
+Show 6 个手绘草图风格（from `references/quick-styles.md`）：
 
 | # | 风格 | 一句话描述 |
 |---|------|-----------|
-| 1 | 🖥️ 科技蓝 | 深蓝渐变 + 白色发光文字 + 电路装饰 |
-| 2 | 🔥 热点红 | 暗红渐变 + 金色文字 + 火焰脉冲 |
-| 3 | 🌊 清新绿 | 浅绿白底 + 深色文字 + 简约线条 |
-| 4 | 🎯 极简黑 | 纯黑背景 + 白色大字 + 最少装饰 |
-| 5 | 🌙 暗夜紫 | 深紫渐变 + 浅紫白文字 + 星光 |
-| 6 | 📰 资讯风 | 报纸排版 + 宋体文字 + 简洁边框 |
+| 1 | 🎨 彩色铅笔草图 | baoyu sketch-notes 风。可见笔触、墨水轮廓、macaron 色 |
+| 2 | 🖋️ 钢笔淡彩 | 钢笔线条 + 淡彩水洗、像笔记本插画 |
+| 3 | 🖍️ 蜡笔速写 | 蜡笔质感、温暖厚重、童书插画感 |
+| 4 | 📸 漫画分镜 | 日式漫画分镜式、人物表情夸张、动感强 |
+| 5 | 🌊 水墨淡彩 | 水墨淡彩、清雅留白、东方美学 |
+| 6 | 📓 速写本+便签 | 像打开的速写本、有便签、印章装饰 |
 
-Default: 1 (科技蓝) for AI/科技类文章.
+Default: 1 (彩色铅笔草图) for 一般快文.
 
-### Step 3: 确保 Dreamina CLI 环境可用
+**关键渲染提示词**（每张图必加）：
+```
+Hand-drawn illustration, visible brush strokes, ink outline, 
+soft watercolor wash, colored pencil texture, macaron palette, 
+NOT photorealistic, NOT 3D, NOT anime, NOT digital render
+```
 
-检查 `dreamina` CLI 是否已安装并登录：
+### Step 4: 确认 Dreamina CLI 环境可用
+
+**快文配图固定使用 dreamina，模型锁定 `4.7`**——4.7 在 Q 版卡通、马克笔手绘、文字+图标组合场景下表现最好。
 
 ```bash
 which dreamina   # 检查是否在 PATH 中
@@ -875,34 +914,69 @@ dreamina user_credit   # 验证登录状态和余额
 3. 运行 dreamina user_credit 确认可用
 ```
 
-### Step 4: 批量生成图片
+### Step 5: 批量生成图片（dreamina 4.7）
 
-使用 `dreamina text2image` 逐句生成：
+**重要：每张图都是一个独立的"Q 版马克笔 + 大量手写体 + 背景小图标"组合**。每张图的 prompt 必须明确：
 
-```bash
-dreamina text2image \
-  --prompt="<快文风格的prompt，含文字渲染>" \
-  --ratio=9:16 \
-  --resolution_type=2k \
-  --poll=30
+```
+Q版二头身卡通人物 with 大头小身体, exaggerated expression, sweat drops or 
+emotion symbols (sweat drops 汗珠 / exclamation marks 感叹号 / stars 星星). 
+黑色手绘线条 (marker / tablet brush feel), 低饱和度水彩或 marker 平涂上色, 
+块状色感. NOT photorealistic, NOT polished, NOT refined, NOT digital 
+gradient, NOT 3D.
+
+Subject: <Q版人物 + 动作 + 夸张表情 + 汗珠等情绪符号>. 关键元素：<1-3 个具体物件>.
+
+Chinese handwritten text occupying the left/right half of the frame, 
+GIANT bold handwritten style, sharp legible characters. 重点词高亮用不同颜色：
+- 技术名词（如 "AI"、"MoE"、"transformer"）用紫色 #8B5CF6
+- 情绪/难懂词（如 "不懂"、"难"、"卡住"）用橙色 #F97316
+- 数字/关键数据用红色 #EF4444
+- 否定/转折词（如 "但是"、"不是"、"没有"）用蓝色 #3B82F6
+
+Background: small hand-drawn icons (lightbulb 💡, question mark ❓, 
+moon 🌙, heart ❤️, brain 🧠, gear ⚙️, warning ⚠️) scattered around the 
+frame, NOT overlapping with main text or character.
 ```
 
-批量生成流程：
-1. 遍历拆分好的句子列表
-2. 每句构建 prompt（含风格模板 + 文字内容）
-3. 调用 `dreamina text2image` 生成
-4. 从返回 JSON 中提取 `image_url`，用 `curl` 下载保存为 `01.png`, `02.png` 等
-5. 失败的重试一次，仍然失败则跳过并标记 ❌
-6. 写入 `sentences.txt` 记录序号|原文|状态对照表
+**单次命令**（模型锁定 4.7）：
+```bash
+dreamina text2image \
+  --prompt="<每句独立的 Q版马克笔 prompt>" \
+  --ratio=<用户选的比例> \
+  --model_version=4.7 \
+  --resolution_type=2k \
+  --poll=180
+```
 
-### Step 5: 输出
+**批量策略**（按句子数量分批）：
+
+| 句子数量 | 策略 |
+|---------|------|
+| ≤10 句 | 全部并发（每 3 个一组），失败重试 1 次 |
+| 11-30 句 | 分 3-5 批并发，每批 3-5 个 |
+| 31-100 句 | 分 5-10 批，每批 3-5 个 |
+| 100+ 句 | **必分批**（每批 ≤5 个），不要一次性并发，会触发速率限制 |
+
+**每一批的并发数不超过 5 个**（dreamina 速率限制经验值）。
+
+**流程**：
+1. 遍历拆分好的句子列表
+2. 每句构建 prompt（含具体场景描述 + 人物 + 动作 + 环境）
+3. 启动 dreamina text2image（每批 3-5 个并发）
+4. 等待一批完成 → 下载到 `quick/NN.png` → 启动下一批
+5. 失败的重试 1 次，仍然失败则跳过并标记 ❌
+6. 全部完成 → 写入 `sentences.txt`
+
+### Step 6: 输出
 
 Directory structure:
 ```
 article/<MMDD>/<ArticleName>/quick/
-├── 01.png          (第1句的9:16图)
-├── 02.png          (第2句的9:16图)
+├── 01.png          (第1句的图，按用户选的比例)
+├── 02.png          (第2句的图)
 ├── ...
+├── NN.png          (最后一句的图)
 └── sentences.txt   (序号|原文|状态 对照表)
 ```
 
@@ -915,21 +989,300 @@ article/<MMDD>/<ArticleName>/quick/
 
 **Does NOT modify the original markdown file.**
 
-### 即梦文字渲染注意事项
+### 关键规则（**重要！**）
 
-- 文字用「」包裹，让即梦识别为文字渲染区域
-- 每句不超过50字（超过则截断）
-- 末尾加"文字渲染清晰不乱码"
-- 默认模型 `high_aes_general_v50`（5.0 Lite 文字渲染最好）
-- 如果文字乱码，重试时换字体描述（详见 `references/quick-styles.md` 重试策略）
-- Dreamina CLI 的 `text2image` 命令会自动处理模型选择和轮询，不需要手动指定模型
-- 并发生成建议不超过 3 个，避免触发速率限制
+⚠️ **快文不是 PPT/文字海报**：
+- ❌ 文字占 1/3 区域
+- ❌ 大字标题 + 装饰元素
+- ❌ 抽象图案
+- ✅ **有人物在场景中**（人在做事、表情、动作）
+- ✅ 场景表现（环境 + 人物 + 物件）
+- ✅ 文字只作"小标签/便签"出现在角落
+- ✅ 30+ 句话/100+ 句话全跑完
+
+### dreamina 注意事项
+
+- 末尾加 "colored pencil texture, visible brush strokes, ink outline"
+- 强调 `hand-drawn, sketch, watercolor, storybook illustration`
+- 排除 `photorealistic, 3D, anime, digital render`
+- 每张图必须有"主体人物 + 动作 + 场景"三要素
+- **不强制文字渲染**——文字只是参考，模型爱渲不渲
+
+## Workflow N: 头条配图（彩色铅笔速写）
+
+适合「每日AI快讯」类多新闻合集文章（如 `news/2606/0603.md`）。每条新闻生成 1 张 9:16 竖版**彩色铅笔速写**配图，参考 baoyu `sketch-notes` 风格 + 童书编辑插图感 + macaron 配色。
+
+**风格定位：** colored pencil drawing（彩色铅笔画）—— 可见笔触、软蜡质感、多色叠加、暖系 macaron 配色。像一本写满彩色铅笔速写的笔记本。
+
+**与 Workflow D（快文配图）的核心差异：**
+- 快文是"句子+装饰元素"（6 种预制风格）；头条是"6 区多文字 + 真实场景速写"（统一墨水淡彩风）
+- 快文每张独立；头条 10 张需保持"同一画家"笔触
+- 快文文字是新闻句子全文；头条文字 = 报头 + 分类 + 标题 + 3 个 bullet + footer（多层级）
+- 快文后端可选；头条**强制 Dreamina CLI**
+
+### Step 1: 读取并解析新闻文件
+
+读取目标 `.md` 文件，提取：
+- **报头日期**：从文件名（如 `0603.md` → `6月3日`）或文档首行（如 "📰 每日AI快讯 | 6月3日"）解析
+- **分类标签**：解析 `【🔥 AI大模型】` 等分类段（保留供 chip 配色）
+- **新闻条目**：每条 `**{N}. {标题}** {描述}` 拆为 1 个 dict
+
+### Step 2: AI 提炼每条新闻（关键步骤）
+
+对每条新闻，AI 生成 4 个字段：
+
+1. **`short_title`（精简标题）**：≤ 22 字（推荐 18 字内），保留核心主体+事件
+2. **`bullets`（3 条关键事实）**：每条 ≤ 18 字，必须有数字/专有名词/关键动作
+3. **`category`（分类）**：从 4 个分类中选一：`AI大模型` / `AI Agent` / `AI工具` / `AI行业动态`
+4. **`scene_en`（英文场景描述）**：1-2 句英文，描述该新闻对应的**视觉化可画场景**（人物+动作+环境）
+
+**Bullet 提炼规则：**
+- 保留：具体数字、专有名词、关键动作
+- 删除：修饰语、连接词、模糊表达
+- 3 条要有递进或并列关系，不能重复
+
+**用户确认环节**：展示 `原标题 → 精简标题 / 3 bullets / 分类 / 场景描述` 对照表，让用户增删改后再出图。
+
+完整 10 个场景示例见 `references/news-styles.md` 第 5 节。
+
+### Step 3: 构建 Prompt 模板（6 区布局）
+
+每张图采用 **balanced 多区布局**（参考 baoyu-xhs-images 布局）：
+
+```
+[报头区 5%]       黑色横条 + 白字 "每日AI快讯 6月3日"
+[分类 chip 6%]    左上角 macaron 色彩徽章 "【AI大模型】"
+[标题区 12%]      大字手绘标题 "「xxx」"
+[Bullet 区 18%]   奶油色块 + 3 个珊瑚红点 bullet
+[插图区 50%]      墨水速写 + 淡彩水洗场景
+[Footer 3%]       底部小字 "# 01 | 6月3日"
+```
+
+**完整 prompt 模板：**
+
+```
+9:16 vertical hand-drawn news card.
+Top 5% is a black header bar with white text "每日AI快讯 {date}" (crystal clear, no garbling).
+Below header on the left, a macaron {category_color_fill} category chip with Chinese text "【{category}】".
+Title: 「{short_title}」 in dark gray, handwritten style with slight wobble.
+Bullet block in cream (#F5F0E8) with 3 hand-drawn points in coral red dots:
+  • {bullet_1}
+  • {bullet_2}
+  • {bullet_3}
+Lower 50% scene: pen-and-ink sketch with light watercolor wash in macaron accent color, cream paper background, illustrating: {scene_en}.
+Footer: "# {num:02d} | {date}".
+Style: hand-drawn ink with intentional wobble, light watercolor wash NOT full color NOT black and white, macaron palette cream background pastel zones coral red accent, educational infographic sketch aesthetic, New York Times op-ed meets hand-drawn study card. Text rendered cleanly without garbled characters. NO photographic, NO digital gradients, NO anime, NO realistic shading, NO 3D rendering.
+```
+
+### Step 4: 批量出图（强制 Dreamina CLI）
+
+```bash
+dreamina text2image \
+  --prompt="<完整 prompt>" \
+  --ratio=9:16 \
+  --resolution_type=2k \
+  --model_version=high_aes_general_v50 \
+  --poll=120
+```
+
+**注意：dreamina `text2image` 不支持 `--ref-url`**，无法像 API 那样传参考图保持人物一致性。10 张图的画风一致性**完全靠 prompt 关键词约束**（一致性块 + 冗余关键词）。
+
+**串行生成**：默认单次串行 10 次（避免触发速率限制）。失败重试 1 次（强化风格关键词），第二次仍失败则跳过并标记 `❌`。
+
+### Step 5: 下载并归档
+
+每张图从 `dreamina query_result` 返回的 JSON 中提取 `result_json.images[0].image_url`，用 `urllib.request.urlretrieve` 下载。
+
+输出目录：
+```
+article/0603/0603-AI快讯/
+└── news/
+    ├── 01-anthropic-ipo.png
+    ├── 02-gpt56-release.png
+    ├── ...
+    ├── 10-unitree-ipo.png
+    └── manifest.txt
+```
+
+**manifest.txt 格式**（pipe-separated）：
+```
+01|AI大模型|Anthropic冲史上最大 IPO|已提交上市招股书|冲击AI行业最大规模IPO|教皇预警2030年AGI|✅
+02|AI大模型|GPT-5.6 今晚杀到|OpenAI 即将发布 GPT-5.6|奥特曼亲自预告|基准测试刷新纪录|✅
+...
+```
+
+字段顺序：`| 序号 | 分类 | 精简标题 | bullet1 | bullet2 | bullet3 | 状态(✅/❌) |`
+
+### Step 6: 不修改原 .md
+
+头条配图和快文配图一样，**不修改原文章**。封面/配图作为独立素材使用。
+
+### 5 维默认值
+
+| 维度 | 默认值 | 说明 |
+|------|--------|------|
+| Type | `infographic-sketch` | 教育信息图速写 |
+| Palette | `macaron`（cream + 4 色 chip + 珊瑚红）| 有色彩的暖系 |
+| Rendering | `colored-pencil` | 彩色铅笔（可见笔触 + 多色叠加）|
+| Font | `handwritten` | 手写字体（带轻微 wobble）|
+| Mood | `balanced` | 平衡戏剧性与可读性 |
+
+### 4 个分类的配色
+
+| 分类 | 填充色 | 配色名 |
+|------|--------|--------|
+| `AI大模型` | `#A8D8EA` 蓝 | macaron blue |
+| `AI Agent` | `#D5C6E0` 紫 | lavender |
+| `AI工具` | `#B5E5CF` 绿 | mint |
+| `AI行业动态` | `#F8D5C4` 桃 | peach |
+
+### 文字渲染注意事项
+
+- **6 个文字区**都需要清晰渲染
+- 顶部报头：固定 5% 画面高度
+- 标题：占 12%，字号最大
+- Bullets：占 18%，每条 4-6% 高度，珊瑚红点
+- 场景：占 50% 主体
+- Footer：占 3% 小字
+- 末尾必须加 `Text rendered cleanly without garbled characters`
+
+### 失败重试策略
+
+如果生成的图片文字乱码或风格跑偏：
+1. 第一次重试：强化 `EXTRABOLD` 字体描述 + 加大字号
+2. 第二次重试：去掉 chip 颜色描述对文字的影响
+3. 第三次重试：拆分长文字为 2 行
+4. 如果整张图明显跑偏（变成照片/纯黑白/卡通），整个 prompt 重新生成
+
+### 触发关键词
+
+直接说"头条配图"/"新闻配图"/"资讯配图"/"AI快讯配图"也能触发本 Workflow。
+
+---
+
+## Workflow O: 数字插画 / Painterly 风格（独处/夜听/卧室场景专用）
+
+适合**当代数字插画风**——不是水彩、不是胶片照片、不是 Excalidraw 手绘。笔触是**厚涂油画笔感**（thick visible oil paint brush strokes, dry brush texture），低饱和暖色，主角是数字绘画中的人物（不露脸）+ 卧室/书桌/窗户/城市夜景。
+
+### 5 维默认
+
+| 维度 | 默认值 |
+|------|--------|
+| **Type** | `illustration` 数字插画 |
+| **Palette** | 暖色低饱和：cream #F5E0C8 / peach pink #F2C6B5 / muted gold #E8B57A / dusty blue #8B9DC3 / lavender shadow #C9B8D4 |
+| **Rendering** | **数字插画 + 厚涂 painterly brush strokes + dry brush texture**（不是 watercolor 不是 ink wash 不是 photograph） |
+| **Font** | serif + handwritten（封面标题用细手写/serif，截图清晰不乱码） |
+| **Mood** | subtle，低对比，温暖中带安静 |
+
+### 必含正向关键词（每张图都要有）
+
+```
+Digital painting, illustrated style, thick visible oil paint brush strokes, 
+dry brush texture, soft warm muted palette (cream, peach pink, soft gold, 
+dusty blue, lavender), low saturation, warm and cool color contrast, 
+contemplative solitary mood
+```
+
+### 必含反向关键词（**关键！这是避免跑偏的核心**）
+
+```
+NOT watercolor, NOT ink wash, NOT wet on wet, NOT photograph, 
+NOT photorealistic, NOT anime, NOT 3D rendering, NOT line art
+```
+
+### 典型画面元素（独处/夜听/卧室场景）
+
+- **人物**：年轻女性独处（不露脸），抱膝、看手机、坐窗边、看书
+- **服装**：宽松的白衬衫/米色/淡粉睡袍
+- **场景**：卧室（床、枕头、毯子）+ 床头小台灯（暖光）+ 窗外深蓝城市夜景
+- **物件**：手机（屏幕冷光）、咖啡杯、书、便签、墙上的照片
+- **氛围**：暖色台灯 + 窗外冷光 = 暖冷对比，安静独处
+
+### 封面 Banner 模板（21:9）
+
+```
+[场景描述...]
+
+# Font Application (CRITICAL — 来自 baoyu-cover-image)
+Use warm hand-lettered typography with organic brush strokes. Friendly, 
+personal feel. The title MUST be in artistic hand-drawn style with slightly 
+wobbly, organic strokes — NOT plain sans-serif, NOT Song-style typeface, 
+NOT uniform printed type. Each character must feel hand-painted with 
+visible brush variation (thick-thin contrast, slight ink bleed, 
+occasional dry-brush edges). The text style must harmonize with the 
+gouache/painterly rendering of the scene.
+
+Include the following Chinese text rendered clearly with sharp legible 
+characters, no garbled strokes, no missing characters:
+- Large title at center-bottom: '【夜听】[标题]' (handwritten brush 
+  calligraphy, dark warm brown, 30-40% of image height)
+- Small subtitle at bottom right: '——木棉书笺 记' (smaller handwritten 
+  brush style, subtle dark warm brown)
+```
+
+### 字体选择（baoyu 标准 4 种）
+
+| 风格 | 英文 keyword | 描述 | 适合 |
+|------|-------------|------|------|
+| 手写毛笔 | `handwritten` | warm hand-lettered with organic brush strokes, thick-thin contrast, slight ink bleed | 夜听 / 情感治愈 / 美食 / 萌宠 |
+| 衬线经典 | `serif` | elegant serif with refined letterforms, classic editorial character | 怀旧 / 时尚 / 家居 |
+| 极简无衬线 | `clean` | clean geometric sans-serif, modern minimal letterforms | 科技 / 测评 / 都市 |
+| 装饰粗体 | `display` | bold decorative display, heavy expressive headlines | ACG / 运动 / 招牌 |
+
+⚠️ **关键警告**：不在 prompt 里加 `Font:` / `Font Application` 段，grsai 会渲染成默认宋体。必须用 baoyu 的 `Use ... typography with ...` 句式写**具体视觉特征**（hand-drawn、wobbly、brush variation、ink bleed），模型才会按设计意图出字。
+
+### 字体模板（每个绘画风格都必加）
+
+每个 Workflow 的封面/插图 prompt 模板，**必须**包含下面这段（或选对应 font）：
+
+```
+# Font Application (CRITICAL)
+- handwritten: Use warm hand-lettered typography with organic brush 
+  strokes. Friendly, personal feel. Title MUST be in artistic hand-drawn 
+  style with slightly wobbly, organic strokes — NOT plain sans-serif, 
+  NOT Song-style typeface.
+- serif: Use elegant serif typography with refined letterforms. 
+  Classic, editorial character.
+- clean: Use clean geometric sans-serif typography. Modern, minimal 
+  letterforms.
+- display: Use bold decorative display typography. Heavy, expressive 
+  headlines.
+```
+
+### 1:1 场景插图模板
+
+```
+Digital painting, illustrated style, thick visible oil paint brush strokes, 
+dry brush texture. NOT watercolor, NOT ink wash, NOT photograph. 
+[具体场景描述]. Soft warm muted palette (cream, peach pink, soft gold, 
+dusty blue, lavender). Low saturation, warm and cool color contrast, 
+contemplative mood. 1:1 square format.
+```
+
+### ⚠️ 即梦中文渲染注意
+
+即梦对通讯录里的"Chinese name"理解弱，可能渲染成 Mom/Dad/Lila/Tom 等英文。如需中文，**必须在 prompt 里直接写**具体要渲染的字（如 "render the Chinese characters 老王 clearly"），并加 `Chinese text '老王' must be sharp legible` 强约束。
+
+### 参考图
+
+`novel/0602/沉默的时候/images/01-深夜翻手机.png`（确认是这种风格的"原型图"）
+
+### 触发关键词
+
+- 独处型夜听
+- 深夜翻手机
+- 数字插画 painterly
+- 厚涂 brush strokes
+- 卧室场景插画
+- 暖色低饱和数字绘画
+
+---
 
 ## Brand Watermark Rules
 
 Brand info only appears on covers of "professional" styles:
 - ✅ Tech, Blueprint, Cyberpunk, Corporate, Pixel Art, Travel/City, Home/Lifestyle, Fashion/Beauty, ACG/Anime, Review/Infographic, Sports/Fitness
-- ❌ Emotional, Nostalgic Photo, Sketch Notes, Vintage, Kawaii, Watercolor, Screen Print, Zen Minimal, Food, Pet/Q-version
+- ❌ Emotional, Nostalgic Photo, Sketch Notes, Vintage, Kawaii, Watercolor, Screen Print, Zen Minimal, Food, Pet/Q-version, Digital Illustration / Painterly
 
 When `brand.enabled` is false, no watermark on any style.
 

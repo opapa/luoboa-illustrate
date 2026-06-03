@@ -1,111 +1,223 @@
 # 快文配图风格模板（Workflow D）
 
-每句生成一张9:16竖版海报，即梦直接渲染文字。以下为6种预设风格。
+每句生成一张"人物+场景"手绘草图。**不是 PPT/文字海报——重点是"人在做事"的画面感**。每张图对应文章的一句话，prompt 必须明确写出**主体人物 + 动作 + 场景 + 关键物件**。
 
 ## 通用 Prompt 结构
 
 ```
-9:16竖版海报，{风格背景}。画面上方约三分之一区域显示文字：「{句子内容}」，{字体描述}，清晰可读。下方为{风格配图描述}。{装饰元素}。文字渲染清晰不乱码，排版简洁大气。
+A hand-drawn <风格名> illustration in <色板> palette. Scene: <具体描述人物+动作+环境>. Visible brush strokes, ink outline, soft watercolor wash, storybook illustration style. NOT photorealistic, NOT 3D rendering, NOT anime, NOT digital gradient. The Chinese text '{句子}' may appear as a small handwritten label/caption in a corner, NOT the main visual element.
+
+Key elements:
+- 主体人物: <具体人物、动作、表情>
+- 场景环境: <具体环境>
+- 物件细节: <1-3 个具体物件>
+- 氛围: <温暖/孤独/紧张/温馨 等>
 ```
 
 **关键规则：**
-- 文字用「」包裹，让即梦识别为文字渲染区域
-- 文字不超过50字，超过则智能截断
-- 每个prompt末尾加"文字渲染清晰不乱码"
-- 模型默认用 `high_aes_general_v50`（5.0 Lite 文字渲染最好）
+- **每张图必须有"主体人物 + 动作 + 场景"**——不能只画个物件
+- 文字可以出现在画面里（如便签、报纸标题、书页），但**不是主元素**
+- 每个 prompt 末尾加 `NOT photorealistic, NOT 3D rendering, NOT anime, NOT digital gradient`
+- 模型默认用 `high_aes_general_v50`
 
 ---
 
-## 1. 🖥️ 科技蓝 (tech-blue)
+## 1. 🖍️ 马克笔 Q 版卡通 (marker-q-chibi)
 
-**视觉关键词：** 深蓝渐变、白色发光文字、电路/数据流装饰
+**风格关键词：** Q 版二头身、大头小身体、夸张表情、汗珠等情绪符号、黑色手绘马克笔/平板笔刷线条、低饱和度色块平涂
+
+**色板：** cream #FAF3E7 / soft black #1A1A1A（线条）/ pastel red #FFB5B5（高光）/ pastel yellow #FFE9A8 / pastel blue #B5E0FF
+
+**核心要素（每张图必含）：**
+1. **人物**：Q 版二头身卡通，大头小身体（约头：身 = 1:1），夸张表情（紧张/惊讶/发愁/开心/恍然大悟 等）
+2. **情绪符号**：汗珠、感叹号、星星、问号等小图标飘在人物头上/周围
+3. **线条与色彩**：黑色手绘马克笔/平板笔刷线条 + 低饱和度马克笔平涂上色，块状色感
+4. **背景小图标**：灯泡💡、问号❓、月亮🌙、爱心❤️、大脑🧠、齿轮⚙️、警告⚠️ 等手绘小元素散落
 
 **Prompt 模板：**
 ```
-9:16竖版海报，深蓝色到靛蓝色渐变背景，带有微弱的电路板纹理和流动的数据光线。画面上方约三分之一区域显示文字：「{句子}」，使用白色粗体无衬线字体，带有微弱的蓝色发光效果，清晰可读。下方为抽象的科技场景：发光的芯片线路、全息投影数据流、或神经网络节点连接图。边缘有细微的蓝色光晕装饰。文字渲染清晰不乱码，排版简洁大气。
+Q版二头身卡通人物 (big head, small body, chibi style). 
+<具体人物>在<具体场景>，表情<夸张表情>，头上/周围有<汗珠/感叹号/星星/问号 等情绪符号>.
+
+黑色手绘线条 (marker / tablet brush feel), 低饱和度水彩或 marker 平涂上色, 
+块状色感. NOT photorealistic, NOT polished, NOT refined, NOT digital 
+gradient, NOT 3D, NOT anime.
+
+Subject: <Q版人物 + 动作 + 夸张表情 + 1-3 个情绪符号>. 
+关键元素：<1-3 个具体物件>.
+
+Chinese handwritten text occupying the LEFT/RIGHT half of the frame, 
+GIANT bold handwritten style, sharp legible characters. 重点词用不同颜色高亮：
+- 技术名词（如 "AI"、"MoE"、"transformer"）→ 紫色 #8B5CF6
+- 情绪/难懂词（如 "不懂"、"难"、"卡住"）→ 橙色 #F97316
+- 数字/关键数据 → 红色 #EF4444
+- 否定/转折词（如 "但是"、"不是"、"没有"）→ 蓝色 #3B82F6
+
+Background: small hand-drawn icons (lightbulb, question mark, moon, 
+heart, brain, gear, warning) scattered around the frame, NOT overlapping 
+with main text or character.
 ```
 
-**适合：** AI、大模型、编程、芯片等科技类快文
+**适合：** 科技/职场/生活/观点类快文 — 情绪化、有冲击力、易传播的速读场景
+
+**模型：** `4.7`（dreamina 4.7 对 Q 版 + 马克笔 + 文字高亮表现最好）
 
 ---
 
-## 2. 🔥 热点红 (hot-red)
+## 2. 🖋️ 钢笔淡彩 (pen-watercolor)
 
-**视觉关键词：** 暗红渐变、金色文字、火焰/脉冲装饰
+**风格关键词：** 钢笔线条、淡彩水洗、笔记本插画感、有墨水轮廓
+
+**色板：** muted teal #4A7C7E / cream #F4E8D0 / soft red #C16E70 / brown #6B4F3A
 
 **Prompt 模板：**
 ```
-9:16竖版海报，深红色到暗红棕色渐变背景，带有隐约的火焰纹理和热浪扭曲效果。画面上方约三分之一区域显示文字：「{句子}」，使用金色粗体宋体字，带有微弱的暖光效果，清晰可读。下方为动态的热点场景：跳动的数据脉冲、上升的火焰粒子、或爆炸式扩散的光环。边缘有微弱的红色能量波纹。文字渲染清晰不乱码，排版简洁大气。
+A pen-and-ink and watercolor wash illustration in muted teal/cream/soft 
+red palette. 
+
+Scene: <人物>在<场景>做<具体动作>，表情<具体表情>。
+Fine ink linework, soft watercolor washes, visible brush strokes, 
+notebook sketch feel. NOT photorealistic, NOT 3D, NOT anime.
+
+The Chinese text '{句子}' may appear as a small handwritten label in 
+a corner.
+
+Key elements:
+- 主体人物: <具体人物、动作、表情>
+- 场景环境: <具体环境>
+- 物件细节: <1-3 个具体物件>
+- 氛围: <温暖/孤独/紧张/温馨 等>
 ```
 
-**适合：** 爆款资讯、热门事件、行业趋势类快文
+**适合：** 历史、游记、复古主题
 
 ---
 
-## 3. 🌊 清新绿 (fresh-green)
+## 3. 🖍️ 蜡笔速写 (crayon-sketch)
 
-**视觉关键词：** 浅绿白底、深色文字、简约线条
+**风格关键词：** 蜡笔质感、温暖厚重、童书插画感
+
+**色板：** warm yellow #F4D35E / coral #FF6B6B / sage #88D8B0 / cream #FFFAEB / navy #2C3E50
 
 **Prompt 模板：**
 ```
-9:16竖版海报，浅薄荷绿到白色渐变背景，干净清爽的质感。画面上方约三分之一区域显示文字：「{句子}」，使用深灰绿色圆体字，笔画柔和，清晰可读。下方为清新的自然场景：简约的植物线条画、波浪形的绿色渐变、或几何化的叶片图案。装饰元素为细线条和圆形点缀。文字渲染清晰不乱码，排版简洁大气。
+A crayon-textured illustration in warm yellow/coral/sage/cream palette. 
+Children's book art style, soft and warm.
+
+Scene: <人物>在<场景>做<具体动作>，表情<具体表情>。
+Crayon strokes, soft and warm, picture book illustration. NOT photorealistic, 
+NOT 3D, NOT anime, NOT digital gradient.
+
+The Chinese text '{句子}' may appear as a small handwritten label.
+
+Key elements:
+- 主体人物: <具体人物、动作、表情>
+- 场景环境: <具体环境>
+- 物件细节: <1-3 个具体物件>
+- 氛围: <温暖/孤独/紧张/温馨 等>
 ```
 
-**适合：** 健康、教育、生活方式、环保类快文
+**适合：** 童年、亲情、生活方式
 
 ---
 
-## 4. 🎯 极简黑 (minimal-black)
+## 4. 📸 漫画分镜 (manga-storyboard)
 
-**视觉关键词：** 纯黑背景、白色大字、最少装饰
+**风格关键词：** 日式漫画分镜、人物表情夸张、动感强、对话框
+
+**色板：** black ink / cream / accent red / sky blue
 
 **Prompt 模板：**
 ```
-9:16竖版海报，纯黑背景，无纹理无渐变。画面上方约三分之一区域显示文字：「{句子}」，使用纯白色粗体黑体字，大号，无任何特效，清晰可读。下方为极简的白色线条画：一个简洁的图标、一条水平线、或一个几何形状。没有任何多余装饰元素。文字渲染清晰不乱码，排版简洁大气。
+A Japanese manga storyboard style illustration in ink with cream/red/blue 
+accents. Panel composition with strong dynamic lines.
+
+Scene: <人物>在<场景>做<具体动作>，表情夸张<具体表情>。
+Bold ink lines, dynamic motion lines, manga panel framing. NOT photorealistic, 
+NOT watercolor, NOT 3D. Cel-shaded with minimal flat color.
+
+The Chinese text '{句子}' may appear in a speech bubble or caption box.
+
+Key elements:
+- 主体人物: <具体人物、动作、表情>
+- 场景环境: <具体环境>
+- 物件细节: <1-3 个具体物件>
+- 氛围: <紧张/激烈/搞笑/温馨 等>
 ```
 
-**适合：** 深度思考、哲学、极简主义、严肃话题类快文
+**适合：** 观点、评论、争议话题
 
 ---
 
-## 5. 🌙 暗夜紫 (night-purple)
+## 5. 🌊 水墨淡彩 (ink-wash)
 
-**视觉关键词：** 深紫渐变、浅紫白文字、星光装饰
+**风格关键词：** 水墨淡彩、清雅留白、东方美学
+
+**色板：** 淡墨 #2C2C2C / 米白 #F8F4EC / 桃粉 #E8B4A0 / 淡青 #A8C3B0
 
 **Prompt 模板：**
 ```
-9:16竖版海报，深紫色到藏蓝色渐变背景，带有微弱的星空纹理。画面上方约三分之一区域显示文字：「{句子}」，使用浅紫白色圆体字，带有柔和的发光效果，清晰可读。下方为梦幻的宇宙场景：闪烁的星光、漂浮的几何棱镜、或流动的紫色星云。边缘有细微的紫色光粒子装饰。文字渲染清晰不乱码，排版简洁大气。
+A Chinese ink wash painting with light color accents (ink, cream, peach, 
+sage). Generous empty space, minimal brushwork, East Asian aesthetic.
+
+Scene: <人物>在<场景>做<具体动作>，表情<具体表情>。
+Ink wash, light watercolor tint, generous negative space, contemplative 
+mood. NOT photorealistic, NOT 3D, NOT anime, NOT heavy digital render.
+
+The Chinese text '{句子}' may appear as a small vertical/horizontal 
+calligraphy in a corner.
+
+Key elements:
+- 主体人物: <具体人物、动作、表情>
+- 场景环境: <具体环境>
+- 物件细节: <1-3 个具体物件>
+- 氛围: <空灵/禅意/淡泊/宁静 等>
 ```
 
-**适合：** 创意、设计、未来趋势、AI艺术类快文
+**适合：** 国风、哲思、抒情
 
 ---
 
-## 6. 📰 资讯风 (news-style)
+## 6. 📓 速写本+便签 (sketchbook-sticky)
 
-**视觉关键词：** 报纸排版、宋体文字、简洁边框
+**风格关键词：** 速写本、有便签、印章装饰、像打开的笔记本
+
+**色板：** cream paper #F4E9D6 / pencil gray #4A4A4A / accent red #C8443A / sage #7A8B6A
 
 **Prompt 模板：**
 ```
-9:16竖版海报，浅灰白色背景，带有细微的新闻纸张纹理。画面上方约三分之一区域显示文字：「{句子}」，使用深灰色宋体字，正式庄重，清晰可读。下方为简洁的信息图示意：数据图表轮廓、新闻剪影、或柱状图折线图等图表元素。画面四周有细灰色边框线装饰，角落有小圆点。文字渲染清晰不乱码，排版简洁大气。
+An open sketchbook page illustration. Pencil sketches with watercolor 
+touches, sticky notes, a small red seal stamp (yinzhang) in corner. 
+Hand-drawn notebook feel.
+
+Scene: <人物>在<场景>做<具体动作>，表情<具体表情>。
+Pencil linework, watercolor washes, paper texture, mixed media sketchbook. 
+NOT photorealistic, NOT 3D, NOT anime, NOT digital render.
+
+The Chinese text '{句子}' may appear as if handwritten in the sketchbook 
+margin or on a sticky note.
+
+Key elements:
+- 主体人物: <具体人物、动作、表情>
+- 场景环境: <具体环境>
+- 物件细节: <1-3 个具体物件>
+- 氛围: <温暖/孤独/紧张/温馨 等>
 ```
 
-**适合：** 行业报告、数据分析、新闻快讯类快文
+**适合：** 笔记、随笔、文艺主题
 
 ---
 
-## 文字乱码重试策略
+## ⚠️ 最关键的硬规则
 
-如果生成的图片文字乱码，按以下顺序调整prompt重试：
+**每张图必须包含：**
+1. **主体人物**（具体身份：男/女/老师/工人/小孩 + 动作 + 表情）
+2. **场景环境**（具体地点：街角/办公室/教室/家里/路边 + 时间/光线）
+3. **1-3 个关键物件**（让人物有事可做）
+4. **氛围关键词**（温暖/孤独/紧张/温馨/怀念 等）
 
-1. **第一次重试**：修改字体描述
-   - 圆体 → 黑体，或宋体 → 圆体
-   - 加大字号描述："超大号" 或 "加粗加大"
-
-2. **第二次重试**：简化文字位置描述
-   - 从"画面上方约三分之一区域"改为"画面顶部居中"
-   - 去掉发光/特效描述
-
-3. **第三次重试**：拆分长句
-   - 将超过30字的句子拆成两句，分两行显示
-   - 使用换行符描述："第一行：「前半句」，第二行：「后半句」"
+**反例（不要的）：**
+- ❌ 只有文字 + 抽象图案
+- ❌ 大字标题占满画面
+- ❌ 没有人物
+- ❌ 没有具体场景
