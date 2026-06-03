@@ -33,19 +33,31 @@
 
 ### 插图
 
-**插图（暖调）：**
+**风格一致性要求**：插图必须继承封面5维参数中的 Palette + Rendering + Mood。怀旧照片风的12种封面排版各有不同的渲染方式，插图不能一律用"film grain"——必须根据封面选定的RENDERING来写插图prompt。
+
+**插图（暖调）— 封面选了 painterly/hand-drawn 渲染时：**
 ```
-Nostalgic 1990s photograph. <场景英文描述>. Faded yellowish film grain texture, vignette, warm golden tones, like a photograph kept in a drawer for thirty years.
+Nostalgic 1990s photograph with painterly rendering. <场景英文描述>. Faded yellowish film grain texture, vignette, warm golden tones, soft watercolor wash overlay, visible brush strokes at edges, like a photograph kept in a drawer for thirty years. <从封面Palette提取hex色值关键词，如 cream #FFFAF0, golden yellow #F6AD55>
 ```
 
-**插图（冷调）：**
+**插图（暖调）— 封面选了 digital 渲染时（如G王家卫、J旧报纸）：**
 ```
-Nostalgic 1990s photograph. <场景英文描述>. Faded film grain texture, cool gray-blue tones, muted, vignette, desaturated, like a photograph kept in a drawer for thirty years. The scene feels lonely and empty.
+Nostalgic 1990s photograph with digital rendering. <场景英文描述>. Clean precise edges, smooth surfaces, subtle controlled gradients, warm golden tones, vignette. <从封面Palette提取hex色值关键词，如 warm cream #F5E6D0, amber #F4A623>
+```
+
+**插图（冷调）— 封面选了 painterly/hand-drawn 渲染时：**
+```
+Nostalgic 1990s photograph with painterly rendering. <场景英文描述>. Faded film grain texture, cool gray-blue tones, muted, vignette, desaturated, soft watercolor wash overlay at edges. The scene feels lonely and empty. <从封面Palette提取对应冷调hex色值>
+```
+
+**插图（冷调）— 封面选了 digital 渲染时：**
+```
+Nostalgic 1990s photograph with digital rendering. <场景英文描述>. Faded film grain texture, cool gray-blue tones, muted, vignette, desaturated, clean precise edges, smooth surfaces. The scene feels lonely and empty. <从封面Palette提取对应冷调hex色值>
 ```
 
 **插图（克制/隐忍）：**
 ```
-Nostalgic 1990s photograph. <场景英文描述>. Soft muted light, faded film grain texture, vignette, muted warm tones, quiet atmosphere, like a photograph kept in a drawer for thirty years.
+Nostalgic 1990s photograph. <场景英文描述>. Soft muted light, faded film grain texture, vignette, muted warm tones, quiet atmosphere, like a photograph kept in a drawer for thirty years. <继承封面Rendering关键词>
 ```
 
 **设计要点：**
@@ -55,6 +67,7 @@ Nostalgic 1990s photograph. <场景英文描述>. Soft muted light, faded film g
 - 不需要 ref-url（场景独立，非人物连续性）
 - 不含品牌标识
 - 插图至少一张暖调+一张冷调，对比出情绪弧线
+- **插图必须继承封面的 Rendering + Palette + Mood**——painterly封面→插图加"soft watercolor wash overlay"；digital封面→插图加"clean precise edges, smooth surfaces"
 
 ---
 

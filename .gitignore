@@ -8,3 +8,4 @@ Thumbs.db
 # Generated images
 *.png
 !assets/*.png
+config.yaml

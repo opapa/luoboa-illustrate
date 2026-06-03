@@ -10,12 +10,13 @@ AI-powered illustration generator for WeChat public account articles (公众号)
 
 ## Features
 
-- 🎨 **12 visual styles** — from dark-tech to watercolor, pixel art to zen minimal
+- 🎨 **23 visual styles** — 11 primary styles + 10 extended + 6 quick-styles, covering all major public-account verticals
 - 🖼️ **Cover + section illustrations** — one image per `##` heading, not just a cover
 - 🔌 **Multiple backends** — OpenAI API, GRS AI, compatible endpoints, local services, or Dreamina CLI
 - 🏷️ **Optional brand watermark** — configure once, appears on appropriate style covers
 - 📝 **Auto-insert into Markdown** — illustrations are placed under the corresponding headings
-- 👤 **Character consistency** — Emotional-Healing style passes reference images to keep characters consistent across sections
+- 🎯 **5-dimension consistency system** — Type × Palette × Rendering × Font × Mood; cover and illustrations share the same visual vocabulary
+- 👤 **Character consistency** — styles with characters (Pet, Fashion, ACG) pass reference images across sections
 
 ---
 
@@ -84,21 +85,59 @@ or
 |---|-------|-------------|----------|
 | 1 | 🖥️ Tech | Dark split-composition + Excalidraw sketches | AI, engineering, deep tech |
 | 2 | 💕 Emotional-Healing | Warm Morandi tones + character consistency | Stories, essays, lifestyle |
+| 3 | 📷 Nostalgic Photo | 1990s film stock + golden hour / warm tungsten lighting | Memories, family, nostalgia |
+| 4 | 🍜 Food | Warm food photography, steam, sauce highlights | Recipes, restaurant reviews, snacks |
+| 5 | 🗺️ Travel / City | Modern landscape photography, cinematic, cityscape | Travel guides, city walks, scenery |
+| 6 | 🐾 Pet / Q-version | Q-version character illustration, pastel palette | Pet accounts, parenting, healing |
+| 7 | 🏠 Home / Lifestyle | Interior photography, MUJI / Nordic, natural light | Home decor, lifestyle, minimalism |
+| 8 | 💄 Fashion / Beauty | High-fashion editorial, character consistency | Lookbook, makeup tutorials, reviews |
+| 9 | 🎮 ACG / Anime | Cel-shaded illustration, vivid colors, character consistency | Anime, games, light novels |
+| 10 | 📊 Review / Infographic | Structured infographic, scorecards, comparison charts | Product reviews, rankings, data |
+| 11 | 🏃 Sports / Fitness | Action photography, high shutter speed, dynamic | Fitness, sports, marathon |
+| 12 | ⚡ Quick-style | 9:16 vertical, sentence-by-sentence text rendering | Short video material, quick reads |
 
 ### Extended Styles (click "更多")
 
 | # | Style | ID | Keywords | Best For |
 |---|-------|----|----------|----------|
-| 3 | 📐 Blueprint | `blueprint` | Blue grid, technical schematics | System architecture, engineering |
-| 4 | ✏️ Sketch Notes | `sketch-notes` | Macaron colors, hand-drawn, warm | Tutorials, notes, concepts |
-| 5 | 📜 Vintage | `vintage` | Aged parchment, sepia, classical | History, heritage, brand stories |
-| 6 | 🌸 Kawaii | `kawaii` | Pastel pink, round shapes, thick outlines | Lifestyle, pets, casual |
-| 7 | 🌆 Cyberpunk Neon | `cyberpunk-neon` | Deep purple, neon glow, glitch | Future tech, gaming, sci-fi |
-| 8 | 💼 Corporate | `corporate` | White + grey + gold, geometric | Business, strategy, analysis |
-| 9 | 🍃 Watercolor | `watercolor` | Earth tones, organic brush | Travel, wellness, nature |
-| 10 | 🕹️ Pixel Art | `pixel-art` | 8-bit, retro gaming, mosaic | Gaming culture, retro tech |
-| 11 | 🎭 Screen Print | `screen-print` | Bold blocks, halftone, limited palette | Op-eds, cultural critique |
-| 12 | 🧘 Zen Minimal | `zen-minimal` | Vast whitespace, single ink line | Philosophy, minimalism, zen |
+| 13 | 📐 Blueprint | `blueprint` | Blue grid, technical schematics | System architecture, engineering |
+| 14 | ✏️ Sketch Notes | `sketch-notes` | Macaron colors, hand-drawn, warm | Tutorials, notes, concepts |
+| 15 | 📜 Vintage | `vintage` | Aged parchment, sepia, classical | History, heritage, brand stories |
+| 16 | 🌸 Kawaii | `kawaii` | Pastel pink, round shapes, thick outlines | Lifestyle, pets, casual |
+| 17 | 🌆 Cyberpunk Neon | `cyberpunk-neon` | Deep purple, neon glow, glitch | Future tech, gaming, sci-fi |
+| 18 | 💼 Corporate | `corporate` | White + grey + gold, geometric | Business, strategy, analysis |
+| 19 | 🍃 Watercolor | `watercolor` | Earth tones, organic brush | Travel, wellness, nature |
+| 20 | 🕹️ Pixel Art | `pixel-art` | 8-bit, retro gaming, mosaic | Gaming culture, retro tech |
+| 21 | 🎭 Screen Print | `screen-print` | Bold blocks, halftone, limited palette | Op-eds, cultural critique |
+| 22 | 🧘 Zen Minimal | `zen-minimal` | Vast whitespace, single ink line | Philosophy, minimalism, zen |
+
+### Cover Typography (Emotional-Healing & Nostalgic Photo only)
+
+12 cover typography options A–L pair with the photo-based styles: A Japanese-cinema / B Vintage-magazine / C Natural-breath / D Letter-handwritten / E Light-overlay / F Minimal-Chinese / G Wong-Kar-wai / H Polaroid-caption / I Record-cover / J Newspaper-headline / K Poetry-scatter / L Classical-frontispiece.
+
+---
+
+## ✨ Highlights of This Version
+
+### 🏆 11 Primary Styles Cover Every Major Vertical
+
+From the first release's 2 styles to **11 primary + 10 extended + 6 quick** in the current version, the library now covers all top public-account verticals: AI/tech, emotion/healing, food, travel, pets, home, fashion, anime, reviews, sports — plus nostalgia as a base photo style.
+
+### 📐 5-Dimension Consistency System
+
+Every style is defined across 5 dimensions: **Type × Palette × Rendering × Font × Mood**. The cover sets all 5; section illustrations inherit 3 (Palette, Rendering, Mood) so every image in the article looks like part of the same set — no painterly-cover + digital-illustration mismatches.
+
+### 🎨 Reference-Backed Banner Design
+
+Cover banners are not "illustration with small text in the corner" — they are **type-design-driven visual works** with title taking 50–70% of visual weight. The library provides font prompts (clean / handwritten / serif / display) and 8 text-effect techniques (gradient / stroke-text / shadow-3d / highlight / neon / handwritten / bubble / brush) inspired by the `baoyu-cover-image` skill.
+
+### 🌅 Nostalgic Photo: Warm, Not Gloomy
+
+The 1990s film-stock style was rewritten to fix a common failure mode — the model would default to "decayed, dim, blue-tinted" photos. Every Nostalgic Photo prompt now starts with an explicit **warm-tone baseline** (Kodak Gold / Fujifilm Superia, golden hour / warm tungsten) and a **forbidden-words list** (no cold, no gloomy, no desaturated-blue, no horror). Even "empty room" scenes stay warm and contemplative, never melancholic.
+
+### 👤 Character Consistency for Pet / Fashion / ACG
+
+Three character-heavy styles (Pet / Q-version, Fashion / Beauty, ACG / Anime) automatically pass the previous illustration as `--ref-url` to the next, so the same character stays recognizable across all section images.
 
 ---
 
@@ -174,14 +213,17 @@ Markdown article
     │
     ├── Parse headings (# and ##)
     │
-    ├── Pick style (12 options)
+    ├── Pick style (11 primary + 10 extended + 6 quick)
     │
-    ├── Generate cover (1920×832)
+    ├── Generate cover (1920×832) using 5-dim style profile
     │
     ├── Generate section illustrations (1024×1024)
     │       │
-    │       └── Emotional-Healing: pass reference image
-    │           for character consistency
+    │       └── Inherit Palette + Rendering + Mood from cover
+    │           for visual consistency
+    │       │
+    │       └── Pet / Fashion / ACG: pass previous image
+    │           as --ref-url for character consistency
     │
     └── Insert ![](images/xx.png) under each ## heading
 ```
@@ -207,7 +249,9 @@ article/0531/MyArticle/
 
 ### Brand watermark
 
-Brand info only appears on covers of "professional" styles (Tech, Blueprint, Cyberpunk, Corporate, Pixel Art). Emotional and artistic styles keep a clean canvas.
+Brand info only appears on covers of "professional" styles: **Tech, Blueprint, Cyberpunk, Corporate, Pixel Art, Travel/City, Home/Lifestyle, Fashion/Beauty, ACG/Anime, Review/Infographic, Sports/Fitness**.
+
+**No-watermark styles** (kept clean): Emotional, Nostalgic Photo, Sketch Notes, Vintage, Kawaii, Watercolor, Screen Print, Zen Minimal, Food, Pet/Q-version.
 
 When `brand.enabled` is `false` (default), no watermark is added to any style.
 
