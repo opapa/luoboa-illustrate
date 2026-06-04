@@ -112,40 +112,92 @@ CATEGORY_COLORS = {
     "AI行业动态":   {"fill": "#F8D5C4", "ink": "#B06850"},  # peach
 }
 
+# ⚠️ Dreamina 5.0 内容风控会拒掉同时含 "每日AI快讯" + 具体日期的 prompt
+# （`generation failed: final generation failed`），所以"每日AI快讯 X月X日"
+# 这一行小灰字 **不能** 写进 prompt——出图后用 overlay_timestamp() 用 PIL 叠。
+# 其他元素（"AI大模型"chip、品牌词如腾讯云/DeepSeek、百分比、bullets、彩色高亮、
+# 5 个手绘装饰图标）实测都能直接塞进 prompt，dreamina 5.0 都能渲染清楚。
+# —— 摸顺时间 2026-06-04，详见 references/news-styles.md "dreamina 风控触发词"
 PROMPT_TEMPLATE = (
-    '9:16 vertical hand-drawn news card. '
-    'Top 5% is a black header bar with white text "每日AI快讯 {date}" (crystal clear, no garbling). '
-    'Below header on the left, a macaron {category_color_fill} category chip with Chinese text "【{category}】". '
-    'Title: 「{short_title}」 in dark gray, hand-lettered style with rough wobble. '
-    'Bullet block in cream (#F5F0E8) with 3 hand-drawn points in coral red dots:\n'
-    '{bullets_formatted}\n'
-    'Lower 50% scene: colored pencil illustration (彩色铅笔 画) with visible pencil strokes, soft waxy texture, multiple colors used, cream paper background, illustrating: {scene_en}. Visible colored pencil strokes in every shape, soft layering of pigments, slight grain texture, hand-drawn feel, no flat color fills. '
-    'Footer: "# {num:02d} | {date}". '
-    'Style: colored pencil drawing with visible strokes and soft layering, NOT digital art NOT watercolor wash NOT pure ink NOT oil painting, hand-drawn texture, warm friendly illustrative feel, like a childrens book editorial illustration in colored pencil. macaron palette cream background pastel chip coral red accent. '
-    'Text rendered cleanly without garbled characters. '
-    'NO flat color, NO vector, NO anime, NO photographic, NO digital gradients, NO smooth shading.'
+    'Q版二头身手绘水彩马克笔风格，奶油色背景。'
+    '右半边：{scene_zh}。'
+    '左半边大字写「{short_title}」，上方小{category_color_name}标签写 {category}。'
+    '标题下三行小手写要点：{bullets_formatted}。'
+    '其中 {hl1} 用紫色，{hl2} 用红色，{hl3} 用橙色。'
+    '右侧散落手绘小图标：灯泡、齿轮、问号、闪电、爱心。'
+    '黑色墨水手绘线条，水彩块状上色，低饱和马卡龙色调，绘本插画风。'
+    '每个汉字必须完整清晰可读，不要乱码不要缺字。'
 )
+
+# Category chip color names (Chinese, for dreamina prompt)
+CATEGORY_COLOR_NAMES = {
+    "AI大模型":   "蓝色",
+    "AI Agent":   "淡紫色",
+    "AI工具":     "薄荷绿",
+    "AI行业动态": "蜜桃色",
+}
 
 
 def format_bullets(bullets):
-    """Format bullet list for the prompt."""
+    """Format bullet list as Chinese semicolon-separated points."""
     if not bullets:
         return ""
-    return "\n".join(f"  • {b}" for b in bullets)
+    return " ；".join(bullets)
 
 
-def build_prompt(date, short_title, scene_en, category="AI大模型", num=1, bullets=None):
-    """Build the full prompt for one news item."""
-    cat = CATEGORY_COLORS.get(category, CATEGORY_COLORS["AI大模型"])
+def derive_highlights(bullets):
+    """Fallback: extract 3 highlight terms from bullets when item didn't provide them.
+
+    Picks: (1) first percentage / number, (2) second percentage / number,
+    (3) a short standout phrase from the last bullet.
+    """
+    import re as _re
+    nums = []
+    for b in bullets or []:
+        # 抓 75% / 97.5% / 150亿 / 一万亿 这种数字/数量词
+        for m in _re.finditer(r"\d+(?:\.\d+)?\s*[%％万亿千百]?", b):
+            tok = m.group().strip()
+            if tok and tok not in nums:
+                nums.append(tok)
+    hl1 = nums[0] if len(nums) > 0 else (bullets[0].split()[-1] if bullets else "重点")
+    hl2 = nums[1] if len(nums) > 1 else (bullets[1].split()[-1] if len(bullets or []) > 1 else "亮点")
+    # 第 3 个：找含中文短词（取最后一条的前 4 字）
+    hl3 = (bullets[2][:4] if len(bullets or []) > 2 else "趋势")
+    return hl1, hl2, hl3
+
+
+def build_prompt(date, short_title, scene_en, category="AI大模型", num=1,
+                 bullets=None, scene_zh=None, highlights=None):
+    """Build the full prompt for one news item.
+
+    New (v3, 2026-06-04): 中文海报 prompt，绕开 dreamina 风控触发词。
+
+    Args:
+        date: e.g. "6月4日" — used by overlay_timestamp(), NOT in prompt
+        short_title: title text (e.g. "腾讯云DeepSeek-V4大降价")
+        scene_en: legacy English scene description (used as fallback when scene_zh absent)
+        scene_zh: NEW preferred — Chinese 1-line scene (e.g. "一个吃惊的小程序员卡通，怀里抱着一摞云服务器")
+        category: one of CATEGORY_COLORS keys
+        bullets: list of 3 short Chinese strings
+        highlights: optional [hl1, hl2, hl3] — 3 keyword strings to color-highlight.
+                    If omitted, derived from bullets via derive_highlights().
+    """
+    color_name = CATEGORY_COLOR_NAMES.get(category, "蓝色")
+    bullets = bullets or []
+    scene = scene_zh or scene_en  # 没给中文 scene 就用英文 scene 兜底
+
+    if highlights and len(highlights) >= 3:
+        hl1, hl2, hl3 = highlights[0], highlights[1], highlights[2]
+    else:
+        hl1, hl2, hl3 = derive_highlights(bullets)
+
     return PROMPT_TEMPLATE.format(
-        date=date,
         short_title=short_title,
-        scene_en=scene_en,
+        scene_zh=scene,
         category=category,
-        category_color_fill=cat["fill"],
-        category_color_ink=cat["ink"],
-        bullets_formatted=format_bullets(bullets or []),
-        num=num,
+        category_color_name=color_name,
+        bullets_formatted=format_bullets(bullets),
+        hl1=hl1, hl2=hl2, hl3=hl3,
     )
 
 
@@ -295,6 +347,82 @@ def download_image(url, output_path, timeout=60):
         return False
 
 
+# --- Timestamp overlay (post-processing) ---
+#
+# Dreamina 5.0 拒掉同时含 "每日AI快讯" + 日期 的 prompt（v3 风控触发词），
+# 所以日期戳必须出图后用 PIL 叠。叠在顶部居中偏右，灰色，仿 API 原版位置。
+#
+# 字体优先级：用户自配 > 微软雅黑 > 楷体 > PIL 默认
+_TIMESTAMP_FONT_CANDIDATES = [
+    r"C:\Windows\Fonts\msyh.ttc",
+    r"C:\Windows\Fonts\simkai.ttf",
+    r"C:\Windows\Fonts\simhei.ttf",
+    "/System/Library/Fonts/PingFang.ttc",  # macOS
+    "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc",  # linux
+]
+
+
+def _resolve_font(size):
+    """Find a usable Chinese font; return PIL ImageFont or None."""
+    try:
+        from PIL import ImageFont
+    except ImportError:
+        return None
+    for path in _TIMESTAMP_FONT_CANDIDATES:
+        if os.path.exists(path):
+            try:
+                return ImageFont.truetype(path, size)
+            except Exception:
+                continue
+    try:
+        return ImageFont.load_default()
+    except Exception:
+        return None
+
+
+def overlay_timestamp(img_path, date_text, label="每日AI快讯"):
+    """Stamp "每日AI快讯 X月X日" small gray text on top of the image (in-place).
+
+    Skipped silently when PIL isn't installed or when date_text is empty —
+    image is still usable, just without the timestamp.
+    """
+    if not date_text:
+        return False
+    try:
+        from PIL import Image, ImageDraw
+    except ImportError:
+        print(f"  ⚠️ PIL not installed; skipping timestamp overlay")
+        return False
+    try:
+        img = Image.open(img_path).convert("RGBA")
+    except Exception as e:
+        print(f"  ⚠️ Can't open image for overlay: {e}")
+        return False
+
+    W, H = img.size
+    size = max(int(W * 0.032), 18)
+    font = _resolve_font(size)
+    if font is None:
+        return False
+
+    text = f"{label}  {date_text}"
+    overlay = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    draw = ImageDraw.Draw(overlay)
+    try:
+        bbox = draw.textbbox((0, 0), text, font=font)
+        tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
+    except Exception:
+        tw, th = size * len(text) // 2, size  # rough fallback
+
+    x = W - tw - int(W * 0.06)
+    y = int(H * 0.022)
+    draw.text((x, y), text, font=font, fill=(80, 80, 80, 230))
+
+    out = Image.alpha_composite(img, overlay).convert("RGB")
+    out.save(img_path, "PNG")
+    return True
+
+
 # --- Slug generation ---
 
 def slugify(text, max_len=20):
@@ -416,11 +544,11 @@ def main():
         url = generate_image(prompt, item)
 
         if not url:
-            # Retry with emphasized style keywords
-            print(f"  [{num:02d}] 🔄 Retrying with emphasized style...")
+            # Retry：稍微加强风格关键词；新模板对 dreamina 5.0 通常一发就过
+            print(f"  [{num:02d}] 🔄 Retrying with stronger style emphasis...")
             emphasized_prompt = prompt.replace(
-                "fine line weight 1-2pt",
-                "EXTRABOLD fine line weight 1-2pt, absolutely strict pen-and-ink style"
+                "Q版二头身手绘水彩马克笔风格",
+                "Q版二头身手绘水彩马克笔风格，绘本插画，细致清晰"
             )
             url = generate_image(emphasized_prompt, item)
 
@@ -428,7 +556,11 @@ def main():
             slug = slugify(short_title)
             target_path = os.path.join(output_dir, f"{num:02d}-{slug}.png")
             if download_image(url, target_path):
-                print(f"  [{num:02d}] ✅ Saved: {target_path}")
+                # 补上被 dreamina 风控拒掉的 "每日AI快讯 X月X日" 小灰字
+                if overlay_timestamp(target_path, date):
+                    print(f"  [{num:02d}] ✅ Saved + timestamp: {target_path}")
+                else:
+                    print(f"  [{num:02d}] ✅ Saved (no timestamp): {target_path}")
                 results.append(target_path)
                 success_count += 1
             else:

@@ -19,16 +19,16 @@ On first use, check if `config.yaml` exists in the skill directory. If not, run 
    - Check if `dreamina` CLI is in PATH (`which dreamina`)
    - If not found, tell user: "Install dreamina CLI and run `dreamina login` first"
    - Verify login: `dreamina user_credit`
-3. **Brand (optional)** — Ask: "Want to add brand watermark?" If yes, collect: name, tagline, logo URL, website
-4. Save to `config.yaml`
+4. **Brand (optional)** — Ask: "Want to add brand watermark?" If yes, collect: name, tagline, logo URL, website
+5. Save to `config.yaml`
 
 ### Config schema
 
 ```yaml
-backend: api              # api (default) / dreamina
+backend: api # api (default) / dreamina
 
 api:
-  provider: openai        # grsai / openai / openai-compatible / local
+  provider: openai # grsai / openai / openai-compatible / local
   base_url: https://api.openai.com
   api_key: sk-xxxx
   model: gpt-image-2
@@ -42,7 +42,7 @@ brand:
 
 dreamina:
   enabled: true
-  cli_path: ""            # auto-detected from PATH if empty
+  cli_path: "" # auto-detected from PATH if empty
   ratio_cover: "21:9"
   ratio_section: "1:1"
   resolution: "2k"
@@ -51,16 +51,17 @@ dreamina:
 
 ### Provider defaults
 
-| Provider | base_url default | Notes |
-|----------|-----------------|-------|
-| `grsai` | `https://grsai.dakka.com.cn` | China node, SSE for illustrations |
-| `openai` | `https://api.openai.com` | Official OpenAI |
-| `openai-compatible` | (user must provide) | Proxies, third-party |
-| `local` | (user must provide) | Self-hosted, e.g. `http://localhost:8080` |
+| Provider            | base_url default             | Notes                                     |
+| ------------------- | ---------------------------- | ----------------------------------------- |
+| `grsai`             | `https://grsai.dakka.com.cn` | China node, SSE for illustrations         |
+| `openai`            | `https://api.openai.com`     | Official OpenAI                           |
+| `openai-compatible` | (user must provide)          | Proxies, third-party                      |
+| `local`             | (user must provide)          | Self-hosted, e.g. `http://localhost:8080` |
 
 ### Re-configure
 
 Tell user: "Delete config.yaml and the wizard runs again next time, or edit it directly."
+
 ```bash
 rm ~/.claude/skills/luoboa-illustrate/config.yaml
 ```
@@ -70,6 +71,7 @@ rm ~/.claude/skills/luoboa-illustrate/config.yaml
 ### Step 1: Read Article Structure
 
 Read the target `.md` file. Extract:
+
 - Article title (the `# ` heading, or filename)
 - All section headings (every `## ` subheading, in order)
 - Full content of each section (for generating relevant prompts)
@@ -78,22 +80,22 @@ Read the target `.md` file. Extract:
 
 Ask the user to pick a style. Show primary choices first:
 
-| # | 风格 | 一句话描述 |
-|---|------|-----------|
-| 1 | 🖥️ 科技风 | 暗色手绘图解 + Excalidraw手绘草稿 |
-| 2 | 💕 柔情风 | 温暖治愈莫兰迪 + 人物一致性 |
-| 3 | 📷 怀旧照片风 | 90年代写实胶片质感 + 夕阳光/暖黄灯光 + 温暖泛黄 |
-| 4 | 🍜 美食风 | 暖光食物特写 + 蒸汽/拉丝/俯拍构图 |
-| 5 | 🗺️ 旅行城市风 | 现代写实风景 + 城市夜景/航拍/季节感 |
-| 6 | 🐾 萌宠Q版风 | 拟人/治愈/Q版宠物插画 |
-| 7 | 🏠 家居生活风 | 样板间/MUJI/北欧/户型图 |
-| 8 | 💄 时尚美妆风 | 产品摄影 + 人物一致性 + 妆容/服装特写 |
-| 9 | 🎮 ACG二次元风 | 日式赛璐璐/原神风/Q版角色 |
-| 10 | 📊 测评信息图 | 结构化信息图 + 评分卡 + 对比图 |
-| 11 | 🏃 运动健身风 | 动态/汗水/球场跑道 |
-| 12 | 🎨 更多风格... | 查看额外扩展风格（Blueprint/Cyberpunk/Pixel Art/Sketch Notes/Vintage/Kawaii/Watercolor/Screen Print/Zen Minimal） |
-| 13 | ⚡ 快文配图 | 按句生成9:16竖图，即梦渲染文字，视频素材 |
-| 14 | 📰 头条配图 | 每条新闻生成9:16钢笔速写图，纪实风新闻合集 |
+| #   | 风格           | 一句话描述                                                                                                        |
+| --- | -------------- | ----------------------------------------------------------------------------------------------------------------- |
+| 1   | 🖥️ 科技风      | 暗色手绘图解 + Excalidraw手绘草稿                                                                                 |
+| 2   | 💕 柔情风      | 温暖治愈莫兰迪 + 人物一致性                                                                                       |
+| 3   | 📷 怀旧照片风  | 90年代写实胶片质感 + 夕阳光/暖黄灯光 + 温暖泛黄                                                                   |
+| 4   | 🍜 美食风      | 暖光食物特写 + 蒸汽/拉丝/俯拍构图                                                                                 |
+| 5   | 🗺️ 旅行城市风  | 现代写实风景 + 城市夜景/航拍/季节感                                                                               |
+| 6   | 🐾 萌宠Q版风   | 拟人/治愈/Q版宠物插画                                                                                             |
+| 7   | 🏠 家居生活风  | 样板间/MUJI/北欧/户型图                                                                                           |
+| 8   | 💄 时尚美妆风  | 产品摄影 + 人物一致性 + 妆容/服装特写                                                                             |
+| 9   | 🎮 ACG二次元风 | 日式赛璐璐/原神风/Q版角色                                                                                         |
+| 10  | 📊 测评信息图  | 结构化信息图 + 评分卡 + 对比图                                                                                    |
+| 11  | 🏃 运动健身风  | 动态/汗水/球场跑道                                                                                                |
+| 12  | 🎨 更多风格... | 查看额外扩展风格（Blueprint/Cyberpunk/Pixel Art/Sketch Notes/Vintage/Kawaii/Watercolor/Screen Print/Zen Minimal） |
+| 13  | ⚡ 快文配图    | 按句生成9:16竖图，即梦渲染文字，视频素材                                                                          |
+| 14  | 📰 微头条配图  | 每条新闻生成9:16马克笔 Q 版卡通                                                                                   |
 
 If user picks 1 → Workflow A (科技类)
 If user picks 2 → Workflow B (情感治愈类)
@@ -108,36 +110,43 @@ If user picks 10 → Workflow L (测评信息图类)
 If user picks 11 → Workflow M (运动健身类)
 If user picks 12 → show extended catalog from `references/style-guide.md`
 If user picks 13 → Workflow D (快文配图)
-If user picks 14 → Workflow N (头条配图)
+If user picks 14 → Workflow N (微头条配图)
 
 Also trigger Workflow D directly when user says "快文配图"/"快文"/"视频素材"/"按句配图".
 Also trigger Workflow D when user mentions "横屏"/"竖屏"/"16:9"/"9:16"/"封面"/"banner" etc. — these are common video/post requirements that aren't always vertical.
 Also trigger Workflow E directly when user says "怀旧照片"/"怀旧风"/"老照片"/"90年代照片"/"胶片风".
-Also trigger Workflow N directly when user says "头条配图"/"新闻配图"/"资讯配图"/"AI快讯配图".
+Also trigger Workflow N directly when user says "微头条配图"/"新闻配图"/"资讯配图"/"AI快讯配图".
 
 ### Step 3: Generate Images
 
-**API 优先（出图质量更好），Dreamina CLI 作为备选。** 根据 `config.yaml` 中 `backend` 字段决定。当 API 返回过载或连续错误时，自动降级到 Dreamina CLI。
+**默认提示词语言：中文。** 如果用户没特别强调，**所有 prompt 都用中文写**（grsai/dreamina 都能识别中文 prompt）。如果用户写了"用英文 prompt"或"英文"才用英文。
 
-#### 方案一：API（默认，推荐）
+**后端选择：必须问用户。** 不再默认走 API。Step 3 之前要先问："用 **API**（grsai，质量好）还是 **Dreamina CLI**（快+中文稳）？"
+
+#### 方案一：API（grsai）
 
 Use the `scripts/generate.py` script. It reads config from `config.yaml`.
 
 **Cover image:**
+
 ```bash
 python scripts/generate.py cover \
-  --prompt "<cover prompt>" \
+  --prompt "<中文 cover prompt>" \
   --output "images/00-cover.png"
 ```
+
 Brand logo is automatically included if `brand.enabled` is true and the style requires it.
 
 **Section illustration:**
+
 ```bash
 python scripts/generate.py section \
   --prompt "<section prompt>" \
   --output "images/01-section-name.png"
 ```
+
 For emotional style (Workflow B), add `--ref-url` starting from the 2nd illustration:
+
 ```bash
 python scripts/generate.py section \
   --prompt "<section prompt>" \
@@ -150,11 +159,13 @@ python scripts/generate.py section \
 #### 方案二：Dreamina CLI（API不可用时的备选）
 
 检查 `dreamina` 是否可用：
+
 ```bash
 which dreamina   # 或 where dreamina (Windows)
 ```
 
 **Cover image (21:9):**
+
 ```bash
 dreamina text2image \
   --prompt="<cover prompt>" \
@@ -162,9 +173,11 @@ dreamina text2image \
   --resolution_type=2k \
   --poll=60
 ```
+
 返回 JSON 中 `result_json.images[0].image_url` 即为图片 URL，用 `curl -sL "<url>" -o "images/00-cover.png"` 下载保存。
 
 **Section illustration (1:1):**
+
 ```bash
 dreamina text2image \
   --prompt="<section prompt>" \
@@ -174,17 +187,20 @@ dreamina text2image \
 ```
 
 **批量生成技巧：**
+
 - 多个 section 可以并行提交（多个 `dreamina text2image` 同时跑），然后用 `dreamina query_result --submit_id=<id>` 逐个获取结果
 - 生成失败时：调整 prompt 重试一次，如果仍然失败跳过该 section 继续下一个
 
 ### Step 4: Insert Images into Article
 
 After all images are generated, insert them into the `.md` file:
+
 - Each illustration goes **right below its `##` heading**
 - Cover image is NOT inserted (it's used separately by the WeChat platform)
 - Use relative path: `![](images/<filename>.png)`
 
 Format:
+
 ```markdown
 ## Section Title
 
@@ -228,17 +244,18 @@ Image sizes:
 
 5维体系定义了 Type/Palette/Rendering/Font/Mood 五个维度。封面用全部5维，插图继承其中3维：
 
-| 维度 | 封面 | 插图 | 说明 |
-|------|------|------|------|
-| Type（构图类型） | ✅ | ❌ | 插图无大字排版 |
-| **Palette（色板）** | ✅ | ✅ **必须继承** | 同一套hex色值 |
-| **Rendering（渲染方式）** | ✅ | ✅ **必须继承** | painterly就全painterly，digital就全digital，film grain就全film grain |
-| Font（字体） | ✅ | ❌ | 插图无文字 |
-| **Mood（情绪对比度）** | ✅ | ✅ **必须继承** | subtle就全subtle，bold就全bold |
+| 维度                      | 封面 | 插图            | 说明                                                                 |
+| ------------------------- | ---- | --------------- | -------------------------------------------------------------------- |
+| Type（构图类型）          | ✅   | ❌              | 插图无大字排版                                                       |
+| **Palette（色板）**       | ✅   | ✅ **必须继承** | 同一套hex色值                                                        |
+| **Rendering（渲染方式）** | ✅   | ✅ **必须继承** | painterly就全painterly，digital就全digital，film grain就全film grain |
+| Font（字体）              | ✅   | ❌              | 插图无文字                                                           |
+| **Mood（情绪对比度）**    | ✅   | ✅ **必须继承** | subtle就全subtle，bold就全bold                                       |
 
 **执行方式：** 生成封面后，将封面prompt中的 Palette/Rendering/Mood 三个维度参数原样写入每张插图的prompt。不允许封面painterly+插图photography，或封面duotone+插图全彩。
 
 **具体例子：**
+
 - 封面选了 A 日系电影感（painterly/warm/subtle）→ 插图prompt必须包含 "soft watercolor wash textures, visible brush strokes" + "cream #FFFAF0, golden yellow #F6AD55" + "low contrast, muted desaturated"
 - 封面选了 G 王家卫式（digital/duotone/bold）→ 插图prompt必须包含 "clean precise edges, frosted glass effects" + "crimson #DC143C and navy #0D1B2A" + "high contrast, vivid saturated"
 - 封面选了 H 拍立得底栏（hand-drawn/warm/subtle）→ 插图prompt必须包含 "sketchy organic strokes, variable marker line weight" + "cream #FFFAF0, golden yellow #F6AD55" + "low contrast, muted warm tones"
@@ -280,8 +297,8 @@ Image sizes:
 **这是这个风格最关键的一组关键词——没有它们，模型会默认生成"老旧泛阴"的照片。** 每张图（封面 + 插图）的 prompt 开头都包含：
 
 ```
-Warm nostalgic 1990s photograph, bathed in golden hour sunlight 
-or warm tungsten indoor lighting, soft amber glow, 
+Warm nostalgic 1990s photograph, bathed in golden hour sunlight
+or warm tungsten indoor lighting, soft amber glow,
 gentle warm color cast, no harsh shadows,
 Kodak Gold / Fujifilm Superia film stock aesthetic,
 slight light leak on edges, soft halation around highlights,
@@ -289,6 +306,7 @@ NOT cold NOT gloomy NOT desaturated-blue NOT horror
 ```
 
 **正向关键词（必须用）：**
+
 - `golden hour sunlight streaming through window`
 - `warm tungsten lamp light`
 - `soft amber glow, honey-colored light`
@@ -300,6 +318,7 @@ NOT cold NOT gloomy NOT desaturated-blue NOT horror
 - `gentle vignette, faded yellowish edges`
 
 **反向关键词（禁止出现）：**
+
 - `cold, gloomy, eerie, horror, abandoned, decayed, decayed paint, peeling wall, dark room, dim, shadowy, harsh contrast, blue tint, desaturated, desaturated-blue, cold gray, overcast`
 
 ### 封面
@@ -308,7 +327,7 @@ NOT cold NOT gloomy NOT desaturated-blue NOT horror
 - 无人物或背影/侧影为主，留想象空间
 - **艺术大字排版设计**：文章标题是画面的视觉主角，占据中心50-70%区域，通过艺术手法与照片交融。**不是宋体小字，是Banner级大字**
 - 用户从12种文字排版风格（A-L）中选择，默认推荐 G（王家卫式字幕）— 但即使 G 王家卫，**底图也必须是暖调**，不是他电影里那种冷绿冷蓝
-- 12种风格：A日系电影感 / B复古杂志风 / C自然呼吸感 / D信笺与手写 / E光影重叠 / F极简新中式 / G王家卫式 / H拍立得底栏 / I唱片封面风 / J旧报纸头条 / K诗歌散排 / L古书扉页
+- 12种风格：A日系电影感 / B复古杂志风 / C自然呼吸感 / D信笺与手写 / E光影重叠 / F极简新中式 / G王家卫式 / H拍立得底栏 / I唱片封面风 / J旧报纸微头条 / K诗歌散排 / L古书扉页
 - Prompt 模板见 `references/style-guide.md` 中"12种封面文字排版风格"章节
 
 ### 场景插图（无 `##` 小标题的文章）
@@ -316,6 +335,7 @@ NOT cold NOT gloomy NOT desaturated-blue NOT horror
 情感文通常不加 `##` 小标题，需要 AI 阅读全文后选择 2-3 个关键场景生成插图。
 
 **选场景规则：**
+
 - 选画面感最强的段落，不选心理描写/议论段落
 - 场景之间有情绪递进：温暖→留白→余韵，或日常→转折→回望。**不要选"失去/冷清/空荡"场景作为主插图**——这种场景可以选，但要选**有夕阳光照进来**的空荡房间，不要选阴暗房间
 - 插图插入位置：紧接场景描写之后、情绪转折之前
@@ -328,14 +348,15 @@ NOT cold NOT gloomy NOT desaturated-blue NOT horror
 
 **色调指南（统一暖调，通过饱和度+明度区分情绪）：**
 
-| 情绪 | 色调关键词 | 色相范围 |
-|------|-----------|---------|
-| 温暖/回忆/日常 | `warm golden tones, Kodak Gold film, soft amber glow, faded yellowish edges, gentle vignette, dust motes in sunbeam` | 蜂蜜金 #F6AD55 / 奶油 #FFFAF0 / 暖米 #F5E6D3 |
-| 失去/空荡（仍暖） | `low saturation warm beige, faded honey tones, soft golden haze, very gentle vignette, no cold colors, warm light still present` | 沙米 #E8DCC4 / 暖灰 #C9B89C / 淡金 #D4A574 |
-| 克制/隐忍 | `soft warm diffused light, muted amber, no harsh shadows, quiet warm tones, golden hour lingering` | 暖白 #FFF4E6 / 浅金 #FFE5B4 / 米色 #F5DEB3 |
-| 夜晚室内（仍暖） | `warm tungsten lamp light, amber interior glow, cream walls, cozy living room, NO cold blue night` | 钨丝灯 #FFB347 / 暖琥珀 #DAA520 / 深米 #DEB887 |
+| 情绪              | 色调关键词                                                                                                                       | 色相范围                                       |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| 温暖/回忆/日常    | `warm golden tones, Kodak Gold film, soft amber glow, faded yellowish edges, gentle vignette, dust motes in sunbeam`             | 蜂蜜金 #F6AD55 / 奶油 #FFFAF0 / 暖米 #F5E6D3   |
+| 失去/空荡（仍暖） | `low saturation warm beige, faded honey tones, soft golden haze, very gentle vignette, no cold colors, warm light still present` | 沙米 #E8DCC4 / 暖灰 #C9B89C / 淡金 #D4A574     |
+| 克制/隐忍         | `soft warm diffused light, muted amber, no harsh shadows, quiet warm tones, golden hour lingering`                               | 暖白 #FFF4E6 / 浅金 #FFE5B4 / 米色 #F5DEB3     |
+| 夜晚室内（仍暖）  | `warm tungsten lamp light, amber interior glow, cream walls, cozy living room, NO cold blue night`                               | 钨丝灯 #FFB347 / 暖琥珀 #DAA520 / 深米 #DEB887 |
 
 **冷色禁用清单（任何场景都禁止出现）：**
+
 - 冷蓝灰 / blue-gray / cold tint / desaturated-blue
 - 月光冷感 / moonlight cold
 - 阴雨 / overcast / rainy day
@@ -346,11 +367,12 @@ NOT cold NOT gloomy NOT desaturated-blue NOT horror
 下面 4 个场景示范"如何用暖调表达不同情绪"，覆盖最常见的情感治愈/怀旧文章场景：
 
 **场景 1：童年客厅日常（最温暖）**
+
 ```
-Warm nostalgic 1990s family photograph, 
+Warm nostalgic 1990s family photograph,
 golden hour sunlight streaming through lace curtains into living room,
 dust motes floating in amber sunbeam,
-beige sofa, wooden coffee table with glass cups, 
+beige sofa, wooden coffee table with glass cups,
 old TV in background, warm cream walls,
 Kodak Gold 200 film stock, soft warm halation,
 gentle vignette, faded yellowish edges,
@@ -358,18 +380,20 @@ NOT cold NOT gloomy
 ```
 
 **场景 2：奶奶厨房做饭（人文烟火气）**
+
 ```
 Warm nostalgic 1990s kitchen photograph,
 warm tungsten overhead lamp light,
 grandmother cooking at stove, steam rising in warm light,
 tiled countertop, hanging utensils, ceramic bowls,
-amber glow on wooden cabinets, 
+amber glow on wooden cabinets,
 Fujifilm Superia 400 film stock,
 cozy domestic atmosphere, no harsh shadows,
 NOT cold NOT dim
 ```
 
 **场景 3：放学回家路上夕阳（青春回忆）**
+
 ```
 Warm nostalgic 1990s photograph of school girl walking home at sunset,
 golden hour backlight, long warm shadow on asphalt road,
@@ -381,6 +405,7 @@ nostalgic coming-of-age mood, gentle vignette
 ```
 
 **场景 4：空荡房间留白（仍暖不冷）**
+
 ```
 Warm nostalgic 1990s photograph of empty living room at dusk,
 late afternoon golden hour light coming through window,
@@ -399,6 +424,7 @@ quiet contemplative mood, warm NOT melancholic-cold
 ## Workflow C: 通用风格
 
 When user picks from extended catalog, use corresponding prompt templates from `references/style-templates.md`.
+
 - **风格一致性**：12种扩展风格的封面和插图模板已配对设计，但执行时必须确保插图prompt包含封面同款的 Palette + Rendering + Mood 参数。不允许封面painterly+插图digital等渲染断裂。
 
 ---
@@ -409,13 +435,13 @@ When user picks from extended catalog, use corresponding prompt templates from `
 
 ### 5 维体系（与现有体系对齐）
 
-| 维度 | 控制 | Banner 必选 | 插图继承 |
-|------|------|-----------|---------|
-| **Type** | 构图类型（hero/typography/scene/...） | ✅ | ❌ |
-| **Palette** | 色板（hex 值） | ✅ | ✅ **必须继承** |
-| **Rendering** | 渲染方式 | ✅ | ✅ **必须继承** |
-| **Font** | 字体（clean/handwritten/serif/display） | ✅ | ❌（插图无文字） |
-| **Mood** | 情绪对比度（subtle/balanced/bold） | ✅ | ✅ **必须继承** |
+| 维度          | 控制                                    | Banner 必选 | 插图继承         |
+| ------------- | --------------------------------------- | ----------- | ---------------- |
+| **Type**      | 构图类型（hero/typography/scene/...）   | ✅          | ❌               |
+| **Palette**   | 色板（hex 值）                          | ✅          | ✅ **必须继承**  |
+| **Rendering** | 渲染方式                                | ✅          | ✅ **必须继承**  |
+| **Font**      | 字体（clean/handwritten/serif/display） | ✅          | ❌（插图无文字） |
+| **Mood**      | 情绪对比度（subtle/balanced/bold）      | ✅          | ✅ **必须继承**  |
 
 ### Banner 设计规则（参考 baoyu-cover-image）
 
@@ -424,25 +450,25 @@ When user picks from extended catalog, use corresponding prompt templates from `
 1. **文字占画面 50-70% 视觉权重**。不是角落小字，是 Banner 级大字
 2. **字体 × 风格匹配表**（参考 baoyu font.md）——**每张 banner 的 prompt 必须显式写 `Font Application` 段**，否则模型会渲染成默认宋体：
 
-| Font | 视觉特征 | 适配场景 |
-|------|---------|---------|
-| `clean` | 几何无衬线，锐利均匀 | 科技/职业/家居/现代都市/测评 |
-| `handwritten` | 手写/毛笔，有机变化 | 美食/萌宠/情感治愈/旅行随笔 |
-| `serif` | 经典衬线，编辑感强 | 怀旧/时尚杂志/家居/品牌 |
-| `display` | 粗体装饰，强表达 | 美食招牌/ACG标题/运动爆发/二次元 |
+| Font          | 视觉特征             | 适配场景                         |
+| ------------- | -------------------- | -------------------------------- |
+| `clean`       | 几何无衬线，锐利均匀 | 科技/职业/家居/现代都市/测评     |
+| `handwritten` | 手写/毛笔，有机变化  | 美食/萌宠/情感治愈/旅行随笔      |
+| `serif`       | 经典衬线，编辑感强   | 怀旧/时尚杂志/家居/品牌          |
+| `display`     | 粗体装饰，强表达     | 美食招牌/ACG标题/运动爆发/二次元 |
 
 3. **花字技法（参考 baoyu typography.md）**——Banner 至少用一种：
 
-| 技法 | 视觉 | 适用 |
-|------|------|------|
-| `gradient` | 渐变色填充 | 美食、时尚、ACG、潮酷 |
-| `stroke-text` | 描边文字 | 旅行、街头、运动、户外 |
-| `shadow-3d` | 立体投影 | 美食招牌、ACG、3D 风格 |
-| `highlight` | 高亮笔 | 测评卡、对比、关键数据 |
-| `neon` | 霓虹辉光 | 旅行夜景、ACG、赛博感 |
-| `handwritten` | 手写效果 | 美食、萌宠、情感 |
-| `bubble` | 圆润气泡 | 萌宠、ACG、亲子 |
-| `brush` | 毛笔质感 | 美食、旅行、中式家居 |
+| 技法          | 视觉       | 适用                   |
+| ------------- | ---------- | ---------------------- |
+| `gradient`    | 渐变色填充 | 美食、时尚、ACG、潮酷  |
+| `stroke-text` | 描边文字   | 旅行、街头、运动、户外 |
+| `shadow-3d`   | 立体投影   | 美食招牌、ACG、3D 风格 |
+| `highlight`   | 高亮笔     | 测评卡、对比、关键数据 |
+| `neon`        | 霓虹辉光   | 旅行夜景、ACG、赛博感  |
+| `handwritten` | 手写效果   | 美食、萌宠、情感       |
+| `bubble`      | 圆润气泡   | 萌宠、ACG、亲子        |
+| `brush`       | 毛笔质感   | 美食、旅行、中式家居   |
 
 4. **封面构图三件套**：
    - **视觉锚点**：主元素居中或偏左 1/3
@@ -469,6 +495,7 @@ mood: subtle/balanced/bold
 ```
 
 **反例（不允许）：**
+
 - Banner 写实摄影 + 插图手绘插画
 - Banner 高对比 bold + 插图低饱和 subtle
 - Banner 暖色调 + 插图冷色调（除非情绪递进需要，且显式声明）
@@ -485,13 +512,13 @@ mood: subtle/balanced/bold
 
 ### 5 维默认
 
-| 维度 | 默认值 | 说明 |
-|------|--------|------|
-| Type | `hero` | 主图放大特写 |
-| Palette | `warm` (#FFECD2 底, #ED8936 橙, #C05621 赤陶, #F6AD55 金, #A0522D 焦糖) | 暖色食物色调 |
-| Rendering | `photography` | 写实美食摄影，浅景深 |
-| Font | `handwritten` | 手写 + 毛笔感，符合食物温度 |
-| Mood | `bold` | 食欲感需要高饱和高对比 |
+| 维度      | 默认值                                                                  | 说明                        |
+| --------- | ----------------------------------------------------------------------- | --------------------------- |
+| Type      | `hero`                                                                  | 主图放大特写                |
+| Palette   | `warm` (#FFECD2 底, #ED8936 橙, #C05621 赤陶, #F6AD55 金, #A0522D 焦糖) | 暖色食物色调                |
+| Rendering | `photography`                                                           | 写实美食摄影，浅景深        |
+| Font      | `handwritten`                                                           | 手写 + 毛笔感，符合食物温度 |
+| Mood      | `bold`                                                                  | 食欲感需要高饱和高对比      |
 
 ### Banner 设计要点
 
@@ -500,10 +527,10 @@ mood: subtle/balanced/bold
 - **关键元素**：蒸汽、拉丝、汤汁、油光、食材纹理——视觉化"温度"和"鲜"
 - **示例 prompt 片段**：
   ```
-  Hero food photography, 45° angle close-up of steaming [dish], 
+  Hero food photography, 45° angle close-up of steaming [dish],
   shallow depth of field, warm golden lighting (#F6AD55, #ED8936),
   visible steam rising, glossy sauce highlights, wooden table background,
-  Chinese handwritten brush calligraphy title "【主标题】" with 
+  Chinese handwritten brush calligraphy title "【主标题】" with
   orange-to-gold gradient fill (#ED8936 → #F6AD55), 220px height,
   text bottom-right with subtle drop shadow, rustic cozy atmosphere
   ```
@@ -511,16 +538,18 @@ mood: subtle/balanced/bold
 ### 插图（1:1）
 
 继承 palette + rendering + mood，构图变化：
+
 - 食材平铺（flat lay）俯拍
 - 单品特写（macro shot）焦点在食物表面纹理
 - 制作过程（手部入镜）半虚化背景
 - 成品的桌面全景（lifestyle shot）
 
 **示例 prompt 片段**：
+
 ```
 Consistent with cover (warm palette, food photography, bold mood):
-Overhead flat-lay of [ingredients] on parchment paper, 
-natural daylight, soft shadows, 50mm lens, 
+Overhead flat-lay of [ingredients] on parchment paper,
+natural daylight, soft shadows, 50mm lens,
 warm wood grain background, [accent color: #C05621] props
 ```
 
@@ -534,13 +563,13 @@ warm wood grain background, [accent color: #C05621] props
 
 ### 5 维默认
 
-| 维度 | 默认值 | 说明 |
-|------|--------|------|
-| Type | `hero` | 城市地标或风景大场景 |
-| Palette | `cinematic` (#1E3A5F 深蓝, #F4A261 暖橙, #E76F51 珊瑚, #2A9D8F 蓝绿) | 电影感城市色调 |
-| Rendering | `photography` | 现代写实摄影（与怀旧照片的"老"区分） |
-| Font | `display` | 粗体装饰，做"目的地"标题 |
-| Mood | `balanced` | 平衡写实和戏剧感 |
+| 维度      | 默认值                                                               | 说明                                 |
+| --------- | -------------------------------------------------------------------- | ------------------------------------ |
+| Type      | `hero`                                                               | 城市地标或风景大场景                 |
+| Palette   | `cinematic` (#1E3A5F 深蓝, #F4A261 暖橙, #E76F51 珊瑚, #2A9D8F 蓝绿) | 电影感城市色调                       |
+| Rendering | `photography`                                                        | 现代写实摄影（与怀旧照片的"老"区分） |
+| Font      | `display`                                                            | 粗体装饰，做"目的地"标题             |
+| Mood      | `balanced`                                                           | 平衡写实和戏剧感                     |
 
 ### Banner 设计要点
 
@@ -550,10 +579,10 @@ warm wood grain background, [accent color: #C05621] props
 - **季节元素**：樱花/红叶/雪/雨/雾——一个就够了
 - **示例 prompt 片段**：
   ```
-  Hero landscape photography, [city] skyline at blue hour, 
+  Hero landscape photography, [city] skyline at blue hour,
   cinematic color grading, deep navy sky (#1E3A5F) with coral sunset (#E76F51),
   iconic [landmark] centered, leading lines of [street/river],
-  bold display typography title "【城市名】" 280px white stroke-text 
+  bold display typography title "【城市名】" 280px white stroke-text
   with navy outline (#0D1B2A), positioned top-center,
   clean sans-serif subtitle "【副标题】" 60% size below,
   subtle film grain, balanced contrast
@@ -562,6 +591,7 @@ warm wood grain background, [accent color: #C05621] props
 ### 插图（1:1）
 
 继承 palette + rendering + mood，构图变化：
+
 - 街角特写（人文细节）
 - 食物/咖啡（场景里的）
 - 当地人物背影（不露脸）
@@ -577,13 +607,13 @@ warm wood grain background, [accent color: #C05621] props
 
 ### 5 维默认
 
-| 维度 | 默认值 | 说明 |
-|------|--------|------|
-| Type | `character` | 角色为主（写实宠物 / Q版拟人） |
-| Palette | `pastel` (#FFE5E5 粉, #E5F5FF 蓝, #FFF4D6 黄, #D4F4DD 绿, #B5E5CF 薄荷) | 马卡龙/奶油色 |
-| Rendering | `painterly`（写实萌宠） / `flat-vector`（Q版） | 二选一 |
-| Font | `display` | 圆润装饰字体 |
-| Mood | `balanced` | 暖但不刺眼 |
+| 维度      | 默认值                                                                  | 说明                           |
+| --------- | ----------------------------------------------------------------------- | ------------------------------ |
+| Type      | `character`                                                             | 角色为主（写实宠物 / Q版拟人） |
+| Palette   | `pastel` (#FFE5E5 粉, #E5F5FF 蓝, #FFF4D6 黄, #D4F4DD 绿, #B5E5CF 薄荷) | 马卡龙/奶油色                  |
+| Rendering | `painterly`（写实萌宠） / `flat-vector`（Q版）                          | 二选一                         |
+| Font      | `display`                                                               | 圆润装饰字体                   |
+| Mood      | `balanced`                                                              | 暖但不刺眼                     |
 
 ### Banner 设计要点
 
@@ -596,7 +626,7 @@ warm wood grain background, [accent color: #C05621] props
   pastel color palette (#FFE5E5 cream pink, #E5F5FF baby blue),
   flat-vector rendering, soft rounded shapes, no outlines,
   centered composition, 40% breathing room,
-  bubble-style display typography title "【主标题】" 240px 
+  bubble-style display typography title "【主标题】" 240px
   with cream fill and coral stroke (#E8655A),
   gentle smile expression, storybook illustration style
   ```
@@ -604,6 +634,7 @@ warm wood grain background, [accent color: #C05621] props
 ### 插图（1:1）
 
 继承 palette + rendering + mood：
+
 - 不同动作/姿态（同角色）→ 必须传 `--ref-url` 保持角色一致性
 - 不同场景（家、户外、医院、节日）
 - 对话气泡（漫画式分镜）
@@ -618,13 +649,13 @@ warm wood grain background, [accent color: #C05621] props
 
 ### 5 维默认
 
-| 维度 | 默认值 | 说明 |
-|------|--------|------|
-| Type | `hero` | 房间全景或单品陈设 |
-| Palette | `earth` (#F5F0E8 米白, #D4B896 沙色, #8B7355 木色, #2F4F4F 深绿, #C19A6B 焦糖) | 自然/木质/大地色 |
-| Rendering | `photography` | 室内写实摄影，柔光 |
-| Font | `serif` | 衬线字体，编辑感强 |
-| Mood | `subtle` | 低饱和，安静感 |
+| 维度      | 默认值                                                                         | 说明               |
+| --------- | ------------------------------------------------------------------------------ | ------------------ |
+| Type      | `hero`                                                                         | 房间全景或单品陈设 |
+| Palette   | `earth` (#F5F0E8 米白, #D4B896 沙色, #8B7355 木色, #2F4F4F 深绿, #C19A6B 焦糖) | 自然/木质/大地色   |
+| Rendering | `photography`                                                                  | 室内写实摄影，柔光 |
+| Font      | `serif`                                                                        | 衬线字体，编辑感强 |
+| Mood      | `subtle`                                                                       | 低饱和，安静感     |
 
 ### Banner 设计要点
 
@@ -635,16 +666,17 @@ warm wood grain background, [accent color: #C05621] props
   ```
   Interior design photography, [style: MUJI/Nordic/Japanese] living room,
   45-degree angle, soft natural window light from upper right,
-  earth palette (#F5F0E8 cream walls, #D4B896 wooden floor, 
+  earth palette (#F5F0E8 cream walls, #D4B896 wooden floor,
   #8B7355 walnut furniture), shallow depth of field,
   serif typography title "【主标题】" 200px deep forest green (#2F4F4F),
-  positioned upper-left, plenty of negative space, 
+  positioned upper-left, plenty of negative space,
   minimalist composition, subtle contrast, lifestyle magazine aesthetic
   ```
 
 ### 插图（1:1）
 
 继承 palette + rendering + mood：
+
 - 单品特写（家具、器皿、绿植）
 - 局部细节（窗帘褶皱、木纹、陶土质感）
 - 平面俯拍（flat lay）
@@ -660,13 +692,13 @@ warm wood grain background, [accent color: #C05621] props
 
 ### 5 维默认
 
-| 维度 | 默认值 | 说明 |
-|------|--------|------|
-| Type | `hero` | 全身或半身人物 |
-| Palette | `elegant` (#FAFAFA 白, #1A1A1A 黑, #C9A96E 金, #8B4513 棕, #D4A09A 玫瑰) | 高级简约 |
-| Rendering | `photography` | 时尚杂志摄影 |
-| Font | `serif`（高端） / `display`（街头潮流） | 二选一 |
-| Mood | `bold` | 高对比，强视觉 |
+| 维度      | 默认值                                                                   | 说明           |
+| --------- | ------------------------------------------------------------------------ | -------------- |
+| Type      | `hero`                                                                   | 全身或半身人物 |
+| Palette   | `elegant` (#FAFAFA 白, #1A1A1A 黑, #C9A96E 金, #8B4513 棕, #D4A09A 玫瑰) | 高级简约       |
+| Rendering | `photography`                                                            | 时尚杂志摄影   |
+| Font      | `serif`（高端） / `display`（街头潮流）                                  | 二选一         |
+| Mood      | `bold`                                                                   | 高对比，强视觉 |
 
 ### Banner 设计要点
 
@@ -676,18 +708,19 @@ warm wood grain background, [accent color: #C05621] props
 - **示例 prompt 片段**：
   ```
   High-fashion editorial photography, full-body portrait of [subject description],
-  elegant palette (#FAFAFA ivory background, #1A1A1A black accents, 
+  elegant palette (#FAFAFA ivory background, #1A1A1A black accents,
   #C9A96E gold jewelry), studio lighting with single key light from upper left,
   magazine cover composition, subject offset to right third,
-  bold serif display typography title "【主标题】" 260px 
+  bold serif display typography title "【主标题】" 260px
   with gold gradient fill (#C9A96E → #F4E4BC),
-  positioned left side, sharp focus, bold contrast, 
+  positioned left side, sharp focus, bold contrast,
   fashion week aesthetic
   ```
 
 ### 插图（1:1）
 
 继承 palette + rendering + mood，**人物必须传 `--ref-url` 保持一致性**：
+
 - 妆容步骤分解（before / after / step 1-3）
 - 单品陈设（包、鞋、配饰平铺）
 - 街拍/生活场景
@@ -703,13 +736,13 @@ warm wood grain background, [accent color: #C05621] props
 
 ### 5 维默认
 
-| 维度 | 默认值 | 说明 |
-|------|--------|------|
-| Type | `character` | 角色为主 |
-| Palette | `vivid` (#FF6B9D 樱粉, #6BCB77 草绿, #4D96FF 群青, #FFD93D 金, #C780FA 紫) | 高饱和动漫色 |
-| Rendering | `flat-vector` | 赛璐璐/原神风（手绘赛璐璐上色） |
-| Font | `display` | 粗体装饰，漫画/标题感 |
-| Mood | `bold` | 高饱和高对比 |
+| 维度      | 默认值                                                                     | 说明                            |
+| --------- | -------------------------------------------------------------------------- | ------------------------------- |
+| Type      | `character`                                                                | 角色为主                        |
+| Palette   | `vivid` (#FF6B9D 樱粉, #6BCB77 草绿, #4D96FF 群青, #FFD93D 金, #C780FA 紫) | 高饱和动漫色                    |
+| Rendering | `flat-vector`                                                              | 赛璐璐/原神风（手绘赛璐璐上色） |
+| Font      | `display`                                                                  | 粗体装饰，漫画/标题感           |
+| Mood      | `bold`                                                                     | 高饱和高对比                    |
 
 ### Banner 设计要点
 
@@ -723,15 +756,16 @@ warm wood grain background, [accent color: #C05621] props
   flat-vector rendering with hard cel-shading and minimal gradients,
   centered character composition with magical particle effects,
   40% breathing space upper area,
-  bold display typography title "【主标题】" 280px 
+  bold display typography title "【主标题】" 280px
   with 3D shadow extrusion (front color #FFD93D, shadow #1A1A1A),
-  positioned top, anime key visual style, dynamic pose, 
+  positioned top, anime key visual style, dynamic pose,
   high contrast, Genshin Impact aesthetic
   ```
 
 ### 插图（1:1）
 
 继承 palette + rendering + mood，**角色必须传 `--ref-url`**：
+
 - 不同动作/表情
 - 战斗/技能释放场面
 - 角色与场景互动
@@ -747,13 +781,13 @@ warm wood grain background, [accent color: #C05621] props
 
 ### 5 维默认
 
-| 维度 | 默认值 | 说明 |
-|------|--------|------|
-| Type | `infographic` | 信息结构主导（不是插图） |
-| Palette | `mono`（黑白灰） / `macaron`（彩卡） | 二选一 |
-| Rendering | `flat-vector` | 矢量/几何分块 |
-| Font | `clean` | 几何无衬线，最强可读性 |
-| Mood | `balanced` | 数据需要清晰可读，不抢戏 |
+| 维度      | 默认值                               | 说明                     |
+| --------- | ------------------------------------ | ------------------------ |
+| Type      | `infographic`                        | 信息结构主导（不是插图） |
+| Palette   | `mono`（黑白灰） / `macaron`（彩卡） | 二选一                   |
+| Rendering | `flat-vector`                        | 矢量/几何分块            |
+| Font      | `clean`                              | 几何无衬线，最强可读性   |
+| Mood      | `balanced`                           | 数据需要清晰可读，不抢戏 |
 
 ### Banner 设计要点
 
@@ -763,7 +797,7 @@ warm wood grain background, [accent color: #C05621] props
 - **示例 prompt 片段**：
   ```
   Modern infographic layout, product comparison visual,
-  mono palette with accent (#FAFAFA background, #1A1A1A black, 
+  mono palette with accent (#FAFAFA background, #1A1A1A black,
   #E8655A coral accent for highlights),
   flat-vector rendering, geometric grid system,
   upper area: bold clean sans-serif title "【主标题】" 240px black,
@@ -775,6 +809,7 @@ warm wood grain background, [accent color: #C05621] props
 ### 插图（1:1）
 
 继承 palette + rendering + mood：
+
 - **测评卡**：单品评分（5 维雷达图、星级、价格、推荐指数）
 - **对比图**：2-4 个产品 A/B 横评
 - **流程图**：从购买到使用的步骤
@@ -793,13 +828,13 @@ warm wood grain background, [accent color: #C05621] props
 
 ### 5 维默认
 
-| 维度 | 默认值 | 说明 |
-|------|--------|------|
-| Type | `hero` | 人物动态为主 |
-| Palette | `vivid` (#FF4500 橙红, #1E1E1E 黑, #00C9A7 青绿, #FFD700 金, #2C3E50 深蓝) | 力量感强对比 |
-| Rendering | `photography` | 运动摄影（高速快门凝固动作） |
-| Font | `display` | 粗体爆发感 |
-| Mood | `bold` | 高对比，高能量 |
+| 维度      | 默认值                                                                     | 说明                         |
+| --------- | -------------------------------------------------------------------------- | ---------------------------- |
+| Type      | `hero`                                                                     | 人物动态为主                 |
+| Palette   | `vivid` (#FF4500 橙红, #1E1E1E 黑, #00C9A7 青绿, #FFD700 金, #2C3E50 深蓝) | 力量感强对比                 |
+| Rendering | `photography`                                                              | 运动摄影（高速快门凝固动作） |
+| Font      | `display`                                                                  | 粗体爆发感                   |
+| Mood      | `bold`                                                                     | 高对比，高能量               |
 
 ### Banner 设计要点
 
@@ -808,20 +843,21 @@ warm wood grain background, [accent color: #C05621] props
 - **关键元素**：汗水、肌肉线条、运动模糊、装备特写——传递"力量"
 - **示例 prompt 片段**：
   ```
-  Sports action photography, [sport: running/weightlifting/yoga] athlete 
+  Sports action photography, [sport: running/weightlifting/yoga] athlete
   in dynamic motion, frozen mid-action with high shutter speed (1/1000s),
-  vivid palette (#FF4500 energy orange, #1E1E1E charcoal, 
+  vivid palette (#FF4500 energy orange, #1E1E1E charcoal,
   #00C9A7 vitality teal), dramatic side lighting,
   diagonal composition with strong leading lines,
-  bold display typography title "【主标题】" 260px 
+  bold display typography title "【主标题】" 260px
   white with orange stroke (#FF4500 4px), positioned top-left,
-  motion blur on limbs, sweat droplet details, bold contrast, 
+  motion blur on limbs, sweat droplet details, bold contrast,
   Nike ad campaign aesthetic
   ```
 
 ### 插图（1:1）
 
 继承 palette + rendering + mood：
+
 - **动作分解**：连续动作序列（4 宫格分解图）
 - **装备特写**：球鞋、运动服、器材
 - **对比图**：训练前/后
@@ -837,6 +873,7 @@ warm wood grain background, [accent color: #C05621] props
 适合短平快的文章、**每句一图**的批量配图需求（公众号内文、视频脚本、PPT 配图、新闻合集、卡片卡片集等）。**不是 PPT/文字海报——重点是"人物+场景"的手绘草图，每张图是一个有画面感的瞬间**。
 
 **核心特点**：
+
 - **每句一图，不限制数量**（100+ 句也要全跑）
 - **必须有"人物 + 场景表现"**（不是文字大字海报，不是抽象装饰）
 - 风格：彩色手绘草图（colored pencil / hand-drawn sketch）—— 可见笔触、有墨水轮廓、人物表情和动作清晰
@@ -847,7 +884,7 @@ warm wood grain background, [accent color: #C05621] props
 Read the target `.md` file. Then:
 
 1. 去掉图片行 `![](...)`
-2. 去掉空行和 markdown 格式标记（**、#、- 等等）
+2. 去掉空行和 markdown 格式标记（\*\*、#、- 等等）
 3. 按句号/问号/感叹号/换行拆分：`re.split(r'[。！？\n]+', text)`
 4. 过滤短于 3 字的片段
 5. 超过 50 字的句子**智能截断**（到上一个逗号，否则直接截断加省略号）—— **不截断优先**：长句可分两图，第一句完结，第二句接续
@@ -858,16 +895,17 @@ Read the target `.md` file. Then:
 
 快文配图**不是必须竖屏**——用户可能想出横屏给视频号横屏/小红书横屏/公众号封面/朋友圈/微博头图。**必须问用户比例**，不要默认 9:16。
 
-| 选项 | 比例 | 描述 |
-|------|------|------|
-| 📱 **9:16 竖屏** | `9:16` | 竖版——抖音、快手、视频号、朋友圈、小红书、微博头条 |
-| 🖥️ **16:9 横屏** | `16:9` | 横版——B站、YouTube、横屏视频号、电脑端展示 |
-| ⬜ **1:1 方形** | `1:1` | 正方形——公众号次条、小红书贴纸、微信图片消息 |
-| 🎬 **21:9 宽幅 banner** | `21:9` | 超宽 banner——公众号头条封面、网页 banner |
-| 📷 **4:3 经典** | `4:3` | 经典 4:3——演示文稿、传统相机比例 |
-| 📖 **3:4 杂志竖版** | `3:4` | 杂志风竖版——小红书贴纸长图、杂志内文 |
+| 选项                    | 比例   | 描述                                                 |
+| ----------------------- | ------ | ---------------------------------------------------- |
+| 📱 **9:16 竖屏**        | `9:16` | 竖版——抖音、快手、视频号、朋友圈、小红书、微博微头条 |
+| 🖥️ **16:9 横屏**        | `16:9` | 横版——B站、YouTube、横屏视频号、电脑端展示           |
+| ⬜ **1:1 方形**         | `1:1`  | 正方形——公众号次条、小红书贴纸、微信图片消息         |
+| 🎬 **21:9 宽幅 banner** | `21:9` | 超宽 banner——公众号封面、网页 banner                 |
+| 📷 **4:3 经典**         | `4:3`  | 经典 4:3——演示文稿、传统相机比例                     |
+| 📖 **3:4 杂志竖版**     | `3:4`  | 杂志风竖版——小红书贴纸长图、杂志内文                 |
 
 **判断用户已暗示的比例**：
+
 - 用户说"竖屏"/"抖音/快手/视频号/朋友圈" → 默认 9:16
 - 用户说"横屏"/"B 站/YouTube" → 默认 16:9
 - 用户说"封面/banner" → 默认 21:9
@@ -879,21 +917,22 @@ Read the target `.md` file. Then:
 
 Show 6 个手绘草图风格（from `references/quick-styles.md`）：
 
-| # | 风格 | 一句话描述 |
-|---|------|-----------|
-| 1 | 🎨 彩色铅笔草图 | baoyu sketch-notes 风。可见笔触、墨水轮廓、macaron 色 |
-| 2 | 🖋️ 钢笔淡彩 | 钢笔线条 + 淡彩水洗、像笔记本插画 |
-| 3 | 🖍️ 蜡笔速写 | 蜡笔质感、温暖厚重、童书插画感 |
-| 4 | 📸 漫画分镜 | 日式漫画分镜式、人物表情夸张、动感强 |
-| 5 | 🌊 水墨淡彩 | 水墨淡彩、清雅留白、东方美学 |
-| 6 | 📓 速写本+便签 | 像打开的速写本、有便签、印章装饰 |
+| #   | 风格            | 一句话描述                                            |
+| --- | --------------- | ----------------------------------------------------- |
+| 1   | 🎨 彩色铅笔草图 | baoyu sketch-notes 风。可见笔触、墨水轮廓、macaron 色 |
+| 2   | 🖋️ 钢笔淡彩     | 钢笔线条 + 淡彩水洗、像笔记本插画                     |
+| 3   | 🖍️ 蜡笔速写     | 蜡笔质感、温暖厚重、童书插画感                        |
+| 4   | 📸 漫画分镜     | 日式漫画分镜式、人物表情夸张、动感强                  |
+| 5   | 🌊 水墨淡彩     | 水墨淡彩、清雅留白、东方美学                          |
+| 6   | 📓 速写本+便签  | 像打开的速写本、有便签、印章装饰                      |
 
 Default: 1 (彩色铅笔草图) for 一般快文.
 
 **关键渲染提示词**（每张图必加）：
+
 ```
-Hand-drawn illustration, visible brush strokes, ink outline, 
-soft watercolor wash, colored pencil texture, macaron palette, 
+Hand-drawn illustration, visible brush strokes, ink outline,
+soft watercolor wash, colored pencil texture, macaron palette,
 NOT photorealistic, NOT 3D, NOT anime, NOT digital render
 ```
 
@@ -907,6 +946,7 @@ dreamina user_credit   # 验证登录状态和余额
 ```
 
 如果未安装，告诉用户：
+
 ```
 请先安装 Dreamina CLI 并完成登录：
 1. 从官方渠道获取 dreamina CLI
@@ -919,27 +959,28 @@ dreamina user_credit   # 验证登录状态和余额
 **重要：每张图都是一个独立的"Q 版马克笔 + 大量手写体 + 背景小图标"组合**。每张图的 prompt 必须明确：
 
 ```
-Q版二头身卡通人物 with 大头小身体, exaggerated expression, sweat drops or 
-emotion symbols (sweat drops 汗珠 / exclamation marks 感叹号 / stars 星星). 
-黑色手绘线条 (marker / tablet brush feel), 低饱和度水彩或 marker 平涂上色, 
-块状色感. NOT photorealistic, NOT polished, NOT refined, NOT digital 
+Q版二头身卡通人物 with 大头小身体, exaggerated expression, sweat drops or
+emotion symbols (sweat drops 汗珠 / exclamation marks 感叹号 / stars 星星).
+黑色手绘线条 (marker / tablet brush feel), 低饱和度水彩或 marker 平涂上色,
+块状色感. NOT photorealistic, NOT polished, NOT refined, NOT digital
 gradient, NOT 3D.
 
 Subject: <Q版人物 + 动作 + 夸张表情 + 汗珠等情绪符号>. 关键元素：<1-3 个具体物件>.
 
-Chinese handwritten text occupying the left/right half of the frame, 
+Chinese handwritten text occupying the left/right half of the frame,
 GIANT bold handwritten style, sharp legible characters. 重点词高亮用不同颜色：
 - 技术名词（如 "AI"、"MoE"、"transformer"）用紫色 #8B5CF6
 - 情绪/难懂词（如 "不懂"、"难"、"卡住"）用橙色 #F97316
 - 数字/关键数据用红色 #EF4444
 - 否定/转折词（如 "但是"、"不是"、"没有"）用蓝色 #3B82F6
 
-Background: small hand-drawn icons (lightbulb 💡, question mark ❓, 
-moon 🌙, heart ❤️, brain 🧠, gear ⚙️, warning ⚠️) scattered around the 
+Background: small hand-drawn icons (lightbulb 💡, question mark ❓,
+moon 🌙, heart ❤️, brain 🧠, gear ⚙️, warning ⚠️) scattered around the
 frame, NOT overlapping with main text or character.
 ```
 
 **单次命令**（模型锁定 4.7）：
+
 ```bash
 dreamina text2image \
   --prompt="<每句独立的 Q版马克笔 prompt>" \
@@ -951,16 +992,17 @@ dreamina text2image \
 
 **批量策略**（按句子数量分批）：
 
-| 句子数量 | 策略 |
-|---------|------|
-| ≤10 句 | 全部并发（每 3 个一组），失败重试 1 次 |
-| 11-30 句 | 分 3-5 批并发，每批 3-5 个 |
-| 31-100 句 | 分 5-10 批，每批 3-5 个 |
-| 100+ 句 | **必分批**（每批 ≤5 个），不要一次性并发，会触发速率限制 |
+| 句子数量  | 策略                                                     |
+| --------- | -------------------------------------------------------- |
+| ≤10 句    | 全部并发（每 3 个一组），失败重试 1 次                   |
+| 11-30 句  | 分 3-5 批并发，每批 3-5 个                               |
+| 31-100 句 | 分 5-10 批，每批 3-5 个                                  |
+| 100+ 句   | **必分批**（每批 ≤5 个），不要一次性并发，会触发速率限制 |
 
 **每一批的并发数不超过 5 个**（dreamina 速率限制经验值）。
 
 **流程**：
+
 1. 遍历拆分好的句子列表
 2. 每句构建 prompt（含具体场景描述 + 人物 + 动作 + 环境）
 3. 启动 dreamina text2image（每批 3-5 个并发）
@@ -971,6 +1013,7 @@ dreamina text2image \
 ### Step 6: 输出
 
 Directory structure:
+
 ```
 article/<MMDD>/<ArticleName>/quick/
 ├── 01.png          (第1句的图，按用户选的比例)
@@ -981,6 +1024,7 @@ article/<MMDD>/<ArticleName>/quick/
 ```
 
 `sentences.txt` format:
+
 ```
 01|人类本质是上下文窗口只有7的大模型|✅
 02|幻觉比GPT还严重|✅
@@ -992,6 +1036,7 @@ article/<MMDD>/<ArticleName>/quick/
 ### 关键规则（**重要！**）
 
 ⚠️ **快文不是 PPT/文字海报**：
+
 - ❌ 文字占 1/3 区域
 - ❌ 大字标题 + 装饰元素
 - ❌ 抽象图案
@@ -1008,24 +1053,42 @@ article/<MMDD>/<ArticleName>/quick/
 - 每张图必须有"主体人物 + 动作 + 场景"三要素
 - **不强制文字渲染**——文字只是参考，模型爱渲不渲
 
-## Workflow N: 头条配图（彩色铅笔速写）
+## Workflow N: 微头条配图（马克笔 Q 版卡通）
 
-适合「每日AI快讯」类多新闻合集文章（如 `news/2606/0603.md`）。每条新闻生成 1 张 9:16 竖版**彩色铅笔速写**配图，参考 baoyu `sketch-notes` 风格 + 童书编辑插图感 + macaron 配色。
+适合「每日AI快讯」类多新闻合集文章（如 `news/2606/0603.md`）。每条新闻生成 1 张 9:16 竖版**马克笔 Q 版卡通**配图——**跟 Workflow D（快文配图）风格完全统一**。
 
-**风格定位：** colored pencil drawing（彩色铅笔画）—— 可见笔触、软蜡质感、多色叠加、暖系 macaron 配色。像一本写满彩色铅笔速写的笔记本。
+**风格定位：** 🖍️ 马克笔 Q 版卡通（marker-q-chibi）—— 二头身大头小身体 + 夸张表情 + 汗珠等情绪符号 + 黑色手绘马克笔/平板笔刷线条 + 低饱和度色块平涂 + 大量手写体文字 + 颜色高亮 + 手绘小图标散落。
+
+**默认提示词语言：中文。** scene_zh 字段是中文场景描述（grsai/dreamina 都支持中文 prompt）。
 
 **与 Workflow D（快文配图）的核心差异：**
-- 快文是"句子+装饰元素"（6 种预制风格）；头条是"6 区多文字 + 真实场景速写"（统一墨水淡彩风）
-- 快文每张独立；头条 10 张需保持"同一画家"笔触
-- 快文文字是新闻句子全文；头条文字 = 报头 + 分类 + 标题 + 3 个 bullet + footer（多层级）
-- 快文后端可选；头条**强制 Dreamina CLI**
+
+| 维度 | Workflow D（快文）      | Workflow N（微头条）          |
+| ---- | ----------------------- | ----------------------------- |
+| 后端 | Dreamina CLI（4.7）     | **用户选（API / CLI）**       |
+| 比例 | 用户选（16:9/9:16/1:1） | **9:16** 固定                |
+| 场景 | 文章每句配 1 张         | 每条新闻配 1 张               |
+| 风格 | 马克笔 Q 版             | 马克笔 Q 版（**完全同快文**） |
+| 文字 | 巨型手写体              | 巨型手写体 + 颜色高亮         |
 
 ### Step 1: 读取并解析新闻文件
 
 读取目标 `.md` 文件，提取：
+
 - **报头日期**：从文件名（如 `0603.md` → `6月3日`）或文档首行（如 "📰 每日AI快讯 | 6月3日"）解析
 - **分类标签**：解析 `【🔥 AI大模型】` 等分类段（保留供 chip 配色）
 - **新闻条目**：每条 `**{N}. {标题}** {描述}` 拆为 1 个 dict
+
+### Step 1.5: 选择后端（**必做！不要默认**）
+
+微头条生图**不默认走 API**。必须问用户：
+
+| 选项 | 优点 | 缺点 | 适合 |
+|------|------|------|------|
+| **🟢 grsai API**（推荐） | 出图质量好、Q 版稳定 | 中文字偶发乱码 | 重要封面/视觉优先 |
+| **🔵 Dreamina CLI** | 中文稳、文字渲染强 | Q 版效果略弱、模型只到 5.0 | 文字密集、需快速出 |
+
+用户默认选 API（质量优先），但**必须显式问**而不是直接选。
 
 ### Step 2: AI 提炼每条新闻（关键步骤）
 
@@ -1034,9 +1097,10 @@ article/<MMDD>/<ArticleName>/quick/
 1. **`short_title`（精简标题）**：≤ 22 字（推荐 18 字内），保留核心主体+事件
 2. **`bullets`（3 条关键事实）**：每条 ≤ 18 字，必须有数字/专有名词/关键动作
 3. **`category`（分类）**：从 4 个分类中选一：`AI大模型` / `AI Agent` / `AI工具` / `AI行业动态`
-4. **`scene_en`（英文场景描述）**：1-2 句英文，描述该新闻对应的**视觉化可画场景**（人物+动作+环境）
+4. **`scene_zh`（中文场景描述）**：1-2 句中文，描述该新闻对应的**视觉化可画场景**（人物+动作+环境）
 
 **Bullet 提炼规则：**
+
 - 保留：具体数字、专有名词、关键动作
 - 删除：修饰语、连接词、模糊表达
 - 3 条要有递进或并列关系，不能重复
@@ -1094,6 +1158,7 @@ dreamina text2image \
 每张图从 `dreamina query_result` 返回的 JSON 中提取 `result_json.images[0].image_url`，用 `urllib.request.urlretrieve` 下载。
 
 输出目录：
+
 ```
 article/0603/0603-AI快讯/
 └── news/
@@ -1105,6 +1170,7 @@ article/0603/0603-AI快讯/
 ```
 
 **manifest.txt 格式**（pipe-separated）：
+
 ```
 01|AI大模型|Anthropic冲史上最大 IPO|已提交上市招股书|冲击AI行业最大规模IPO|教皇预警2030年AGI|✅
 02|AI大模型|GPT-5.6 今晚杀到|OpenAI 即将发布 GPT-5.6|奥特曼亲自预告|基准测试刷新纪录|✅
@@ -1115,26 +1181,26 @@ article/0603/0603-AI快讯/
 
 ### Step 6: 不修改原 .md
 
-头条配图和快文配图一样，**不修改原文章**。封面/配图作为独立素材使用。
+微头条配图和快文配图一样，**不修改原文章**。封面/配图作为独立素材使用。
 
 ### 5 维默认值
 
-| 维度 | 默认值 | 说明 |
-|------|--------|------|
-| Type | `infographic-sketch` | 教育信息图速写 |
-| Palette | `macaron`（cream + 4 色 chip + 珊瑚红）| 有色彩的暖系 |
-| Rendering | `colored-pencil` | 彩色铅笔（可见笔触 + 多色叠加）|
-| Font | `handwritten` | 手写字体（带轻微 wobble）|
-| Mood | `balanced` | 平衡戏剧性与可读性 |
+| 维度      | 默认值                                  | 说明                            |
+| --------- | --------------------------------------- | ------------------------------- |
+| Type      | `infographic-sketch`                    | 教育信息图速写                  |
+| Palette   | `macaron`（cream + 4 色 chip + 珊瑚红） | 有色彩的暖系                    |
+| Rendering | `colored-pencil`                        | 彩色铅笔（可见笔触 + 多色叠加） |
+| Font      | `handwritten`                           | 手写字体（带轻微 wobble）       |
+| Mood      | `balanced`                              | 平衡戏剧性与可读性              |
 
 ### 4 个分类的配色
 
-| 分类 | 填充色 | 配色名 |
-|------|--------|--------|
-| `AI大模型` | `#A8D8EA` 蓝 | macaron blue |
-| `AI Agent` | `#D5C6E0` 紫 | lavender |
-| `AI工具` | `#B5E5CF` 绿 | mint |
-| `AI行业动态` | `#F8D5C4` 桃 | peach |
+| 分类         | 填充色       | 配色名       |
+| ------------ | ------------ | ------------ |
+| `AI大模型`   | `#A8D8EA` 蓝 | macaron blue |
+| `AI Agent`   | `#D5C6E0` 紫 | lavender     |
+| `AI工具`     | `#B5E5CF` 绿 | mint         |
+| `AI行业动态` | `#F8D5C4` 桃 | peach        |
 
 ### 文字渲染注意事项
 
@@ -1149,6 +1215,7 @@ article/0603/0603-AI快讯/
 ### 失败重试策略
 
 如果生成的图片文字乱码或风格跑偏：
+
 1. 第一次重试：强化 `EXTRABOLD` 字体描述 + 加大字号
 2. 第二次重试：去掉 chip 颜色描述对文字的影响
 3. 第三次重试：拆分长文字为 2 行
@@ -1156,7 +1223,7 @@ article/0603/0603-AI快讯/
 
 ### 触发关键词
 
-直接说"头条配图"/"新闻配图"/"资讯配图"/"AI快讯配图"也能触发本 Workflow。
+直接说"微头条配图"/"新闻配图"/"资讯配图"/"AI快讯配图"也能触发本 Workflow。
 
 ---
 
@@ -1166,27 +1233,27 @@ article/0603/0603-AI快讯/
 
 ### 5 维默认
 
-| 维度 | 默认值 |
-|------|--------|
-| **Type** | `illustration` 数字插画 |
-| **Palette** | 暖色低饱和：cream #F5E0C8 / peach pink #F2C6B5 / muted gold #E8B57A / dusty blue #8B9DC3 / lavender shadow #C9B8D4 |
-| **Rendering** | **数字插画 + 厚涂 painterly brush strokes + dry brush texture**（不是 watercolor 不是 ink wash 不是 photograph） |
-| **Font** | serif + handwritten（封面标题用细手写/serif，截图清晰不乱码） |
-| **Mood** | subtle，低对比，温暖中带安静 |
+| 维度          | 默认值                                                                                                             |
+| ------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **Type**      | `illustration` 数字插画                                                                                            |
+| **Palette**   | 暖色低饱和：cream #F5E0C8 / peach pink #F2C6B5 / muted gold #E8B57A / dusty blue #8B9DC3 / lavender shadow #C9B8D4 |
+| **Rendering** | **数字插画 + 厚涂 painterly brush strokes + dry brush texture**（不是 watercolor 不是 ink wash 不是 photograph）   |
+| **Font**      | serif + handwritten（封面标题用细手写/serif，截图清晰不乱码）                                                      |
+| **Mood**      | subtle，低对比，温暖中带安静                                                                                       |
 
 ### 必含正向关键词（每张图都要有）
 
 ```
-Digital painting, illustrated style, thick visible oil paint brush strokes, 
-dry brush texture, soft warm muted palette (cream, peach pink, soft gold, 
-dusty blue, lavender), low saturation, warm and cool color contrast, 
+Digital painting, illustrated style, thick visible oil paint brush strokes,
+dry brush texture, soft warm muted palette (cream, peach pink, soft gold,
+dusty blue, lavender), low saturation, warm and cool color contrast,
 contemplative solitary mood
 ```
 
 ### 必含反向关键词（**关键！这是避免跑偏的核心**）
 
 ```
-NOT watercolor, NOT ink wash, NOT wet on wet, NOT photograph, 
+NOT watercolor, NOT ink wash, NOT wet on wet, NOT photograph,
 NOT photorealistic, NOT anime, NOT 3D rendering, NOT line art
 ```
 
@@ -1204,30 +1271,30 @@ NOT photorealistic, NOT anime, NOT 3D rendering, NOT line art
 [场景描述...]
 
 # Font Application (CRITICAL — 来自 baoyu-cover-image)
-Use warm hand-lettered typography with organic brush strokes. Friendly, 
-personal feel. The title MUST be in artistic hand-drawn style with slightly 
-wobbly, organic strokes — NOT plain sans-serif, NOT Song-style typeface, 
-NOT uniform printed type. Each character must feel hand-painted with 
-visible brush variation (thick-thin contrast, slight ink bleed, 
-occasional dry-brush edges). The text style must harmonize with the 
+Use warm hand-lettered typography with organic brush strokes. Friendly,
+personal feel. The title MUST be in artistic hand-drawn style with slightly
+wobbly, organic strokes — NOT plain sans-serif, NOT Song-style typeface,
+NOT uniform printed type. Each character must feel hand-painted with
+visible brush variation (thick-thin contrast, slight ink bleed,
+occasional dry-brush edges). The text style must harmonize with the
 gouache/painterly rendering of the scene.
 
-Include the following Chinese text rendered clearly with sharp legible 
+Include the following Chinese text rendered clearly with sharp legible
 characters, no garbled strokes, no missing characters:
-- Large title at center-bottom: '【夜听】[标题]' (handwritten brush 
+- Large title at center-bottom: '【夜听】[标题]' (handwritten brush
   calligraphy, dark warm brown, 30-40% of image height)
-- Small subtitle at bottom right: '——木棉书笺 记' (smaller handwritten 
+- Small subtitle at bottom right: '——木棉书笺 记' (smaller handwritten
   brush style, subtle dark warm brown)
 ```
 
 ### 字体选择（baoyu 标准 4 种）
 
-| 风格 | 英文 keyword | 描述 | 适合 |
-|------|-------------|------|------|
-| 手写毛笔 | `handwritten` | warm hand-lettered with organic brush strokes, thick-thin contrast, slight ink bleed | 夜听 / 情感治愈 / 美食 / 萌宠 |
-| 衬线经典 | `serif` | elegant serif with refined letterforms, classic editorial character | 怀旧 / 时尚 / 家居 |
-| 极简无衬线 | `clean` | clean geometric sans-serif, modern minimal letterforms | 科技 / 测评 / 都市 |
-| 装饰粗体 | `display` | bold decorative display, heavy expressive headlines | ACG / 运动 / 招牌 |
+| 风格       | 英文 keyword  | 描述                                                                                 | 适合                          |
+| ---------- | ------------- | ------------------------------------------------------------------------------------ | ----------------------------- |
+| 手写毛笔   | `handwritten` | warm hand-lettered with organic brush strokes, thick-thin contrast, slight ink bleed | 夜听 / 情感治愈 / 美食 / 萌宠 |
+| 衬线经典   | `serif`       | elegant serif with refined letterforms, classic editorial character                  | 怀旧 / 时尚 / 家居            |
+| 极简无衬线 | `clean`       | clean geometric sans-serif, modern minimal letterforms                               | 科技 / 测评 / 都市            |
+| 装饰粗体   | `display`     | bold decorative display, heavy expressive headlines                                  | ACG / 运动 / 招牌             |
 
 ⚠️ **关键警告**：不在 prompt 里加 `Font:` / `Font Application` 段，grsai 会渲染成默认宋体。必须用 baoyu 的 `Use ... typography with ...` 句式写**具体视觉特征**（hand-drawn、wobbly、brush variation、ink bleed），模型才会按设计意图出字。
 
@@ -1237,25 +1304,25 @@ characters, no garbled strokes, no missing characters:
 
 ```
 # Font Application (CRITICAL)
-- handwritten: Use warm hand-lettered typography with organic brush 
-  strokes. Friendly, personal feel. Title MUST be in artistic hand-drawn 
-  style with slightly wobbly, organic strokes — NOT plain sans-serif, 
+- handwritten: Use warm hand-lettered typography with organic brush
+  strokes. Friendly, personal feel. Title MUST be in artistic hand-drawn
+  style with slightly wobbly, organic strokes — NOT plain sans-serif,
   NOT Song-style typeface.
-- serif: Use elegant serif typography with refined letterforms. 
+- serif: Use elegant serif typography with refined letterforms.
   Classic, editorial character.
-- clean: Use clean geometric sans-serif typography. Modern, minimal 
+- clean: Use clean geometric sans-serif typography. Modern, minimal
   letterforms.
-- display: Use bold decorative display typography. Heavy, expressive 
+- display: Use bold decorative display typography. Heavy, expressive
   headlines.
 ```
 
 ### 1:1 场景插图模板
 
 ```
-Digital painting, illustrated style, thick visible oil paint brush strokes, 
-dry brush texture. NOT watercolor, NOT ink wash, NOT photograph. 
-[具体场景描述]. Soft warm muted palette (cream, peach pink, soft gold, 
-dusty blue, lavender). Low saturation, warm and cool color contrast, 
+Digital painting, illustrated style, thick visible oil paint brush strokes,
+dry brush texture. NOT watercolor, NOT ink wash, NOT photograph.
+[具体场景描述]. Soft warm muted palette (cream, peach pink, soft gold,
+dusty blue, lavender). Low saturation, warm and cool color contrast,
 contemplative mood. 1:1 square format.
 ```
 
@@ -1278,9 +1345,215 @@ contemplative mood. 1:1 square format.
 
 ---
 
+## Workflow P: 1:1 音频封面（喜马拉雅/播客/单集/专辑）
+
+适合音频内容（播客、电台、专辑、单集）的**1:1 方形封面图**。常见用途：
+
+- 喜马拉雅专辑封面（1000x1000）
+- 喜马拉雅单集封面
+- Apple Podcasts 专辑封面（1:1，最大 3000x3000）
+- 小宇宙、网易云音乐等播客平台
+- 公众号音频栏目头图
+
+**与 Workflow O（数字插画/Painterly）的关系：**
+
+- 风格一致（painterly / 厚涂笔触 / 暖色低饱和）
+- **区别是比例 1:1**（不是 21:9 banner）
+- **包含品牌文字 + 大字标题**（Ximalaya 等平台要求标题清晰可见）
+- 适用于日听朝露 / 夜听寄语 等中文电台散文诗类型
+
+### 5 维默认
+
+| 维度          | 默认值                                                                                                              |
+| ------------- | ------------------------------------------------------------------------------------------------------------------- |
+| **Type**      | `cover-square` 1:1 方形封面                                                                                          |
+| **Palette**   | 暖色低饱和：cream #F5E0C8 / peach pink #F2C6B5 / muted gold #E8B57A / dusty blue #8B9DC3 / lavender shadow #C9B8D4    |
+| **Rendering** | 数字插画 + 厚涂 painterly brush strokes + dry brush texture                                                          |
+| **Font**      | `handwritten`（手写毛笔 / 笔触感）                                                                                     |
+| **Mood**      | `subtle`（低对比，温暖安静）                                                                                          |
+
+### 触发关键词
+
+- 1:1 封面 / 1:1 生图 / square cover
+- 喜马拉雅封面 / 喜马拉雅专辑图
+- 播客封面 / podcast cover
+- 单集封面 / 专辑封面
+- 方形封面 / 1:1 banner
+
+### 两种用途的文字差异
+
+| 用途         | 文字层级                                                | 视觉重心                |
+| ------------ | ------------------------------------------------------- | ----------------------- |
+| **单期封面** | 标题大字（25-30% 画面高度）+ 品牌（小）                 | 标题占视觉中心          |
+| **专辑封面** | 专辑名大字（30-35% 画面高度）+ 副标题（中）+ 品牌（小） | 专辑名 + 一句副标题     |
+
+### 单期封面 prompt 模板
+
+**日听（晨间）单期：**
+
+```
+Square 1:1 digital painting cover for Chinese morning radio podcast.
+Hand-painted style with thick visible oil paint brush strokes,
+dry brush texture. NOT watercolor, NOT photograph, NOT anime,
+NOT 3D rendering, NOT line art.
+
+Visual scene: [本期主题画面]. [具体元素 / 光线 / 物件 / 人物动作].
+
+Chinese text to render clearly with sharp legible characters,
+no garbling, no missing characters:
+- Large title (centered, mid-image): '【日听】[本期标题]'
+  (handwritten brush calligraphy style, dark warm brown #5C3A21,
+  25-30% of image height)
+- Small brand at bottom right: '木棉书笺 · 日听朝露'
+  (smaller handwritten brush style)
+
+Color palette: cream #F5E0C8, peach pink #F2C6B5, muted gold #E8B57A,
+dusty blue #8B9DC3. Low saturation, warm tones with cool accents.
+Square 1:1 format. Contemplative morning mood.
+```
+
+**夜听（深夜）单期：**
+
+```
+Square 1:1 digital painting cover for Chinese late-night radio podcast.
+Hand-painted style with thick visible oil paint brush strokes,
+dry brush texture. NOT watercolor, NOT photograph, NOT anime,
+NOT 3D rendering, NOT line art.
+
+Visual scene: [本期主题画面]. [具体元素 / 光线 / 物件 / 深夜氛围].
+
+Chinese text to render clearly with sharp legible characters,
+no garbling, no missing characters:
+- Large title (centered, mid-image): '【夜听】[本期标题]'
+  (handwritten brush calligraphy style, dark warm brown #5C3A21,
+  25-30% of image height)
+- Small brand at bottom right: '木棉书笺 · 夜听寄语'
+  (smaller handwritten brush style)
+
+Color palette: cream #F5E0C8, peach pink #F2C6B5, muted gold #E8B57A,
+deep navy #1E3A5F, lavender shadow #C9B8D4. Low saturation,
+warm-cool contrast. Square 1:1 format.
+Quiet, intimate, late-night mood.
+```
+
+### 专辑封面 prompt 模板
+
+**日听朝露 专辑（早晨方向感）：**
+
+```
+Square 1:1 digital painting cover for Chinese morning radio podcast
+album 'Morning Dew'. Hand-painted style with thick visible oil paint
+brush strokes, dry brush texture. NOT watercolor, NOT photograph,
+NOT anime, NOT 3D rendering, NOT line art.
+
+Visual scene: A window sill at dawn. A small glass cup with morning
+dew drops on it, catching the first sunlight. A small white magnolia
+flower or a single branch with fresh leaves beside. The first light
+of dawn - golden hour, with dewdrops on green leaves just visible at
+the edges. Soft and fresh. A cup of warm drink with soft steam rising.
+
+Chinese text to render clearly with sharp legible characters,
+no garbling, no missing characters:
+- Large album title (centered, mid-image): '日听朝露'
+  (handwritten brush calligraphy style, dark warm brown #5C3A21,
+  30-35% of image height)
+- Subtitle below title: '每天清晨 给你一个行动的方向'
+  (smaller handwritten brush style)
+- Small brand at bottom right: '木棉书笺' (smaller handwritten)
+
+Color palette: cream #F5E0C8, peach pink #F2C6B5, muted gold #E8B57A,
+fresh mint #B5E5CF, soft sky #A8D8EA. Low saturation, fresh and bright.
+Square 1:1 format. Fresh morning album cover mood.
+```
+
+**夜听寄语 专辑（深夜陪伴感）：**
+
+```
+Square 1:1 digital painting cover for Chinese late-night radio podcast
+album 'Night Whispers'. Hand-painted style with thick visible oil
+paint brush strokes, dry brush texture. NOT watercolor, NOT photograph,
+NOT anime, NOT 3D rendering, NOT line art.
+
+Visual scene: A cozy late-night room corner. A warm lamp with amber
+glow on a wooden nightstand, the lamp is the only light source.
+Through a half-open window, the moon and a few stars in deep blue
+night sky. A ceramic cup of warm drink with gentle steam rising.
+A small stack of old books beside the lamp. The whole scene wrapped
+in soft darkness, with the lamp creating a small pool of warm light.
+
+Chinese text to render clearly with sharp legible characters,
+no garbling, no missing characters:
+- Large album title (centered, mid-image): '夜听寄语'
+  (handwritten brush calligraphy style, dark warm brown #5C3A21,
+  30-35% of image height)
+- Subtitle below title: '每个深夜 给你一点温柔的允许'
+  (smaller handwritten brush style)
+- Small brand at bottom right: '木棉书笺' (smaller handwritten)
+
+Color palette: cream #F5E0C8, peach pink #F2C6B5, muted gold #E8B57A,
+deep navy #1E3A5F, lavender shadow #C9B8D4. Low saturation,
+warm-cool contrast. Square 1:1 format.
+Quiet, intimate, contemplative album mood.
+```
+
+### 命令调用
+
+用 `generate.py section` 模式 + `--aspect-ratio 1024x1024`：
+
+```bash
+python scripts/generate.py section \
+  --prompt "<上面模板填充后>" \
+  --output "images/01-日听-单期-[标题].png" \
+  --aspect-ratio "1024x1024" \
+  --style "painterly" \
+  --article-type "riting"
+```
+
+**article-type 路由（自动选品牌）：**
+
+- `riting` → 木棉书笺（mumian）品牌
+- `yeting` → 木棉书笺（mumian）品牌
+
+**文件命名规范：**
+
+```
+images/
+├── 01-{riting/yeting}-单期-{标题}.png   # 单期封面
+├── 02-{riting/yeting}-单期-{标题}.png
+├── 03-{riting/yeting}-专辑-{专辑名}.png  # 专辑封面
+└── 04-{riting/yeting}-专辑-{专辑名}.png
+```
+
+### 与 21:9 banner 的关系
+
+Ximalaya 专辑封面**必须 1:1**，不能用 21:9 banner（21:9 是公众号封面比例）。但同一系列可以出两版：
+
+- **1:1 专辑封面**（Ximalaya / Apple Podcasts）→ 用本 Workflow P
+- **21:9 banner**（公众号 / 网页）→ 用 Workflow A 或 O
+
+保持色板和渲染风格一致即可。
+
+### 失败重试
+
+如果中文标题渲染乱码：
+
+1. 强化 `Chinese text to render clearly with sharp legible characters, no garbling`
+2. 标题字符过长时拆成两行（用 `\\n`）
+3. 重试 1 次，仍然失败则跳过该图并标记 `❌`
+
+### 参考图
+
+- `novel/2606/0605/images/01-日听-单期-困住你的不是时间.png`（本期生成）
+- `novel/2606/0605/images/02-夜听-单期-今天这样就够了.png`（本期生成）
+- `novel/2606/0605/images/03-日听朝露-专辑封面.png`（本期生成）
+- `novel/2606/0605/images/04-夜听寄语-专辑封面.png`（本期生成）
+
+---
+
 ## Brand Watermark Rules
 
 Brand info only appears on covers of "professional" styles:
+
 - ✅ Tech, Blueprint, Cyberpunk, Corporate, Pixel Art, Travel/City, Home/Lifestyle, Fashion/Beauty, ACG/Anime, Review/Infographic, Sports/Fitness
 - ❌ Emotional, Nostalgic Photo, Sketch Notes, Vintage, Kawaii, Watercolor, Screen Print, Zen Minimal, Food, Pet/Q-version, Digital Illustration / Painterly
 
@@ -1288,12 +1561,12 @@ When `brand.enabled` is false, no watermark on any style.
 
 ## API Provider Differences
 
-| Feature | `grsai` | `openai` / `openai-compatible` / `local` |
-|---------|---------|------------------------------------------|
-| Cover endpoint | `/v1/images/generations` | `/v1/images/generations` |
-| Illustration endpoint | `/v1/draw/completions` (SSE) | `/v1/images/generations` |
-| Illustration request | `aspectRatio` + `replyType: "async"` | `size: "1024x1024"` |
-| Illustration response | SSE stream | Standard JSON |
+| Feature               | `grsai`                              | `openai` / `openai-compatible` / `local` |
+| --------------------- | ------------------------------------ | ---------------------------------------- |
+| Cover endpoint        | `/v1/images/generations`             | `/v1/images/generations`                 |
+| Illustration endpoint | `/v1/draw/completions` (SSE)         | `/v1/images/generations`                 |
+| Illustration request  | `aspectRatio` + `replyType: "async"` | `size: "1024x1024"`                      |
+| Illustration response | SSE stream                           | Standard JSON                            |
 
 ## Edge Cases
 

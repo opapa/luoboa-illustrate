@@ -114,26 +114,94 @@ else:
     SECTION_ENDPOINT = "/v1/images/generations"
     USE_SSE_SECTION = False
 
-# --- Brand settings ---
+# --- Brand settings (multi-profile) ---
 
 brand_config = CONFIG.get("brand", {})
 BRAND_ENABLED = brand_config.get("enabled", False)
-BRAND_LOGO_URL = brand_config.get("logo_url", "")
-BRAND_NAME = brand_config.get("name", "")
-BRAND_TAGLINE = brand_config.get("tagline", "")
-BRAND_WEBSITE = brand_config.get("website", "")
+BRAND_DEFAULT = brand_config.get("default", "luoboa")
+BRAND_PROFILES = brand_config.get("profiles", {})
+BRAND_TYPE_ROUTING = brand_config.get("type_routing", {})
 
 # Styles that support brand watermark
-BRANDED_STYLES = {"tech", "blueprint", "cyberpunk-neon", "corporate", "pixel-art"}
+# (Extended to cover all "professional outward-facing" content types)
+BRANDED_STYLES = {
+    # 科技向
+    "tech", "blueprint", "cyberpunk-neon", "corporate", "pixel-art",
+    "sketch-notes", "vintage", "watercolor", "screen-print", "zen-minimal",
+    # 工具/生活向
+    "food", "travel", "home", "fashion", "pet", "kawaii",
+    "infographic", "sports", "digital-illustration", "painterly",
+}
 
 
-def should_include_brand(style=None):
-    """Check if brand should be included based on config and style."""
+def resolve_brand(article_type=None, brand_override=None):
+    """Resolve the active brand profile.
+
+    Priority: brand_override (CLI) > type_routing[article_type] > default
+
+    Returns: dict with keys {name, tagline, logo_url, handle, key}
+    Returns None if brand is disabled or no profile found.
+    """
     if not BRAND_ENABLED:
-        return False
+        return None
+
+    key = brand_override
+    if not key and article_type:
+        key = BRAND_TYPE_ROUTING.get(article_type)
+    if not key:
+        key = BRAND_DEFAULT
+    if not key or key not in BRAND_PROFILES:
+        return None
+
+    profile = BRAND_PROFILES[key]
+    return {
+        "key": key,
+        "name": profile.get("name", ""),
+        "tagline": profile.get("tagline", ""),
+        "logo_url": profile.get("logo_url"),
+        "website": profile.get("handle", ""),
+    }
+
+
+def build_watermark_prompt(brand):
+    """Build the watermark text snippet for the prompt.
+
+    Text-only mode (no logo image): brand name + tagline + website
+    With logo image: same text PLUS the logo will be composited by the API
+    """
+    if not brand:
+        return ""
+    parts = [f"Brand watermark at bottom-right corner: '{brand['name']}'"]
+    if brand.get("tagline"):
+        parts.append(f"tagline '{brand['tagline']}'")
+    if brand.get("handle"):
+        parts.append(f"website '{brand['website']}'")
+    if brand.get("logo_url"):
+        parts.append("plus a brand logo image (composited via API)")
+    return " · ".join(parts) + "."
+
+
+# Backward-compat constants (used by generate_cover/section if no brand resolution done)
+# When article_type is unknown, fall back to legacy single-brand behavior
+_LEGACY_BRAND = {
+    "name": brand_config.get("name", ""),
+    "tagline": brand_config.get("tagline", ""),
+    "logo_url": brand_config.get("logo_url"),
+    "website": brand_config.get("handle", ""),
+}
+
+
+def should_include_brand(style=None, article_type=None, brand_override=None):
+    """Check if brand should be included based on config and style.
+
+    New: passes article_type and brand_override through to resolve_brand().
+    """
+    brand = resolve_brand(article_type, brand_override)
+    if not brand:
+        return False, None
     if style and style.lower() not in BRANDED_STYLES:
-        return False
-    return bool(BRAND_LOGO_URL)
+        return False, None
+    return True, brand
 
 
 # --- Image generation ---
@@ -150,8 +218,13 @@ def _make_request(endpoint, payload):
         }
     )
     ctx = ssl.create_default_context()
-    with urllib.request.urlopen(req, timeout=180, context=ctx) as resp:
-        return json.loads(resp.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(req, timeout=180, context=ctx) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        body = e.read().decode("utf-8", errors="replace")
+        print(f"HTTP {e.code} {e.reason}: {body[:1500]}", file=sys.stderr)
+        raise
 
 
 def _make_sse_request(payload):
@@ -178,8 +251,17 @@ def _make_sse_request(payload):
     raise RuntimeError("SSE stream ended without result")
 
 
-def generate_cover(prompt, output_path, style=None):
-    """Generate a cover image (1920x832)."""
+def generate_cover(prompt, output_path, style=None, article_type=None, brand_override=None):
+    """Generate a cover image (1920x832).
+
+    article_type: one of tech/career/growth/profile/opinion/zhihu/healing/toutiao/yeting/riting/fiction
+                  — used to auto-route brand via type_routing
+    brand_override: explicit brand key to use (overrides article_type routing)
+
+    If prompt already includes brand watermark text, this function also
+    passes logo_url to the API when set (for image compositing).
+    """
+    include, brand = should_include_brand(style, article_type, brand_override)
     payload = {
         "model": API_MODEL,
         "prompt": prompt,
@@ -187,28 +269,44 @@ def generate_cover(prompt, output_path, style=None):
         "response_format": "url"
     }
 
-    if should_include_brand(style):
-        payload["image"] = [BRAND_LOGO_URL]
+    if include and brand and brand.get("logo_url"):
+        # Has logo image → API will composite it onto the cover
+        payload["image"] = [brand["logo_url"]]
+    elif include and brand:
+        # Text-only brand (no logo URL) → already in the prompt
+        pass
 
     result = _make_request(COVER_ENDPOINT, payload)
     urllib.request.urlretrieve(result["data"][0]["url"], output_path)
     print(f"OK: {output_path}")
+    if brand:
+        print(f"Brand: {brand['key']} ({brand['name']})")
 
 
-def generate_section(prompt, output_path, ref_url=None, style=None):
-    """Generate a section illustration (1024x1024)."""
+def generate_section(prompt, output_path, ref_url=None, style=None, aspect_ratio=None, article_type=None, brand_override=None):
+    """Generate a section illustration.
+
+    aspect_ratio: e.g. "1024x1024" (default 1:1), "1024x1792" (9:16), "1792x1024" (16:9), etc.
+    article_type / brand_override: same as generate_cover
+    """
+    if aspect_ratio is None:
+        aspect_ratio = "1024x1024"
     returned_url = None
+
+    include, brand = should_include_brand(style, article_type, brand_override)
 
     if USE_SSE_SECTION:
         # grsai provider: SSE endpoint with aspectRatio
         payload = {
             "model": API_MODEL,
             "prompt": prompt,
-            "aspectRatio": "1024x1024",
+            "aspectRatio": aspect_ratio,
             "replyType": "async"
         }
         if ref_url:
             payload["image"] = [ref_url]
+        elif include and brand and brand.get("logo_url"):
+            payload["image"] = [brand["logo_url"]]
 
         try:
             returned_url = _make_sse_request(payload)
@@ -224,11 +322,13 @@ def generate_section(prompt, output_path, ref_url=None, style=None):
         payload = {
             "model": API_MODEL,
             "prompt": prompt,
-            "size": "1024x1024",
+            "size": aspect_ratio,
             "response_format": "url"
         }
         if ref_url:
             payload["image"] = [ref_url]
+        elif include and brand and brand.get("logo_url"):
+            payload["image"] = [brand["logo_url"]]
 
         result = _make_request(SECTION_ENDPOINT, payload)
         returned_url = result["data"][0]["url"]
@@ -271,15 +371,18 @@ def main():
     output = args.get("output", "")
     ref_url = args.get("ref-url", None)
     style = args.get("style", None)
+    aspect_ratio = args.get("aspect-ratio", None)
+    article_type = args.get("article-type", None)
+    brand_override = args.get("brand", None)
 
     if not prompt or not output:
         print("ERROR: --prompt and --output are required")
         sys.exit(1)
 
     if mode == "cover":
-        generate_cover(prompt, output, style)
+        generate_cover(prompt, output, style, article_type, brand_override)
     elif mode == "section":
-        generate_section(prompt, output, ref_url, style)
+        generate_section(prompt, output, ref_url, style, aspect_ratio, article_type, brand_override)
     else:
         print(f"ERROR: Unknown mode '{mode}'. Use 'cover' or 'section'.")
         sys.exit(1)
