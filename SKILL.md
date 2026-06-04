@@ -831,7 +831,7 @@ warm wood grain background, [accent color: #C05621] props
 | 维度      | 默认值                                                                     | 说明                         |
 | --------- | -------------------------------------------------------------------------- | ---------------------------- |
 | Type      | `hero`                                                                     | 人物动态为主                 |
-| Palette   | `vivid` (#FF4500 橙红, #1E1E1E 黑, #00C9A7 青绿, #FFD700 金, #2C3E50 深蓝) | 力量感强对比                 |
+| Palette   | `vivid` (#FF4500 橙红, #1E1E1E 黑, #00C9A7 青绿, #FF6B35 金, #2C3E50 深蓝) | 力量感强对比                 |
 | Rendering | `photography`                                                              | 运动摄影（高速快门凝固动作） |
 | Font      | `display`                                                                  | 粗体爆发感                   |
 | Mood      | `bold`                                                                     | 高对比，高能量               |
@@ -868,16 +868,17 @@ warm wood grain background, [accent color: #C05621] props
 
 ---
 
-## Workflow D: 快文配图（按句生成人物+场景草图）
+## Workflow D: 快文配图（按句生成 8-bit 极客像素风复古游戏机配图）
 
-适合短平快的文章、**每句一图**的批量配图需求（公众号内文、视频脚本、PPT 配图、新闻合集、卡片卡片集等）。**不是 PPT/文字海报——重点是"人物+场景"的手绘草图，每张图是一个有画面感的瞬间**。
+适合短平快的文章、**每句一图**的批量配图需求（公众号内文、视频脚本、PPT 配图、新闻合集、卡片集等）。**风格参考极客公园 萝卜啊 的复古游戏机像素海报**——黑白主导 + 黄色高亮 + 复古游戏 UI + 关键词橙色高亮 + 8-bit 像素角色。
 
 **核心特点**：
 
 - **每句一图，不限制数量**（100+ 句也要全跑）
-- **必须有"人物 + 场景表现"**（不是文字大字海报，不是抽象装饰）
-- 风格：彩色手绘草图（colored pencil / hand-drawn sketch）—— 可见笔触、有墨水轮廓、人物表情和动作清晰
-- 走 dreamina CLI（文字不需要渲染成图，文字只作 prompt 输入参考，**图里可以加少量文字标签但不是主元素**）
+- **8-bit 像素艺术风格**（不是写实照片、不是 3D、不是手绘水彩）—— 黑白主导 + 1-2 个高亮色（黄/红/橙）
+- **关键词橙色高亮**是核心特色：句子里的关键名词/动词/数据用纯橙色 (#FF6B35) 像素字呈现，其他文字纯黑
+- **极简底栏**：底部居中显示 "luoboa.com 萝卜啊"（用 chunky 8-bit 像素字，橙 #FF6B35）—— 去掉进度、1/N 标签、时间、血条、能量条、左右布局
+- 走 dreamina CLI（**像素艺术必须用 `--model_version=high_aes_general_v50` 或类似，不锁 4.7**——4.7 偏 Q 版马克笔）
 
 ### Step 1: 读取文章并拆分句子
 
@@ -913,32 +914,36 @@ Read the target `.md` file. Then:
 
 **所有 6 个比例都支持 dreamina CLI**（dreamina 支持 `21:9 16:9 1:1 9:16 4:3 3:4` 等）。
 
-### Step 3: 选择手绘草图风格（**核心：人物+场景**）
+### Step 3: 选择像素风格（**核心：8-bit 复古游戏机美学**）
 
-Show 6 个手绘草图风格（from `references/quick-styles.md`）：
+Show 6 个像素风格（from `references/quick-styles.md`）：
 
-| #   | 风格            | 一句话描述                                            |
-| --- | --------------- | ----------------------------------------------------- |
-| 1   | 🎨 彩色铅笔草图 | baoyu sketch-notes 风。可见笔触、墨水轮廓、macaron 色 |
-| 2   | 🖋️ 钢笔淡彩     | 钢笔线条 + 淡彩水洗、像笔记本插画                     |
-| 3   | 🖍️ 蜡笔速写     | 蜡笔质感、温暖厚重、童书插画感                        |
-| 4   | 📸 漫画分镜     | 日式漫画分镜式、人物表情夸张、动感强                  |
-| 5   | 🌊 水墨淡彩     | 水墨淡彩、清雅留白、东方美学                          |
-| 6   | 📓 速写本+便签  | 像打开的速写本、有便签、印章装饰                      |
+| #   | 风格 | 一句话描述 |
+| --- | --- | --- |
+| 1   | 🎮 **8-bit 极客黑白** (default) | 纯黑白 + 橙色高亮，萝卜啊 同款，半色调网点 |
+| 2   | 🤖 机器人像素彩 | 黑白 + 红色高亮，硬核科技感 |
+| 3   | 💚 GameBoy 绿屏 | 4 级绿阶 + 黄色高亮，极致 80s 复古 |
+| 4   | 📺 16-bit 街机 | 像素密度 2x，色彩更丰富 |
+| 5   | 🎰 街机红黄 | 黑白 + 红+黄双高亮，复古街机 UI |
+| 6   | 💾 磁带/磁盘像素 | 8-bit 灰阶 + 黄色高亮，80s 科技风 |
 
-Default: 1 (彩色铅笔草图) for 一般快文.
+Default: 1 (8-bit 极客黑白) for 一般快文（最接近 萝卜啊 原版）。
 
 **关键渲染提示词**（每张图必加）：
 
 ```
-Hand-drawn illustration, visible brush strokes, ink outline,
-soft watercolor wash, colored pencil texture, macaron palette,
-NOT photorealistic, NOT 3D, NOT anime, NOT digital render
+Pure 8-bit pixel art, retro game console aesthetic (Game Boy era),
+1-bit monochrome (pure black on pure white) with 1-2 spot colors only,
+halftone dot pattern for shading, sharp pixel edges (NOT anti-aliased),
+blocky pixel characters (Game Boy sprite style, 1px stroke width),
+chunky 8-bit typography for any text,
+NOT photorealistic, NOT 3D, NOT anime, NOT smooth vector art,
+NOT watercolor, NOT sketch, NOT hand-drawn brush strokes
 ```
 
 ### Step 4: 确认 Dreamina CLI 环境可用
 
-**快文配图固定使用 dreamina，模型锁定 `4.7`**——4.7 在 Q 版卡通、马克笔手绘、文字+图标组合场景下表现最好。
+**快文配图固定使用 dreamina，模型用 `high_aes_general_v50`**（不用 4.7——4.7 偏 Q 版马克笔，跟像素艺术冲突）。v50 在 8-bit 像素、复古 UI、GameBoy 风格上更稳。
 
 ```bash
 which dreamina   # 检查是否在 PATH 中
@@ -954,38 +959,44 @@ dreamina user_credit   # 验证登录状态和余额
 3. 运行 dreamina user_credit 确认可用
 ```
 
-### Step 5: 批量生成图片（dreamina 4.7）
+### Step 5: 批量生成图片（dreamina v50）
 
-**重要：每张图都是一个独立的"Q 版马克笔 + 大量手写体 + 背景小图标"组合**。每张图的 prompt 必须明确：
+**重要：每张图都是一个独立的"8-bit 像素角色 + 中文粗体标题（关键词橙高亮）+ 复古游戏 UI 底栏"组合**。每张图的 prompt 必须明确：
 
 ```
-Q版二头身卡通人物 with 大头小身体, exaggerated expression, sweat drops or
-emotion symbols (sweat drops 汗珠 / exclamation marks 感叹号 / stars 星星).
-黑色手绘线条 (marker / tablet brush feel), 低饱和度水彩或 marker 平涂上色,
-块状色感. NOT photorealistic, NOT polished, NOT refined, NOT digital
-gradient, NOT 3D.
+8-bit pixel art illustration in retro Game Boy / NES console aesthetic.
+Pure monochrome (black on white) with ONE spot color (bright orange #FF6B35
+or red #E8453C). Halftone dot pattern for shading. Sharp 1-px pixel edges
+(NOT anti-aliased, NOT smooth vector). Blocky chunky 8-bit sprite
+characters. No curves, only right angles and stepped diagonals.
 
-Subject: <Q版人物 + 动作 + 夸张表情 + 汗珠等情绪符号>. 关键元素：<1-3 个具体物件>.
+LAYOUT (top to bottom):
+1. TOP 35% — large bold chunky 8-bit Chinese title (黑色 32pt+ 像素字), 
+   with KEYWORD(s) highlighted in bright orange #FF6B35 or red #E8453C.
+   The title renders the article sentence verbatim, but only the
+   important noun/verb/data is orange, the rest is black.
+2. MIDDLE 50% — pixel-art 8-bit subject (角色/物件/场景), 
+   with sharp black outlines + halftone dot shading.
+3. BOTTOM 15% — minimal UI bar: centered text "luoboa.com 萝卜啊"
+   in chunky 8-bit pixel font, bright orange #FF6B35. No progress,
+   no 1/N labels, no time, no health bars, no left/right split — purely
+   centered single line.
 
-Chinese handwritten text occupying the left/right half of the frame,
-GIANT bold handwritten style, sharp legible characters. 重点词高亮用不同颜色：
-- 技术名词（如 "AI"、"MoE"、"transformer"）用紫色 #8B5CF6
-- 情绪/难懂词（如 "不懂"、"难"、"卡住"）用橙色 #F97316
-- 数字/关键数据用红色 #EF4444
-- 否定/转折词（如 "但是"、"不是"、"没有"）用蓝色 #3B82F6
+Subject: <句子核心意象 — 一个 8-bit 像素角色/物件 in 场景>.
+Key elements: <1-3 个具体物件>, 关键高亮词: <关键词 1-2 个>.
 
-Background: small hand-drawn icons (lightbulb 💡, question mark ❓,
-moon 🌙, heart ❤️, brain 🧠, gear ⚙️, warning ⚠️) scattered around the
-frame, NOT overlapping with main text or character.
+Pure 1-bit monochrome + 1-2 spot colors only. NOT photorealistic,
+NOT 3D rendering, NOT anime, NOT watercolor, NOT sketch,
+NOT hand-drawn brush strokes, NOT smooth gradients.
 ```
 
-**单次命令**（模型锁定 4.7）：
+**单次命令**（模型 v50，像素艺术专用）：
 
 ```bash
 dreamina text2image \
-  --prompt="<每句独立的 Q版马克笔 prompt>" \
+  --prompt="<每句独立的 8-bit 像素 prompt>" \
   --ratio=<用户选的比例> \
-  --model_version=4.7 \
+  --model_version=high_aes_general_v50 \
   --resolution_type=2k \
   --poll=180
 ```
@@ -1035,27 +1046,33 @@ article/<MMDD>/<ArticleName>/quick/
 
 ### 关键规则（**重要！**）
 
-⚠️ **快文不是 PPT/文字海报**：
+⚠️ **快文是 8-bit 像素海报，不是 PPT/水彩/3D**：
 
-- ❌ 文字占 1/3 区域
-- ❌ 大字标题 + 装饰元素
-- ❌ 抽象图案
-- ✅ **有人物在场景中**（人在做事、表情、动作）
-- ✅ 场景表现（环境 + 人物 + 物件）
-- ✅ 文字只作"小标签/便签"出现在角落
+- ❌ 不要写实摄影、水彩、油画、3D 渲染
+- ❌ 不要抗锯齿（要锐利像素边缘）
+- ❌ 不要彩色水彩渐变
+- ✅ **纯黑白 + 1-2 个高亮色**（默认橙 #FF6B35 萝卜啊频道色，可换红 #E8453C）
+- ✅ **关键词橙色高亮**——句子里的关键名词/数据/动词用纯橙像素字
+- ✅ **粗黑体中文标题**（像素字，≥32pt 视觉尺寸）
+- ✅ **半色调网点**（dithering/halftone）做阴影
+- ✅ **极简底栏**：居中 "luoboa.com 萝卜啊"（chunky 8-bit 像素字，橙 #FF6B35）
+  - ❌ **不要计时器/00:00**（不是关卡截图）
+  - ❌ **不要弹"弹"字/子弹/能量条**（不是游戏 UI）
 - ✅ 30+ 句话/100+ 句话全跑完
+- ✅ **必须渲染文字**（关键词橙色高亮是核心特色，模型必须能渲染中文）
 
 ### dreamina 注意事项
 
-- 末尾加 "colored pencil texture, visible brush strokes, ink outline"
-- 强调 `hand-drawn, sketch, watercolor, storybook illustration`
-- 排除 `photorealistic, 3D, anime, digital render`
-- 每张图必须有"主体人物 + 动作 + 场景"三要素
-- **不强制文字渲染**——文字只是参考，模型爱渲不渲
+- 末尾必含 `8-bit pixel art, halftone dot pattern, sharp pixel edges`
+- 强调 `pure 1-bit monochrome, spot color orange #FF6B35, Game Boy aesthetic, retro game console UI`
+- 排除 `photorealistic, 3D, anime, watercolor, sketch, hand-drawn brush, anti-aliased, smooth gradients, vector art`
+- 模型用 `high_aes_general_v50`（**不要用 4.7**——4.7 偏 Q 版马克笔，跟像素艺术冲突）
+- 文字必须渲染（这是 萝卜啊 风格的核心标志），dreamina v50 对中文像素字渲染较稳
+- 颜色严格控制：纯黑 + 纯白 + 1-2 个高亮色（黄/红），**不要让模型自由加第 3、第 4 种颜色**
 
 ## Workflow N: 微头条配图（马克笔 Q 版卡通）
 
-适合「每日AI快讯」类多新闻合集文章（如 `news/2606/0603.md`）。每条新闻生成 1 张 9:16 竖版**马克笔 Q 版卡通**配图——**跟 Workflow D（快文配图）风格完全统一**。
+适合「每日AI快讯」类多新闻合集文章（如 `news/2606/0603.md`）。每条新闻生成 1 张 9:16 竖版**马克笔 Q 版卡通**配图——**风格独立于 Workflow D**（D 现在用 8-bit 像素，N 保持 Q 版马克笔，因为新闻合集更适合 Q 版）。
 
 **风格定位：** 🖍️ 马克笔 Q 版卡通（marker-q-chibi）—— 二头身大头小身体 + 夸张表情 + 汗珠等情绪符号 + 黑色手绘马克笔/平板笔刷线条 + 低饱和度色块平涂 + 大量手写体文字 + 颜色高亮 + 手绘小图标散落。
 
