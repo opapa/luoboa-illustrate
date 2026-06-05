@@ -121,6 +121,12 @@ Also trigger Workflow N directly when user says "微头条配图"/"新闻配图"
 
 **默认提示词语言：中文。** 如果用户没特别强调，**所有 prompt 都用中文写**（grsai/dreamina 都能识别中文 prompt）。如果用户写了"用英文 prompt"或"英文"才用英文。
 
+**⚠️ 中文 prompt + 中文文字渲染（硬性要求，覆盖全 skill）：**
+- **prompt 主体用中文写**——场景、风格、画面元素、人物动作、情绪描述全部用中文
+- **技术约束可以英文**——比如 "NOT oil paint, NOT 3D" 这类风格负面词用英文
+- **所有图中的中文文字必须清晰渲染**（标题、副标、品牌、关键词高亮）——在 prompt 里用 `'文字内容'` 明确写出要渲染的中文 + `Chinese text 'X' must be sharp legible` 强化
+- **特别强调科技类（Workflow A）**：公众号 banner 一定要渲染中文标题（公众号编辑器不会帮你叠层），不能等用户后期 PS
+
 **后端选择：必须问用户。** 不再默认走 API。Step 3 之前要先问："用 **API**（grsai，质量好）还是 **Dreamina CLI**（快+中文稳）？"
 
 #### 方案一：API（grsai）
@@ -269,6 +275,12 @@ Image sizes:
 - Cover: dark-background hand-drawn diagram style (Excalidraw dark mode) with brand logo (if enabled). Prompt template in `references/style-guide.md`.
 - Sections: Excalidraw hand-drawn sketch style. Prompt template in `references/style-guide.md`.
 - **风格一致性**：封面和插图同属Excalidraw手绘风格，天然一致。
+- **⚠️ 科技类必出中文标题**：banner 一定要把中文标题直接渲染在画面里（不是后期叠层），公众号编辑器不会帮你加字。在 prompt 里写：`Chinese title '【公众号】[标题]' must be sharp legible`
+- **⚠️ 配色硬性约束（科技公众号 6/5 起的统一规范）**：
+  - **以蓝白为主**（深蓝 #1E3A5F / 中蓝 #4A6FA5 / 浅蓝 #B5C5D3 / 纯白 #FFFFFF / 浅灰 #F0F4F8）
+  - **一般不出现红色**（禁用 #FF0000、#E8453C、#DC143C 等纯红/暗红）——即使需要"警示/重要"语义，也用**橙色 #F4A261 / 黄色 #FFD93D**或**亮蓝 #4D96FF**替代
+  - 极少量高亮可用：橙色 / 黄色（用于强调，但不超过画面 10% 面积）
+  - 这个约束是科技文风格的一部分，配图配色错（用了红色）= 风格错了
 
 ## Workflow B: 情感治愈类
 
@@ -286,7 +298,7 @@ Image sizes:
 ### 核心原则
 
 1. **场景驱动** — 根据文章关键场景（不是标题）设计画面，2-3张场景插图 + 1张封面
-2. **英文 Prompt** — grsai 等国内 API 中文 prompt 易触发内容审核，统一使用英文
+2. **中文 Prompt（图片风格描述）+ 英文约束（技术参数）** — 主体描述用中文，技术负面词用英文
 3. **无品牌标识** — 保持画面纯净，不加任何品牌水印
 4. **不需要 ref-url** — 场景为主，非人物连续性，每张图独立生成
 5. **统一暖调，不走冷灰** — 整篇文章**所有场景都用暖色调**，通过饱和度和明度变化（而非色相冷暖切换）传达情绪。失去/空荡场景用"低饱和的暖米色"而不是"冷灰蓝"，避免阴郁感
@@ -1244,34 +1256,51 @@ article/0603/0603-AI快讯/
 
 ---
 
-## Workflow O: 数字插画 / Painterly 风格（独处/夜听/卧室场景专用）
+## Workflow O: 水彩淡墨 / 清新淡雅风格（独处/夜听/卧室场景专用）
 
-适合**当代数字插画风**——不是水彩、不是胶片照片、不是 Excalidraw 手绘。笔触是**厚涂油画笔感**（thick visible oil paint brush strokes, dry brush texture），低饱和暖色，主角是数字绘画中的人物（不露脸）+ 卧室/书桌/窗户/城市夜景。
+适合**清新淡雅水彩插画风**——不是厚涂油画、不是胶片照片、不是 Excalidraw 手绘。笔触是**淡彩水洗**（light watercolor wash, soft ink wash texture, 留白多），**极简、留白、轻盈**。低饱和柔色，主角是数字绘画中的人物（不露脸）+ 卧室/书桌/窗户/城市夜景。
 
 ### 5 维默认
 
 | 维度          | 默认值                                                                                                             |
 | ------------- | ------------------------------------------------------------------------------------------------------------------ |
-| **Type**      | `illustration` 数字插画                                                                                            |
-| **Palette**   | 暖色低饱和：cream #F5E0C8 / peach pink #F2C6B5 / muted gold #E8B57A / dusty blue #8B9DC3 / lavender shadow #C9B8D4 |
-| **Rendering** | **数字插画 + 厚涂 painterly brush strokes + dry brush texture**（不是 watercolor 不是 ink wash 不是 photograph）   |
-| **Font**      | serif + handwritten（封面标题用细手写/serif，截图清晰不乱码）                                                      |
-| **Mood**      | subtle，低对比，温暖中带安静                                                                                       |
+| **Type**      | `illustration` 数字插画（水彩淡墨感）                                                                                |
+| **Palette**   | 柔色低饱和：cream #FAF4E8 / soft peach #F0DCC4 / pale gold #E8C9A0 / dusty blue #B5C5D3 / misty lavender #D5C9DC |
+| **Rendering** | **数字水彩 + 淡彩笔触 + 留白多**（light watercolor wash, sparse brush, ample negative space, NOT thick impasto / NOT heavy painterly）|
+| **Font**      | 细笔手写 + 衬线（封面标题用细手写/serif，留白环境清晰可读）                                                       |
+| **Mood**      | subtle，极低对比，清淡中带安静                                                                                     |
 
-### 必含正向关键词（每张图都要有）
+### 必含正向关键词（每张图都要有，中英混用 prompt）
 
+中文：
+- 清新淡雅的水彩风格
+- 淡彩水洗笔触，留白多
+- 低饱和柔色，奶油、淡桃、雾蓝、淡紫
+- 安静、克制、独处、陪伴
+
+English (技术约束)：
 ```
-Digital painting, illustrated style, thick visible oil paint brush strokes,
-dry brush texture, soft warm muted palette (cream, peach pink, soft gold,
-dusty blue, lavender), low saturation, warm and cool color contrast,
-contemplative solitary mood
+Light watercolor wash illustration, sparse delicate brush strokes,
+ample negative space, soft muted palette (cream, soft peach, pale gold,
+dusty blue, misty lavender), low saturation, low contrast,
+contemplative solitary mood, gentle color bleeds
 ```
 
 ### 必含反向关键词（**关键！这是避免跑偏的核心**）
 
+中文：
+- ❌ 不是厚涂油画
+- ❌ 不是高饱和
+- ❌ 不是浓墨重彩
+- ❌ 不是写实摄影
+- ❌ 不是 3D 渲染
+- ❌ 不是二次元/卡通
+
+English (反向)：
 ```
-NOT watercolor, NOT ink wash, NOT wet on wet, NOT photograph,
-NOT photorealistic, NOT anime, NOT 3D rendering, NOT line art
+NOT thick impasto, NOT heavy painterly, NOT oil paint texture,
+NOT photograph, NOT photorealistic, NOT anime, NOT 3D rendering,
+NOT line art, NOT dark/moody, NOT high contrast, NOT high saturation
 ```
 
 ### 典型画面元素（独处/夜听/卧室场景）
@@ -1333,32 +1362,53 @@ characters, no garbled strokes, no missing characters:
   headlines.
 ```
 
-### 1:1 场景插图模板
+### 1:1 场景插图模板（芒种系列实战 prompt）
 
 ```
-Digital painting, illustrated style, thick visible oil paint brush strokes,
-dry brush texture. NOT watercolor, NOT ink wash, NOT photograph.
-[具体场景描述]. Soft warm muted palette (cream, peach pink, soft gold,
-dusty blue, lavender). Low saturation, warm and cool color contrast,
-contemplative mood. 1:1 square format.
+[中文主体描述]：清新淡雅的水彩插画风格，淡彩水洗笔触，留白多，极简。
+低饱和柔色调：奶油色 #FAF4E8、淡桃 #F0DCC4、淡金 #E8C9A0、雾蓝 #B5C5D3、淡紫 #D5C9DC。
+安静、克制、独处、陪伴的氛围。
+数字水彩感、留白轻盈、淡彩水洗笔触。
+
+[具体场景中文描述，例如]
+"清晨卧室场景：床上躺着的女性背影（不露脸），窗帘透进第一缕光，
+床头放着复古闹钟（5:55），床头柜上一杯咖啡冒着热气，
+窗外有麦穗剪影，淡彩水洗笔触，极简留白。"
+
+Light watercolor wash illustration, sparse delicate brush strokes,
+ample negative space, soft muted palette, low saturation, low contrast,
+contemplative solitary mood, gentle color bleeds.
+
+Chinese text '【日听】芒种——先给自己五分钟' must be sharp legible,
+rendered in delicate brush calligraphy, light brown or dark warm color.
+Brand text '木棉书笺' in small, light warm color at bottom right.
+
+NOT thick impasto, NOT heavy painterly, NOT oil paint texture,
+NOT photograph, NOT photorealistic, NOT anime, NOT 3D rendering,
+NOT line art, NOT dark/moody, NOT high contrast, NOT high saturation.
+
+1:1 square format.
 ```
 
 ### ⚠️ 即梦中文渲染注意
 
 即梦对通讯录里的"Chinese name"理解弱，可能渲染成 Mom/Dad/Lila/Tom 等英文。如需中文，**必须在 prompt 里直接写**具体要渲染的字（如 "render the Chinese characters 老王 clearly"），并加 `Chinese text '老王' must be sharp legible` 强约束。
 
-### 参考图
+### 参考图（芒种系列是这个风格的成功案例）
 
-`novel/0602/沉默的时候/images/01-深夜翻手机.png`（确认是这种风格的"原型图"）
+- `novel/2606/0605/images/日听-芒种-先给自己五分钟-banner.png`（21:9 日听 banner，水彩淡墨 + 中文标题清晰 + 麦穗+晨光+咖啡+钟）
+- `novel/2606/0605/images/夜听-芒种-别忘了你在等什么-banner.png`（21:9 夜听 banner，水彩淡墨 + 月光+暖灯+书桌+窗外麦田+窗棂）
+- `novel/2606/0605/images/日听-芒种-先给自己五分钟-喜马拉雅.png`（1:1 喜马拉雅 banner）
+- `novel/2606/0605/images/夜听-芒种-别忘了你在等什么-喜马拉雅.png`（1:1 喜马拉雅 banner）
 
 ### 触发关键词
 
-- 独处型夜听
-- 深夜翻手机
-- 数字插画 painterly
-- 厚涂 brush strokes
+- 独处型夜听 / 日听朝露
+- 深夜翻手机 / 晨光
+- 水彩淡墨 / 清新淡雅
+- 淡彩水洗 / 留白极简
 - 卧室场景插画
-- 暖色低饱和数字绘画
+- 情感治愈 / 电台散文诗
 
 ---
 
@@ -1372,22 +1422,24 @@ contemplative mood. 1:1 square format.
 - 小宇宙、网易云音乐等播客平台
 - 公众号音频栏目头图
 
-**与 Workflow O（数字插画/Painterly）的关系：**
+**与 Workflow O（水彩淡墨 / 清新淡雅）的关系：**
 
-- 风格一致（painterly / 厚涂笔触 / 暖色低饱和）
+- 风格一致（**水彩淡墨 / 淡彩水洗 / 留白极简** / 低饱和柔色）
 - **区别是比例 1:1**（不是 21:9 banner）
 - **包含品牌文字 + 大字标题**（Ximalaya 等平台要求标题清晰可见）
 - 适用于日听朝露 / 夜听寄语 等中文电台散文诗类型
+
+> 芒种系列（2026/06/05 出图）是这个风格的成功标准实现，参考图详见 Workflow O 参考图章节。
 
 ### 5 维默认
 
 | 维度          | 默认值                                                                                                              |
 | ------------- | ------------------------------------------------------------------------------------------------------------------- |
 | **Type**      | `cover-square` 1:1 方形封面                                                                                          |
-| **Palette**   | 暖色低饱和：cream #F5E0C8 / peach pink #F2C6B5 / muted gold #E8B57A / dusty blue #8B9DC3 / lavender shadow #C9B8D4    |
-| **Rendering** | 数字插画 + 厚涂 painterly brush strokes + dry brush texture                                                          |
-| **Font**      | `handwritten`（手写毛笔 / 笔触感）                                                                                     |
-| **Mood**      | `subtle`（低对比，温暖安静）                                                                                          |
+| **Palette**   | 柔色低饱和：cream #FAF4E8 / soft peach #F0DCC4 / pale gold #E8C9A0 / dusty blue #B5C5D3 / misty lavender #D5C9DC    |
+| **Rendering** | **数字水彩 + 淡彩笔触 + 留白多**（light watercolor wash, sparse brush, ample negative space）                                                                                          |
+| **Font**      | `handwritten`（细笔手写 / 留白环境清晰可读）                                                                                                                                          |
+| **Mood**      | `subtle`（极低对比，清淡安静）                                                                                                                                                       |
 
 ### 触发关键词
 
