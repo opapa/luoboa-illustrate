@@ -489,3 +489,171 @@ Neo-Chinese style illustration for WeChat article. <场景英文描述>. RENDERI
 替换: <MOOD>  → 氛围关键词（从色调对照表选）
 替换: <TITLE> → 文章标题中文原文
 ```
+
+# 知乎文配图风格 (Zhihu Professional / Data-Viz)
+
+适合知乎高赞回答、36kr/钛媒体深度文章、技术博客教程、产品分析类公众号。
+整体气质：**「让数据和逻辑自己说话」**——白底黑字、极少量彩色标记、专业感强、像一份精修过的咨询报告或学术图解。
+
+## 核心设计原则（实证依据）
+
+| 原则 | 学术依据 | 实操含义 |
+|---|---|---|
+| **白底黑字，最大数据墨水比** | Tufte 1990（data-ink ratio）；McGurgan 2021（专家评估"elegant and minimal"图表最有效）；Hill 2018 JISAR（低 data-ink ratio 图表被评为更美更清晰） | 背景 #FFFFFF 纯白，文字 #1A1A1A 纯黑，**无装饰背景、无渐变、无纹理、无边框** |
+| **配色 ≤ 3 个颜色** | Graze & Schwabish 2024 JAMIA（color palette design principles）；Midway 2020 Patterns | 主色黑 + 强调色蓝（#056DE8 知乎蓝）+ 极少量橙（#F4A261 警示/强调），其他全用灰阶 |
+| **白底科普视觉是科学传播的最优解** | Boy 2020 Front Comm（"illustrations on a white background"在 TV/YouTube 科普视频中评分最高）；Schorn 2022 Front Comm | 类比 TED-Ed / Kurzgesagt 的科普图解：白底、清晰、聚焦内容 |
+| **矢量精确边缘 + 锐利线条** | Midway 2020；Franconeri 2021（minimalist clean aesthetic） | 无 painterly / 无 film grain / 无 sketch，**纯数字精确渲染** |
+| **图表优先于插画** | Midway 2020（"select right chart for right data"）；Evergreen 2019（"right chart for right data"） | 优先选 flowchart / bar chart / line chart / table / 知识图谱，**不是装饰性插画** |
+| **关系图用 force-directed 布局** | Zhou 2024 DKGV；Ortega Mattsson 2020 | 知识点/因果关系图用节点+边的力导向布局，节点大小=重要程度 |
+
+## 5维默认参数
+
+```
+Type: dataviz (cover) / dataflow (插图)
+Palette: zhihu-mono (白底 #FFFFFF + 黑字 #1A1A1A + 蓝 #056DE8 + 浅灰 #F0F2F7 + 极少量橙 #F4A261)
+Rendering: clean-digital (矢量、锐利 1-2px 描边、无渲染杂色)
+Font: clean-sans (思源黑体 / Inter / 苹方 / 微软雅黑 — 中文必须清晰锐利)
+Mood: subtle-professional (高对比数据、低装饰、专业克制)
+```
+
+## 封面 Prompt 模板
+
+```
+Professional Zhihu-style article cover, 21:9 landscape. White background #FFFFFF (NO gradients, NO textures, NO patterns). RENDERING: clean digital vector-style with sharp precise 1-2px strokes, anti-aliased Chinese text rendering, no painterly, no sketch, no film grain. PALETTE: strict 3-color — pure black #1A1A1A for primary text, zhihu blue #056DE8 for accent data, light gray #F0F2F7 for subtle background fills. Layout: typography-dominant data infographic. A LARGE BOLD TITLE 「<TITLE>」at top center in clean sans-serif Chinese font (思源黑体 or Inter), black #1A1A1A, sharp legible. Below the title, a CLEAN DATA VISUALIZATION (bar chart, line chart, OR process flowchart with 3-5 boxes connected by arrows) that directly represents the article's core claim, using #1A1A1A lines/strokes with #056DE8 highlights on the most important data point. Use minimal labels in small sans-serif Chinese text. CRITICAL: Chinese characters must be SHARP and LEGIBLE — render as '清晰锐利的中文文字'. NO decorative elements (no flowers, no patterns, no human figures unless essential). The aesthetic is 「一份精修过的咨询报告/学术图解」— 极简、专业、数据驱动、信任感。4k
+```
+
+## 插图 Prompt 模板（核心 — 6 种变体）
+
+**5维参数继承（必须）：** 插图必须以 `"Consistent with cover: clean-digital rendering, zhihu-mono palette (#FFFFFF #1A1A1A #056DE8 #F0F2F7), subtle-professional mood"` 开头。
+
+### 变体 A：流程图 (Flowchart)
+
+```
+Consistent with cover: clean-digital rendering, zhihu-mono palette, subtle-professional mood. White background #FFFFFF. A clean process flowchart in flat vector style with 4-6 boxes connected by directional arrows. Boxes: white fill with 2px black #1A1A1A border, rounded corners (4px). Arrows: 2px black #1A1A1A solid lines with arrowheads, #056DE8 blue for the most important transition. Each box contains ONE Chinese label in clean sans-serif font (思源黑体), 14-16pt, black text. CRITICAL: All Chinese text '清晰锐利', anti-aliased. NO drop shadows, NO gradients, NO 3D effects. Content: <节选原文核心流程描述>
+```
+
+### 变体 B：柱状图/条形图 (Bar Chart)
+
+```
+Consistent with cover: clean-digital rendering, zhihu-mono palette, subtle-professional mood. White background #FFFFFF. A horizontal or vertical bar chart in clean minimal style, 5-8 data categories. Bars: solid #056DE8 zhihu blue for the highlighted/most-important data, light gray #D9E2EC for comparison bars. NO 3D, NO gradients. Axes: thin 1px black #1A1A1A lines, tick labels in 10-12pt sans-serif Chinese (思源黑体). Data labels above each bar in same font. Title above chart: bold black Chinese text, sharp. CRITICAL: Chinese labels '清晰锐利'. The aesthetic is 「专业研究报告图表」 — Tufte data-ink ratio applied. Content: <数据描述>
+```
+
+### 变体 C：折线图/趋势图 (Line Chart)
+
+```
+Consistent with cover: clean-digital rendering, zhihu-mono palette, subtle-professional mood. White background #FFFFFF. A clean time-series line chart with 2-3 trend lines, 8-12 data points each. Lines: 2-3px stroke, primary line in #056DE8 zhihu blue, comparison lines in light gray #B0B7BF or muted orange #F4A261. NO fill under lines, NO 3D, NO shadows. Axes: 1px black #1A1A1A. Data points: small filled circles matching line color. Title: bold sans-serif Chinese at top, sharp. CRITICAL: Chinese labels '清晰锐利'. Content: <趋势描述>
+```
+
+### 变体 D：知识图谱 / 关系图 (Knowledge Graph)
+
+```
+Consistent with cover: clean-digital rendering, zhihu-mono palette, subtle-professional mood. White background #FFFFFF. A force-directed knowledge graph showing relationships between 6-10 concepts. Nodes: white circles with 2px #1A1A1A black border, 40-80px diameter (size = importance). The 2-3 most important nodes: filled with #056DE8 blue. Edges: 1-2px #1A1A1A thin lines connecting related nodes. Each node has ONE Chinese label in clean sans-serif (思源黑体), 12-14pt, sharp. NO curved lines, NO clusters, NO force-field visualization artifacts. CRITICAL: Chinese text '清晰锐利'. Content: <概念关系描述>
+```
+
+### 变体 E：对比表 (Comparison Table)
+
+```
+Consistent with cover: clean-digital rendering, zhihu-mono palette, subtle-professional mood. White background #FFFFFF. A clean comparison table with 3 columns (选项 A, 选项 B, 结论) and 4-7 rows. Header row: #F0F2F7 light gray background, bold black Chinese text. Data rows: white background, regular black text, alternating subtle zebra striping (white / #FAFAFA) for readability. Cell borders: thin 1px #D9E2EC light gray lines. Key recommendation in the conclusion column: highlighted with #056DE8 blue background and white text. CRITICAL: Chinese text '清晰锐利', no wrapping, well-aligned. Content: <对比维度描述>
+```
+
+### 变体 F：线框图 / 信息架构 (Wireframe)
+
+```
+Consistent with cover: clean-digital rendering, zhihu-mono palette, subtle-professional mood. White background #FFFFFF. A clean UI/architecture wireframe in flat gray-box style. Boxes represent components/modules (3-7 boxes), connected by directional arrows. Each box: #F0F2F7 light gray fill, 1.5px #1A1A1A black border, rounded corners 4px. ONE box (the key component) highlighted: #056DE8 blue fill with white text label. All other box labels in clean black sans-serif Chinese (思源黑体), 12-14pt, sharp. NO shadows, NO textures, NO 3D. CRITICAL: Chinese text '清晰锐利'. Content: <架构/流程描述>
+```
+
+## 配色硬性约束（与科技风类似，但更极端）
+
+| 颜色 | 用途 | 出现比例 |
+|---|---|---|
+| **#FFFFFF** 纯白 | 背景 | 85%+ |
+| **#1A1A1A** 纯黑 | 文字、线条、轴 | 10% |
+| **#056DE8** 知乎蓝 | 强调数据、关键节点 | 3-5% |
+| **#F0F2F7** 极浅灰 | 表格头/次要背景 | 1-2% |
+| **#F4A261** 暖橙 | 警示/反例/强烈对比（极少用） | <1% |
+
+**禁用**：红 (#FF0000/#E8453C/#DC143C)、黄 (#FFD93D)、绿 (#2E8B57)、紫、蓝绿。所有彩色必须服务于"区分/强调"目的，不能是装饰。
+
+## 与"测评信息图"风格 (Workflow L) 的区别
+
+| 维度 | 测评信息图 (L) | 知乎文配图 (本节) |
+|---|---|---|
+| 背景 | 浅色 (浅灰/浅米) | **纯白 #FFFFFF** |
+| 主色 | 多色 (蓝/橙/绿/红评分类) | **单色强调 (蓝)** |
+| 装饰 | 允许小图标点缀 | **完全无装饰** |
+| 风格气质 | "测评报告 + 评分卡" | "学术图解 / 知乎高赞回答" |
+| 适用 | 产品横评、工具对比 | 数据论证、概念解释、流程拆解 |
+
+## 触发关键词
+
+- `知乎`、`知乎文`、`知乎风格`、`Zhihu`、`Zhihu style`
+- `白底黑字`、`白底`、`极简`、`专业`、`数据驱动`、`学术风`、`咨询风`
+- `流程图`、`flowchart`、`统计图`、`柱状图`、`折线图`、`chart`
+- `信息图`、`infographic`、`线框图`、`wireframe`、`知识图谱`
+- `技术文`、`科普文`、`分析报告`、`数据可视化`
+
+---
+
+
+## 小黑科普风格 (Workflow X)
+
+适合**科技公众号深度文、知乎技术/科普文、AI 概念解释、机制/原理/对比类文章**。
+
+> **本节是轻委托**：生图相关的细节（风格 DNA、IP 形象、构图模式、QA 清单、提示词模板）全部来自 `~/.claude/skills/ian-xiaohei-illustrations/` 的 `references/`。
+> 本节只规定：**何时用、几张图、比例、插入位置、后端选 API**。
+
+### 后端强制规则
+
+**默认走 API（`scripts/generate.py`），不走 Dreamina CLI**。
+
+Dreamina CLI 在 2026-06 实测中曾 3 次出现"final generation failed"（见会话日志），不适合小黑这种 IP 一致性 + 怪诞隐喻的场景。
+
+```bash
+python scripts/generate.py section \
+  --prompt="<ian-xiaohei-illustrations 输出的 prompt>" \
+  --ratio=16:9 \
+  --resolution=2k
+```
+
+### 完整 prompt 模板来源
+
+直接调 `/ian-xiaohei-illustrations` skill（`~/.claude/skills/ian-xiaohei-illustrations/SKILL.md`），它会输出：
+- 单张生图提示词（按 `references/prompt-template.md`）
+- 6-7 步 QA 检查清单
+- 原创隐喻生成法
+- 不可复用的旧构图清单（传送带断点/小黑漏斗/切素材鱼/盖章工具箱 等）
+
+### 数量与插入位置
+
+| 场景 | 数量 | 比例 | 插入位置 |
+|---|---|---|---|
+| 知乎回答 | **3 张**（不多不少，知乎排版上限） | 16:9 | `![](images/01-...)` 紧跟对应段落后 |
+| 公众号深度文 | **3-4 张**（按章节） | 16:9 | 跟在 `## ` 段落后 |
+| 短科普文 | **1-3 张** | 16:9 | 选 1-3 个认知锚点 |
+
+### 命名规范
+
+```
+images/
+├── 01-{topic-slug}.png        # 第 1 张（核心判断）
+├── 02-{topic-slug}.png        # 第 2 张（结构/对比）
+└── 03-{topic-slug}.png        # 第 3 张（收束/暴论）
+```
+
+### 触发关键词
+
+- `小黑`、`小黑科普`、`小黑插图`、`小黑配图`、`小黑图`
+- `Ian`、`Ian 风格`、`怪诞手绘`、`怪诞插图`
+- 内容关键词：`概念隐喻`、`机制解释`、`状态对比`、`判断收束`
+
+### 与 Workflow Z 的选择决策树
+
+```text
+if 文章里有具体数字/统计/数据表/流程步骤:
+    → 选 Workflow Z（白底黑字信息图）
+elif 文章里有抽象概念/隐喻/对比/收束性判断:
+    → 选 Workflow X（小黑科普）
+else:
+    AskUserQuestion 问用户
+```
+

@@ -228,3 +228,50 @@ Minimal composition cover art (21:9 landscape). PALETTE: mono — pure white #FF
 ```
 我在给我的公众号哲学/极简类文章配图，请使用禅意留白风格。大面积留白，单色极简线描，最少的元素表达核心概念。请为以下内容创作极简禅意插图：<原文段落内容>
 ```
+
+---
+
+## ✏️ 14: 轻量涂鸦Q版风 (hand-drawn-q-version, #17, 2026-06-07 加)
+
+5维：character / warm-pastel / hand-drawn / handwritten / balanced
+
+**定位（关键）**：草根手绘 + 圆润Q版角色 + 涂鸦风格。**非日漫、非韩漫、非萌系**。明确不与 #6 萌宠Q版、#9 ACG二次元、#5 sketch-notes、#7 Kawaii 撞。
+
+**封面：**
+```
+Hand-drawn doodle Q-version cover art (21:9 landscape). PALETTE: warm-pastel + cream — warm ivory #FAF0E6 base background, soft caramel brown #8B5A3C for outlines, lemon yellow #F4D03F for single highlight, soft sage #A8B89A for 1 supporting tone, no pink/macaron overload. RENDERING: hand-drawn doodle — sketchy organic strokes with VISIBLE IMPERFECTIONS, variable line weight, slight wobble, casual doodle aesthetic, paper grain surface, hand-drawn circle and arrow doodles around the main subject, NOT clean vector, NOT anime cel-shading, NOT Kawaii pastel. FONT: handwritten — Chinese in 思源黑体 or casual handwritten style, English in casual marker font, all hand-drawn-feeling (not typeset), charcoal #2D2D2D text with brown #8B5A3C doodle underline accents. The LARGE TITLE TEXT「<TITLE>」is the visual hero — enormous hand-lettered characters occupying the central 40-50% of the frame, surrounded by a single Q-version character (2-3 head body ratio, 圆润 rounded lines, simple but expressive face, no big sparkly eyes, no anime hair spikes) acting as the "mascot" of the article, hand-drawn doodle arrows and circles in the surrounding space, sketchy yet readable. MOOD: balanced — medium contrast, warm and approachable, casual and human, NOT cute-girl, NOT anime. Grassroot Q-version aesthetic, casual warmth, 4k
+```
+
+**插图：**
+```
+我在给我的公众号文章配图，请使用"轻量涂鸦Q版"风格。草根手绘 + 圆润Q版角色 + 涂鸦风，**非日漫、非韩漫、非萌系**。暖白底 + 焦糖棕线条 + 1 个柠檬黄高亮。Q版角色大头小身（2-3 头身比），圆润线条但不要 Kawaii 那种大眼睛桃心星星。中文用手写感字体，清晰可读。请为以下内容创作 1 张 1:1 涂鸦Q版插图：<原文段落内容>
+```
+
+**生成参数**（后端）：
+- 默认走 `/baoyu-article-illustrator` sub-skill（grsai API）
+- 比例 1:1 / 21:9 都可
+- 不需要品牌水印（草根 Q版通常是 IP/品牌自己用）除非用户明确要
+
+**委派示例**（同 Workflow A banner 委派模式）：
+```python
+invoke_skill("/baoyu-article-illustrator", args={
+  "style": "hand-drawn-q-version",
+  "subject": "<Q版角色描述>",
+  "constraints": [
+    "rendering: hand-drawn doodle, NOT excalidraw whiteboard, NOT anime cel-shaded, NOT Kawaii pastel",
+    "subject must be a Q-version character (大头大身比, 2-3 heads tall, 圆润线条)",
+    "no Japanese manga visual cues (no big sparkly eyes, no anime hair spikes)",
+    "no Kawaii pastel pink overload (no hearts, no stars, no macaron colors)",
+    "palette: warm cream #FAF0E6 + 焦糖棕 #8B5A3C + 1 lemon yellow #F4D03F highlight",
+    "中文 must be handwritten-style font, 14-18pt, 清晰可读"
+  ]
+})
+```
+
+**与 3 个相近风格的差异锚点**：
+- 区别于 **#6 萌宠Q版**：萌宠Q版限定"动物主体"；本风格是"人物/概念/品牌"
+- 区别于 **#9 ACG二次元**：ACG是"日式赛璐璐/原神风"（日漫感强）；本风格无日漫感，线条更简单更圆润
+- 区别于 **#5 sketch-notes**：sketch-notes是"笔记本 Macaron 暖色 + 学习/笔记场景"；本风格有具体Q版人物主体
+- 区别于 **#1 科技 Excalidraw**：Excalidraw是"工程师白板草稿"（无人物）；本风格有具体Q版人物
+- 区别于 **#7 Kawaii（扩展）**：Kawaii是"粉色/糖果色日式可爱"（马卡龙/糖果/星星/桃心）；本风格是"焦糖暖棕 + 草根"（更朴实不"少女"）
+```

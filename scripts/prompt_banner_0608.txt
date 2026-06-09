@@ -1,0 +1,43 @@
+A typography-dominant 21:9 wide banner (exactly 1920x832 pixels, NOT square NOT portrait).
+Hand-drawn Excalidraw sketch aesthetic on pure white paper background (#FFFFFF), NO gradients, NO textures, NO patterns.
+This is an engineer's whiteboard sketch, NOT a dark-navy terminal, NOT a clean-digital vector, NOT a photo, NOT 3D rendering.
+Slight wobble on all lines, hand-drawn imperfect corners, shaky arrowheads. Lines should look like a person drew them with a marker on paper, with slight imperfection.
+
+PALETTE: Excalidraw-style colors only — pure white #FFFFFF background, charcoal #2D2D2D main lines and text, Excalidraw blue #4D96FF for highlights and key arrows, yellow #FFD93D at 40% opacity for highlight fills, very small touches of orange #F4A261 and purple-red #9B59B6 (each ≤5% area). NO pure red, NO crimson, NO scarlet.
+
+TYPOGRAPHY (CRITICAL — 5-dim analysis locked clean font): Use clean geometric sans-serif Chinese font (Source Han Sans / Inter / 思源黑体) for ALL title and label text. NOT handwritten, NOT brush calligraphy, NOT cursive, NOT script, NOT Song-style serif. Clean modern minimal letterforms with sharp uniform line weight. Each character must look like typeset modern sans-serif, not hand-painted.
+
+RENDERING: hand-drawn Excalidraw sketch — slightly wobbly lines, rounded corners but not perfect, slightly imperfect rectangles, sketchy arrowheads. Like an engineer in a meeting room drawing on a Miro board.
+
+LAYOUT (5 zones from left to right with 4 corner visual anchors):
+
+CENTER 60% — LARGE TITLE TYPOGRAPHY (this is the visual hero, occupies 50-60% of frame):
+Render these Chinese characters clearly and sharply, anti-aliased, no garbling, no missing characters:
+Main title (in two lines, large, 220-340px visual height, charcoal #2D2D2D, clean geometric sans-serif):
+Line 1: '我把 5 个 SKILL.md 全塞进 Claude Code 的 context'
+Line 2: 'AI 跑了 8 秒就崩了'
+
+The phrase '5 个 SKILL.md' must be highlighted with a yellow #FFD93D 40% opacity highlighter block behind it (Excalidraw highlight style, hand-drawn rectangle slightly wobbly).
+The phrase '8 秒就崩了' must have a blue #4D96FF wobbly hand-drawn underline below it (3-4px, slightly shaky line).
+
+Subtitle below the main title, 60% of title size, in lighter gray #6B7280, clean sans-serif:
+'5 个 Skill × 217 页 markdown × 95K token / 8 秒崩溃'
+
+TOP-LEFT corner (10% of frame): hand-drawn stacked file folder icons (3-4 folders stacked) with slightly wobbly outlines in charcoal #2D2D2D, one folder labeled 'SKILL.md' in clean small sans-serif. A small annotation label '5 个文件' in blue #4D96FF clean sans-serif text next to it.
+
+TOP-RIGHT corner (15% of frame): a hand-drawn token counter display — a wobbly rectangle box with the number '95K' in large charcoal text, a blue #4D96FF wobbly arrow pointing right, then a smaller box with '11K' in blue. Small clean sans-serif Chinese label 'Token 消耗' above. This visualizes the 95K → 11K token reduction.
+
+BOTTOM-LEFT corner (10% of frame): a hand-drawn wobbly box labeled 'Claude' in clean small sans-serif, with a red-tinted crash screen inside showing a small '✗' or 'X' mark and the number '8' in large red-orange #F4A261. A small clean sans-serif label '8 秒崩了' in red-orange next to it. Use #F4A261 orange (NOT pure red) for the crash highlight.
+
+BOTTOM-RIGHT corner (10% of frame): a yellow #FFD93D filled wobbly rectangular tag (hand-drawn, slightly imperfect corners) with the text '按需加载' in bold dark charcoal #2D2D2D clean sans-serif. This is the conclusion tag.
+
+BOTTOM-RIGHT tiny corner: small brand watermark text 'luoboa.com 萝卜啊' in light gray #B0B0B0, 8pt, clean sans-serif, very subtle.
+
+MOOD: balanced-technical — medium contrast, engineer whiteboard aesthetic, like a thoughtful tech article hero image. NOT dramatic, NOT cinematic-dark, NOT minimalist (there must be visible visual content).
+
+All Chinese text characters must be SHARP and LEGIBLE, no garbling, no missing characters, no pinyin substitution, no English fallback.
+The title is the visual hero — it MUST occupy 50-60% of the frame width, NOT be small corner text.
+
+NOT photorealistic, NOT 3D, NOT oil paint, NOT watercolor, NOT anime, NOT dark-navy terminal, NOT clean-digital vector (this is hand-drawn, but typography is clean), NOT handwritten Chinese script for title, NOT minimalist plain background, NOT single solid color background.
+
+21:9 cinematic widescreen aspect ratio, exactly 1920x832. Banner is for a Chinese WeChat tech article about Claude Code Skill loading optimization.
